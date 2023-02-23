@@ -1,0 +1,503 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #fff;
+    background-color: #1a1a1a;
+    background-image: radial-gradient(#292929 1px, transparent 0);
+    background-size: 30px 30px;
+    background-position: -19px -19px;
+    animation: fadeInAnimation ease 2s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+header {
+    position: fixed;
+    top: 0px;
+    background-color: #1a1a1a;
+    width: 100%;
+    height: 100px;
+    border-style: none none solid;
+    border-width: 1px;
+    border-color: #292929;
+    padding: 20px;
+    z-index: 31;
+}
+
+.header-title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.header-title p {
+    cursor: default;
+    margin-left: 28px;
+    margin-bottom: 12px;
+    font-size: 1.2em;
+    user-select: none;
+    transition: color 0.1s ease-in-out;
+}
+
+.header-title p:hover {
+    color: #ff7a2d;
+    transition: color 0.1s ease-in-out;
+}
+
+/* --------- Navigation Bar --------- */
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 0.8em;
+    padding: 10px 30px;
+    transition: color 0.06s ease-in-out;
+}
+
+nav a:hover {
+    color: #e06720;
+}
+
+/* --------- Base Section Styles --------- */
+section {
+    padding: 50px;
+    margin-top: 180px;
+}
+
+section h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+section p {
+    font-size: 1.2em;
+    color: #ccc;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+/* --------- Works Section Styles --------- */
+
+/* --------- Artwork Section Styles --------- */
+.artworks {
+    padding-top: 0;
+}
+
+.art-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+    z-index: 1;
+}
+
+.art-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-sizing: content-box;
+    overflow: hidden;
+    padding-bottom: 85%;
+    aspect-ratio: 69/31;
+}
+
+.art-frame {
+    position: absolute;
+    top: 0;
+    bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 1px solid #292929;
+}
+
+.art-item img {
+    display: block;
+    margin: auto;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+.art-item:hover .art-date {
+    background-color: #e06720;
+    animation-duration: 0.1s;
+    animation-name: textflicker-box;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+.art-date {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #1a1a1a;
+    font-size: 14px;
+    padding: 5px;
+    text-decoration: none;
+    transition: background-color 0.1s ease-in-out;
+}
+
+@media only screen and (max-width: 600px) {
+    .art-gallery {
+        display: block;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .art-date {
+        font-size: 10px;
+    }
+}
+
+/* --------- Contact Section Styles --------- */
+form label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+}
+
+form input[type="text"],
+form input[type="email"],
+form textarea {
+    background-color: #333;
+    border: none;
+    padding: 10px;
+    margin-bottom: 20px;
+    color: #fff;
+    width: 100%;
+    font-family: 'Roboto Mono', monospace;
+}
+
+form input[type="submit"] {
+    color: #fff;
+    background-color: #333;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.1s ease-in-out;
+}
+
+form input[type="submit"]:hover {
+    background-color: #e06720;
+}
+
+/* --------- About Section --------- */
+.about-description {
+    display: block;
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+.about-description a {
+    text-decoration: none;
+    color: #e06720;
+    transition: color 0.1s ease-in-out;
+}
+
+.about-description a:hover {
+    color: #ccc;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+}
+
+.social-links li {
+    margin: 1rem;
+}
+
+.social-links a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.1s ease-in-out;
+}
+
+.social-links a:hover {
+    color: #e06720;
+}
+
+footer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    position: fixed;
+    bottom: 8px;
+    padding: 20px;
+    color: #ccc;
+    font-size: 10px;
+}
+
+.scroll-top {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    bottom: 40px;
+    z-index: 31;
+}
+
+.scroll-top button {
+    border: none;
+    text-decoration: none;
+    background: none;
+    font-size: 1.2em;
+    font-family: 'Roboto Mono', monospace;
+    color: #929292;
+    cursor: pointer;
+    padding: 10px 20px 10px 20px;
+}
+
+.scroll-top button:hover {
+    color: #ff7a2d;
+    transition: color 0.1s ease-in-out;
+}
+
+/* --------- Animations --------- */
+.text-flicker-in-glow:hover {
+    animation: text-flicker-out-glow 2.5s linear infinite both;
+}
+
+/* ----------------------------------------------
+ * Generated by Animista on 2023-2-18 2:33:51
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+@keyframes text-flicker-out-glow {
+    0% {
+        opacity: 1;
+        text-shadow: 0 0 30px rgba(255, 160, 105, 0.6), 0 0 60px rgba(255, 160, 105, 0.45), 0 0 110px rgba(255, 160, 105, 0.25), 0 0 100px rgba(255, 160, 105, 0.1);
+    }
+
+    13.9% {
+        opacity: 1;
+        text-shadow: 0 0 30px rgba(255, 160, 105, 0.6), 0 0 60px rgba(255, 160, 105, 0.45), 0 0 110px rgba(255, 160, 105, 0.25), 0 0 100px rgba(255, 160, 105, 0.1);
+    }
+
+    14% {
+        opacity: 0;
+        text-shadow: none;
+    }
+
+    14.9% {
+        opacity: 0;
+        text-shadow: none;
+    }
+
+    15% {
+        opacity: 1;
+        text-shadow: 0 0 30px rgba(255, 160, 105, 0.55), 0 0 60px rgba(255, 160, 105, 0.4), 0 0 110px rgba(255, 160, 105, 0.2), 0 0 100px rgba(255, 160, 105, 0.1);
+    }
+
+    22.9% {
+        opacity: 1;
+        text-shadow: 0 0 30px rgba(255, 160, 105, 0.55), 0 0 60px rgba(255, 160, 105, 0.4), 0 0 110px rgba(255, 160, 105, 0.2), 0 0 100px rgba(255, 160, 105, 0.1);
+    }
+
+    23% {
+        opacity: 0;
+        text-shadow: none;
+    }
+
+    24.9% {
+        opacity: 0;
+        text-shadow: none;
+    }
+
+    25% {
+        opacity: 1;
+        text-shadow: 0 0 30px rgba(255, 160, 105, 0.55), 0 0 60px rgba(255, 160, 105, 0.35), 0 0 100px rgba(255, 160, 105, 0.1);
+    }
+
+    34.9% {
+        opacity: 1;
+        text-shadow: 0 0 30px rgba(255, 160, 105, 0.55), 0 0 60px rgba(255, 160, 105, 0.35), 0 0 100px rgba(255, 160, 105, 0.1);
+    }
+
+    35% {
+        opacity: 0;
+        text-shadow: none;
+    }
+
+    39.9% {
+        opacity: 0;
+        text-shadow: none;
+    }
+
+    40% {
+        opacity: 1;
+        text-shadow: 0 0 30px rgba(255, 160, 105, 0.55), 0 0 60px rgba(255, 160, 105, 0.35);
+    }
+
+    42.9% {
+        opacity: 1;
+        text-shadow: 0 0 30px rgba(255, 160, 105, 0.55), 0 0 60px rgba(255, 160, 105, 0.35);
+    }
+
+    43% {
+        opacity: 0;
+        text-shadow: none;
+    }
+
+    44.9% {
+        opacity: 0;
+        text-shadow: none;
+    }
+
+    45% {
+        opacity: 1;
+        text-shadow: 0 0 30px rgba(255, 160, 105, 0.45), 0 0 60px rgba(255, 160, 105, 0.25);
+    }
+
+    50% {
+        opacity: 1;
+        text-shadow: 0 0 30px rgba(255, 160, 105, 0.45), 0 0 60px rgba(255, 160, 105, 0.25);
+    }
+
+    54.9% {
+        opacity: 1;
+        text-shadow: 0 0 30px rgba(255, 160, 105, 0.45), 0 0 60px rgba(255, 160, 105, 0.25);
+    }
+
+    55% {
+        opacity: 0;
+        text-shadow: none;
+    }
+
+    69.4% {
+        opacity: 0;
+        text-shadow: none;
+    }
+
+    69.5% {
+        opacity: 1;
+        text-shadow: 0 0 30px rgba(255, 160, 105, 0.45), 0 0 60px rgba(255, 160, 105, 0.25);
+    }
+
+    69.9% {
+        opacity: 1;
+        text-shadow: 0 0 30px rgba(255, 160, 105, 0.45), 0 0 60px rgba(255, 160, 105, 0.25);
+    }
+
+    70% {
+        opacity: 0;
+        text-shadow: none;
+    }
+
+    79.4% {
+        opacity: 0;
+        text-shadow: none;
+    }
+
+    79.9% {
+        opacity: 1;
+        text-shadow: 0 0 30px rgba(255, 160, 105, 0.25);
+    }
+
+    80% {
+        opacity: 0;
+        text-shadow: none;
+    }
+
+    89.8% {
+        opacity: 0;
+        text-shadow: none;
+    }
+
+    89.9% {
+        opacity: 1;
+        text-shadow: none;
+    }
+
+    90% {
+        opacity: 0;
+        text-shadow: none;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes textflicker-box {
+    from {
+        text-shadow: 2px 0 0 #bd00ff, -2px 0 0 #00b8ff;
+    }
+
+    to {
+        text-shadow: 3px 0.5px 2px #bd00ff, -1px -0.5px 2px #00ff9f;
+    }
+}
+
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@media screen and (max-width: 600px) {
+
+    section {
+        margin-top: 100px;
+    }
+
+    section h1 {
+        font-size: 1.4em;
+    }
+
+    .artworks {
+        margin: 0;
+    }
+
+    .works p,
+    .about p {
+        font-size: 1em;
+    }
+
+    footer {
+        font-size: 0.5em;
+    }
+
+    .social-links {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .social-links li {
+        margin: 0.5rem;
+    }
+
+    form input[type="submit"] {
+        font-size: 1em;
+    }
+}
