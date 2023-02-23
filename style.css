@@ -95,6 +95,10 @@ section p {
 
 /* --------- Artwork Section Styles --------- */
 .art-gallery {
+    margin: 0;
+}
+
+.art-gallery {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -119,6 +123,15 @@ section p {
     justify-content: space-between;
     padding: 0 10px 0 10px;
     border: 1px solid #292929;
+    transition: background-color 0.1s ease-in-out;
+}
+
+.art-item:hover .art-date {
+    background-color: #e06720;
+    animation-duration: 0.1s;
+    animation-name: textflicker-box;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
 }
 
 /* --------- Contact Section Styles --------- */
