@@ -74,7 +74,7 @@ nav a:hover {
 /* --------- Base Section Styles --------- */
 section {
     padding: 50px;
-    margin-top: 180px;
+    margin-top: 120px;
 }
 
 section h1 {
@@ -111,7 +111,10 @@ section p {
     margin: 30px;
     /* gap between */
 }
-
+/*
+@media ( max-width: 700px ) { .art-item { flex: 0 0 200px; } }
+@media ( max-width: 1400px ) { .art-item { flex: 0 0 350px; } }
+*/
 .art-item img {
     max-width: 100%;
     padding: 20px;
@@ -427,6 +430,16 @@ footer {
     }
 }
 
+@media screen and (max-width: 1400px) {
+    section {
+        margin-top: 100px;
+    }
+    
+    .art-gallery {
+        padding-top: 0;
+    }
+}
+
 @media screen and (max-width: 600px) {
 
     section {
@@ -437,8 +450,15 @@ footer {
         font-size: 1.4em;
     }
 
-    .artworks {
-        margin: 0;
+    .art-gallery {
+        padding-top: 0;
+    }
+
+    .art-item {
+        flex: 1 0 350px;
+        /*img size */
+        margin: 30px;
+        /* gap between */
     }
 
     .works p,
