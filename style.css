@@ -167,6 +167,9 @@ form input[type="submit"]:hover {
 }
 
 /* --------- About Section --------- */
+.about-text {
+    margin: 0 100px 0 100px;
+}
 
 .about-description {
     display: block;
@@ -269,6 +272,10 @@ footer {
 
     .art-gallery {
         padding-top: 0;
+    }
+
+    .about-text {
+        margin: 0;
     }
 }
 
