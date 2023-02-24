@@ -279,6 +279,15 @@ footer {
     }
 }
 
+@media screen and (max-width: 1025px) {
+    .art-item {
+        flex: 1 0 300px;
+        /*img size */
+        margin: 30px;
+        /* gap between */
+    }
+}
+
 @media screen and (max-width: 600px) {
 
     section {
