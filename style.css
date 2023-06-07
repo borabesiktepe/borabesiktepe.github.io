@@ -9,7 +9,7 @@ body {
     font-family: 'Roboto Mono', monospace;
     font-size: 16px;
     line-height: 1.5;
-    color: #fff;
+    color: #ddd;
     background-color: #1a1a1a;
     background-image: radial-gradient(#292929 1px, transparent 0);
     background-size: 30px 30px;
@@ -47,7 +47,7 @@ header {
 }
 
 .header-title .text:hover {
-    color: #ff7a2d;
+    color: #E06720;
     transition: color 0.1s ease-in-out;
 }
 
@@ -59,7 +59,7 @@ nav ul {
 }
 
 nav a {
-    color: #fff;
+    color: #ddd;
     text-decoration: none;
     text-transform: uppercase;
     font-size: 0.8em;
@@ -80,7 +80,7 @@ section {
 section h1 {
     font-size: 2em;
     margin-bottom: 20px;
-    color: #fff;
+    color: #ddd;
 }
 
 section p {
@@ -91,11 +91,9 @@ section p {
     text-align: center;
 }
 
-/* --------- Works Section Styles --------- */
-
 /* --------- Artwork Section Styles --------- */
 .art-gallery {
-    margin: 0;
+    margin-top: 120px;
 }
 
 .art-gallery {
@@ -148,13 +146,13 @@ form textarea {
     border: none;
     padding: 10px;
     margin-bottom: 20px;
-    color: #fff;
+    color: #ddd;
     width: 100%;
     font-family: 'Roboto Mono', monospace;
 }
 
 form input[type="submit"] {
-    color: #fff;
+    color: #ddd;
     background-color: #333;
     border: none;
     padding: 10px 20px;
@@ -179,7 +177,7 @@ form input[type="submit"]:hover {
 
 .about-description a {
     text-decoration: none;
-    color: #e06720;
+    color: #E06720;
     transition: color 0.1s ease-in-out;
 }
 
@@ -199,7 +197,7 @@ form input[type="submit"]:hover {
 }
 
 .social-links a {
-    color: #fff;
+    color: #ddd;
     text-decoration: none;
     transition: color 0.1s ease-in-out;
 }
@@ -239,7 +237,7 @@ footer {
 }
 
 .scroll-top button:hover {
-    color: #ff7a2d;
+    color: #E06720;
     transition: color 0.1s ease-in-out;
 }
 
