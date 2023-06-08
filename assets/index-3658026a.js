@@ -1,0 +1,1 @@
+import{j as e}from"./index-b3c06aa4.js";function n(){return e.jsx(e.Fragment,{children:e.jsxs("footer",{children:[e.jsx("span",{children:"#1A1A1A // #E7E7E7"}),e.jsx("span",{children:"© 2023 Bora Beşiktepe"})]})})}export{n as default};
