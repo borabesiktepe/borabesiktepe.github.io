@@ -6,8 +6,7 @@
   "homepage": "https://borabesiktepe.com/",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "deploy": "gh-pages -d dist",
+    "build": "vite build && shx cp dist/index.html",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
