@@ -39,7 +39,7 @@ function Navbar() {
         <ul>
           <p>Bora Beşiktepe</p>
           <div className="menu-items">
-            <li>ARTWORKS</li>
+            <li>WORKS</li>
             <li>ABOUT</li>
             <li>CONTACT</li>
           </div>
