@@ -1,0 +1,158 @@
+  :root {
+    --dark: #1A1A1A;
+    --light: #E7E7E7;
+  }
+  
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+    font-family: 'Cardo', serif;
+    font-weight: 700;
+    background-color: var(--dark);
+    color: var(--light);
+  }
+
+  header {
+    padding: 82px 102px;
+  }
+
+  header p {
+    font-size: 24px;
+    margin-bottom: 14px;
+  }
+
+  .menu-button {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    cursor: pointer;
+    font-size: 16px;
+    width: fit-content;
+    user-select: none;
+  }
+
+  footer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    position: absolute;
+    bottom: 34px;
+    padding: 0 102px 0 102px;
+    font-size: 10px;
+  }
+
+  .gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 102px 0 102px;
+    position: absolute;
+    top:25%;
+  }
+  
+  .gallery-row {
+    display: flex;
+    gap: 6px;
+  }
+  
+  .gallery-item {
+    transition: flex-basis 0.3s;
+    height: 100%;
+  }
+  
+  .gallery-item:nth-child(1) {
+    flex-basis: 55%;
+  }
+  .gallery-item:nth-child(1):hover {
+    flex-basis: 70%;
+  }
+  
+  .gallery-item:nth-child(2) {
+    flex-basis: 45%;
+  }
+  .gallery-item:nth-child(2):hover {
+    flex-basis: 90%;
+  }
+  
+  .gallery-item:nth-child(3) {
+    flex-basis: 70%;
+  }
+  .gallery-item:nth-child(3):hover {
+    flex-basis: 80%;
+  }
+  
+  .gallery-item:nth-child(4) {
+    flex-basis: 50%;
+  }
+  .gallery-item:nth-child(4):hover {
+    flex-basis: 90%;
+  }
+  
+  .gallery-item:nth-child(5) {
+    flex-basis: 30%;
+  }
+  .gallery-item:nth-child(5):hover {
+    flex-basis: 90%;
+  }
+  
+  .gallery-item img {
+    display: block;
+    object-fit: cover;
+    height: 500px;
+    width: 100%;
+  }
+  
+  /* nav menu */
+
+  .menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 340px;
+    background-color: var(--dark);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+  }
+
+  .menu ul {
+    list-style: none;
+    padding: 46px 0 0 46px;
+  }
+
+  .menu p {
+    font-weight: 700;
+    font-size: 24px;
+  }
+
+  .menu-items {
+    margin-top: 64px;
+    line-height: 80px;
+    font-size: 36px;
+  }
+  
+  .menu li {
+    margin-bottom: 10px;
+  }
+
+  .menu img {
+    position: absolute;
+    bottom: 28px;
+    right: 0;
+    width: 110%;
+    z-index: 0;
+  }
+
+  .background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 997;
+  }
+  
+  
