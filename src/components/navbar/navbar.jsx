@@ -39,9 +39,9 @@ function Navbar() {
         <ul>
           <p>Bora Beşiktepe</p>
           <div className="menu-items">
-            <li>ART-WORKS</li>
-            <li>ABOUT</li>
-            <li>CONTACT</li>
+            <li><NavLink to="/">ART-WORKS</NavLink></li>
+            <li><NavLink to="/about">ABOUT</NavLink></li>
+            <li><NavLink to="/">CONTACT</NavLink></li>
           </div>
         </ul>
         <img src={menuImage}></img>
