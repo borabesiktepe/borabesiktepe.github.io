@@ -74,26 +74,25 @@ function Navbar() {
       <m.div
         className="menu"
         initial={{ x: "-100%" }}
-        animate={{ x: isOpen ? "0%" : "-100%" }}
-        transition={{ duration: 0.3 }}
+        animate={{ x: isOpen ? "0%" : "-100%", transition: isOpen ? { duration: 0.3 } : { duration: 0 }}}
       >        
-        <ul>
+        <m.ul>
           <p>Bora Beşiktepe</p>
-          <div className="menu-items">
-            <m.li onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+          <m.div className="menu-items">
+            <m.li onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={handleToggle}>
               <m.img src={Hover1} animate={isHovered ? show : hide} className="hover1 hov" />
                 <NavLink to="/">ARTWORKS</NavLink>
             </m.li>
-            <m.li onMouseEnter={handleMouseEnter2} onMouseLeave={handleMouseLeave2}>
+            <m.li onMouseEnter={handleMouseEnter2} onMouseLeave={handleMouseLeave2} onClick={handleToggle}>
               <m.img src={Hover2} animate={isHovered2 ? show : hide} className="hover2 hov" />
               <NavLink to="/about">ABOUT</NavLink>
             </m.li>
-            <m.li onMouseEnter={handleMouseEnter3} onMouseLeave={handleMouseLeave3}>
+            <m.li onMouseEnter={handleMouseEnter3} onMouseLeave={handleMouseLeave3} onClick={handleToggle}>
               <m.img src={Hover3} animate={isHovered3 ? show : hide} className="hover3 hov" />
-              <NavLink to="/">CONTACT</NavLink>
+              <NavLink to="/contact">CONTACT</NavLink>
             </m.li>
-          </div>
-        </ul>
+          </m.div>
+        </m.ul>
         <img src={menuImage}></img>
       </m.div>
     </LazyMotion>

@@ -1,11 +1,17 @@
 import React from 'react';
+import { domAnimation, LazyMotion, m } from "framer-motion";
 
 import aboutImage from '../../assets/about-image.png'
 
 function About() {
     return (
-        <>
-            <div className="about">
+        <LazyMotion features={domAnimation}>
+            <m.section 
+                className="about"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+            >
             <div className="about-text">
                 <h1>About Me</h1>
                 <span>Hi there! I'm Bora from İstanbul, Türkiye.</span>
@@ -20,8 +26,8 @@ function About() {
             <div className="about-image">
                 <img src={aboutImage} alt=""/>
             </div>
-            </div>
-        </>
+            </m.section>
+        </LazyMotion>
     )
 }
 

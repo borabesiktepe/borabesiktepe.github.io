@@ -9,9 +9,7 @@ import './index.css'
 export default function App() {
   return (
     <BrowserRouter>
-      <Routes>
-
-      </Routes>
+      <Routes />
     </BrowserRouter>
   )
 }

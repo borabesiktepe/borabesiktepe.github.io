@@ -8,7 +8,7 @@ const Footer = React.lazy(() => import("./components/footer/"));
 function Layout() {
   return (
     <>
-    <Suspense fallback={<div></div>}>
+    <Suspense fallback={<></>}>
       <Navbar></Navbar>
       <Outlet></Outlet>
       <Footer></Footer>

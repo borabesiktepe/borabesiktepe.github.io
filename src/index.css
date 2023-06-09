@@ -77,16 +77,18 @@
       background-color: var(--dark);
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
       z-index: 999;
+      --menu-pad:49px;
     }
   
     .menu ul {
       list-style: none;
-      padding: 46px 0 0 46px;
+      padding: 46px 0 0 0;
     }
   
     .menu p {
       font-weight: 700;
       font-size: 24px;
+      padding-left: var(--menu-pad);
     }
   
     .menu-items {
@@ -103,6 +105,13 @@
       margin-bottom: 10px;
       cursor: pointer;
       position: relative;
+    }
+
+    .menu li a {
+      display: block;
+      padding-left: var(--menu-pad);
+      width: 100%;
+      height: 100%;
     }
 
     .menu li .hov {
@@ -212,6 +221,9 @@
 
   .about {
     display: flex;
+    position: fixed;
+    top: 24.6%;
+    left: 0;
   }
 
   .about-text {
