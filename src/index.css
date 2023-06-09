@@ -102,6 +102,17 @@
     .menu li {
       margin-bottom: 10px;
       cursor: pointer;
+      position: relative;
+    }
+
+    .menu li .hover1 {
+      z-index: 999;
+      fill:white;
+      background: transparent;
+      position: absolute;
+      bottom: 0;
+      top: 0;
+      pointer-events: none;
     }
   
     .menu img {

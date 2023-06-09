@@ -18,13 +18,27 @@ function Navbar() {
   };
 
   const [isHovered, setIsHovered] = useState(false);
+  const [isHovered2, setIsHovered2] = useState(false);
+  const [isHovered3, setIsHovered3] = useState(false);
 
   const handleMouseEnter = () => {
     setIsHovered(true);
   };
+  const handleMouseEnter2 = () => {
+    setIsHovered2(true);
+  };
+  const handleMouseEnter3 = () => {
+    setIsHovered3(true);
+  };
 
   const handleMouseLeave = () => {
     setIsHovered(false);
+  };
+  const handleMouseLeave2 = () => {
+    setIsHovered2(false);
+  };
+  const handleMouseLeave3 = () => {
+    setIsHovered3(false);
   };
 
   return (
@@ -52,9 +66,9 @@ function Navbar() {
         <ul>
           <p>Bora Beşiktepe</p>
           <div className="menu-items">
-            <li onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>{isHovered && <img src={Hover1} className="hover1" />} <NavLink to="/">ARTWORKS</NavLink></li>
-            <li><NavLink to="/about">ABOUT</NavLink></li>
-            <li><NavLink to="/">CONTACT</NavLink></li>
+            <li onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>{isHovered && <img src={Hover1} className="hov hover1" />} <NavLink to="/">ARTWORKS</NavLink></li>
+            <li onMouseEnter={handleMouseEnter2} onMouseLeave={handleMouseLeave2}>{isHovered2 && <img src={Hover2} className="hov hover2" />} <NavLink to="/about">ABOUT</NavLink></li>
+            <li onMouseEnter={handleMouseEnter3} onMouseLeave={handleMouseLeave3}>{isHovered3 && <img src={Hover3} className="hov hover3" />}<NavLink to="/">CONTACT</NavLink></li>
           </div>
         </ul>
         <img src={menuImage}></img>
