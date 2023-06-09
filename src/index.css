@@ -2,6 +2,11 @@
     --dark: #1A1A1A;
     --light: #E7E7E7;
   }
+
+  ::selection {
+    background-color: var(--dark);
+    color: #888888;
+  }
   
   * {
     box-sizing: border-box;
@@ -12,6 +17,24 @@
     font-weight: 700;
     background-color: var(--dark);
     color: var(--light);
+  }
+
+  body {
+    animation: fade-in 1.4s ease-in-out forwards;
+  }
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  h1 {
+    font-size: 32px;
   }
 
   header {
@@ -42,6 +65,64 @@
     padding: 0 102px 0 102px;
     font-size: 10px;
   }
+
+    /* Nav Menu */
+
+    .menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 340px;
+      background-color: var(--dark);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      z-index: 999;
+    }
+  
+    .menu ul {
+      list-style: none;
+      padding: 46px 0 0 46px;
+    }
+  
+    .menu p {
+      font-weight: 700;
+      font-size: 24px;
+    }
+  
+    .menu-items {
+      margin-top: 64px;
+      line-height: 80px;
+      font-size: 36px;
+    }
+  
+    .menu-items a {
+      text-decoration: none;
+    }
+    
+    .menu li {
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+  
+    .menu img {
+      position: absolute;
+      bottom: 28px;
+      right: 0;
+      width: 110%;
+      z-index: 0;
+    }
+  
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 100vw;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 997;
+    }
+
+  /* Artworks Page */
 
   .gallery {
     display: flex;
@@ -103,57 +184,47 @@
     height: 500px;
     width: 100%;
   }
-  
-  /* nav menu */
 
-  .menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 340px;
-    background-color: var(--dark);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    z-index: 999;
+  /* About Page */
+
+  .about {
+    display: flex;
   }
 
-  .menu ul {
+  .about-text {
+    display: flex;
+    flex-direction: column;
+    margin-top: 12px;
+    margin-left: 200px;
+    font-size: 20px;
+  }
+
+  .about-text h1 {
+    text-align: center;
+    margin-bottom: 34px;
+  }
+
+  .about-text span {
+    margin-bottom: 34px;
+  }
+
+  .about-text ul {
+    display: flex;
+    gap: 24px;
+  }
+
+  .about-text li {
     list-style: none;
-    padding: 46px 0 0 46px;
   }
 
-  .menu p {
-    font-weight: 700;
-    font-size: 24px;
+  .about-text a {
+    text-decoration: none;
   }
 
-  .menu-items {
-    margin-top: 64px;
-    line-height: 80px;
-    font-size: 36px;
-  }
-  
-  .menu li {
-    margin-bottom: 10px;
-    cursor: pointer;
+  .about-image {
+    margin-right: 200px;
   }
 
-  .menu img {
-    position: absolute;
-    bottom: 28px;
-    right: 0;
-    width: 110%;
-    z-index: 0;
+  .about-image img {
+    width: 500px;
   }
-
-  .background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100vw;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 997;
-  }
-  
-  

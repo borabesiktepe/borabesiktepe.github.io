@@ -4,6 +4,9 @@ import { motion , domAnimation } from "framer-motion"
 import { NavLink } from "react-router-dom";
 
 import menuImage from "../../assets/menu-image.png";
+import Hover1 from "../../assets/hover-1.svg";
+import Hover2 from "../../assets/hover-2.svg";
+import Hover3 from "../../assets/hover-3.svg";
 
 
 function Navbar() {
@@ -12,6 +15,16 @@ function Navbar() {
   const handleToggle = () => {
     setIsOpen(!isOpen);    
     console.log('clicked:' + isOpen);
+  };
+
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
   };
 
   return (
@@ -39,7 +52,7 @@ function Navbar() {
         <ul>
           <p>Bora Beşiktepe</p>
           <div className="menu-items">
-            <li><NavLink to="/">ART-WORKS</NavLink></li>
+            <li onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>{isHovered && <img src={Hover1} className="hover1" />} <NavLink to="/">ARTWORKS</NavLink></li>
             <li><NavLink to="/about">ABOUT</NavLink></li>
             <li><NavLink to="/">CONTACT</NavLink></li>
           </div>
