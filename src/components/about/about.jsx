@@ -17,9 +17,9 @@ function About() {
                 <span>Greetings! I'm Bora from İstanbul, Türkiye.</span>
                 <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus enim, iure architecto commodi praesentium illum voluptates ipsum recusandae eum odio incidunt a perferendis deleniti quam minima repellat assumenda et ab?</span>
                 <ul>
-                    <li><a href="">Instagram</a></li>
-                    <li><a href="">Twitter</a></li>
-                    <li><a href="">ArtStation</a></li>
+                    <li><a href="https://www.instagram.com/borabesiktepe/" target='_blank'>Instagram</a></li>
+                    <li><a href="https://twitter.com/borabesiktepe" target='_blank'>Twitter</a></li>
+                    <li><a href="https://artstation.com/borabesiktepe" target='_blank'>ArtStation</a></li>
                 </ul>
             </div>
             <div className="about-image">

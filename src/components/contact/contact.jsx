@@ -6,7 +6,7 @@ function Contact() {
     return (
         <>
             <section className="contact">
-                <form>
+                <form action="https://formspree.io/f/xjvdwklo" method="POST">
                     <h1>Feel free to reach me out.</h1>
                     <div class="form-group">
                         <label for="name">Your name</label>
