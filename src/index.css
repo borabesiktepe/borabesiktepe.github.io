@@ -111,15 +111,20 @@
     }
 
     .menu li .hover1 {
-      left:-10px;
+      left: 35px;
+      top: 25px;
+      width: 240px;
     }
+
     .menu li .hover2 {
-      width: 70px;
-      left:80px;
-      top:15px;
+      width: 80px;
+      left: 80px;
     }
+
     .menu li .hover3 {
-      left:0;
+      width: 240px;
+      top: 40px;
+      left: 20px;
     }
   
     .menu img {
@@ -249,3 +254,6 @@
   .about-image img {
     width: 500px;
   }
+
+  /* Contact Page */
+
