@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&display=swap');
+  
   :root {
-    --dark: #1A1A1A;
+    --dark: #0f0f0f;
     --light: #E7E7E7;
   }
 
@@ -13,14 +15,9 @@
     margin: 0;
     padding: 0;
     scroll-behavior: smooth;
-    font-family: 'Cardo', serif;
-    font-weight: 700;
+    font-family: 'EB Garamond', serif;
     background-color: var(--dark);
     color: var(--light);
-  }
-
-  h1 {
-    font-size: 32px;
   }
 
   header {
@@ -28,7 +25,9 @@
   }
 
   header p {
-    font-size: 24px;
+    font-size: 28px;
+    font-weight: 500;
+    font-stretch: condensed;
     margin-bottom: 14px;
   }
 
@@ -38,6 +37,7 @@
     align-items: center;
     cursor: pointer;
     font-size: 16px;
+    font-weight: 500;
     width: fit-content;
     user-select: none;
   }
@@ -46,10 +46,15 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
-    position: absolute;
+    position: fixed;
     bottom: 34px;
     padding: 0 102px 0 102px;
-    font-size: 10px;
+    font-size: 12px;
+    background: none;
+  }
+
+  footer span {
+    background: none;
   }
 
     /* Nav Menu */
@@ -63,34 +68,33 @@
       background-color: var(--dark);
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
       z-index: 999;
-      --menu-pad:46px;
+      --menu-pad: 46px;
+    }
+
+    .menu p {
+      font-size: 28px;
+      padding-left: var(--menu-pad);
     }
   
     .menu ul {
       list-style: none;
-      padding: 46px 0 0 0;
-    }
-  
-    .menu p {
-      font-weight: 700;
-      font-size: 24px;
-      padding-left: var(--menu-pad);
+      padding-top: 82px;
+      box-shadow: -50px 0 20px 15px var(--dark);
     }
   
     .menu-items {
       margin-top: 64px;
-      line-height: 80px;
       font-size: 36px;
-    }
-  
-    .menu-items a {
-      text-decoration: none;
     }
     
     .menu li {
-      margin-bottom: 10px;
       cursor: pointer;
       position: relative;
+      line-height: 80px;
+    }
+
+    .menu-items a {
+      text-decoration: none;
     }
 
     .menu li a {
@@ -113,16 +117,16 @@
     .menu li .hover1 {
       left: 35px;
       top: 25px;
-      width: 240px;
+      width: 220px;
     }
 
     .menu li .hover2 {
-      width: 80px;
+      width: 70px;
       left: 80px;
     }
 
     .menu li .hover3 {
-      width: 240px;
+      width: 220px;
       top: 40px;
       left: 20px;
     }
@@ -131,8 +135,8 @@
       position: absolute;
       bottom: 28px;
       right: 0;
-      width: 110%;
-      z-index: 0;
+      width: 500px;
+      z-index: -1;
     }
   
     .background {
@@ -142,7 +146,7 @@
       height: 100vh;
       width: 100vw;
       background-color: rgba(0, 0, 0, 0.5);
-      z-index: 997;
+      z-index: 666;
     }
 
   /* Artworks Page */
@@ -228,6 +232,7 @@
   .about-text h1 {
     text-align: center;
     margin-bottom: 34px;
+    font-weight: 500;
   }
 
   .about-text span {
@@ -245,6 +250,11 @@
 
   .about-text a {
     text-decoration: none;
+    transition: 0.2s ease-in-out;
+  }
+
+  .about-text a:hover {
+    color: #fff;
   }
 
   .about-image {
@@ -257,3 +267,60 @@
 
   /* Contact Page */
 
+  .contact {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+
+form {
+  margin: 0 102px 0 102px;
+  width: 50%;
+}
+
+form h1 {
+  font-weight: 500;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0 20px 0;
+}
+
+label {
+  margin: 8px 0 8px 0;
+}
+
+input[type="text"],
+input[type="email"] {
+  border: none;
+  border-bottom: 2px solid #888888;
+  outline: none;
+  padding: 4px;
+}
+
+textarea {
+  height: 250px;
+  outline: none;
+  padding: 4px;
+  border: 2px solid #888888;
+  resize: none;
+}
+
+input[type="submit"] {
+  font-size: 20px;
+  font-weight: 500;
+  border: 2px solid #888888;
+  padding: 4px 32px;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+input[type="submit"]:hover {
+  color: #0f0f0f;
+  background-color: #888888;
+}
+
+.contact-image img {
+  width: 500px;
+}

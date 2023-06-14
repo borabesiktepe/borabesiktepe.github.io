@@ -1,10 +1,33 @@
 import React from 'react';
 
+import contactImage from '../../assets/contact-image.png'
+
 function Contact() {
     return (
-        <div>
-           <h1> reach to me </h1> 
-        </div>
+        <>
+            <section className="contact">
+                <form>
+                    <h1>Feel free to reach me out.</h1>
+                    <div class="form-group">
+                        <label for="name">Your name</label>
+                        <input type="text" id="name" name="name" required></input>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Your email</label>
+                        <input type="text" id="email" name="email" required></input>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="4" required></textarea>
+                    </div>
+                    <input type="submit" value="Submit"></input>
+                </form>
+
+                <div className="contact-image">
+                    <img src={contactImage} alt="Contact Page Image"/>
+                </div>
+            </section>
+        </>
     )
 }
 

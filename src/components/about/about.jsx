@@ -14,9 +14,8 @@ function About() {
             >
             <div className="about-text">
                 <h1>About Me</h1>
-                <span>Hi there! I'm Bora from İstanbul, Türkiye.</span>
-                <span>Whether I'm sketching out a new design or strumming away on my guitar, I'm always in my happy place. I love exploring new techniques and challenging myself to try new things.</span>
-                <span>If you'd like to learn more about me or my work, feel free to contact me. I'd love to hear from you!</span>
+                <span>Greetings! I'm Bora from İstanbul, Türkiye.</span>
+                <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus enim, iure architecto commodi praesentium illum voluptates ipsum recusandae eum odio incidunt a perferendis deleniti quam minima repellat assumenda et ab?</span>
                 <ul>
                     <li><a href="">Instagram</a></li>
                     <li><a href="">Twitter</a></li>
