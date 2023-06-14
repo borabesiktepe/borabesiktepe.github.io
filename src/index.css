@@ -22,7 +22,7 @@
 }
 
 header {
-  padding: 82px 102px;
+  padding: 5vw 6vw;
 }
 
 header p {
@@ -49,7 +49,7 @@ footer {
   width: 100%;
   position: fixed;
   bottom: 34px;
-  padding: 0 102px 0 102px;
+  padding: 0 6vw;
   font-size: 12px;
   background: none;
 }
@@ -257,8 +257,13 @@ footer span {
   text-decoration: none;
 }
 
+.about-image {
+  height: 300px;
+}
+
 .about-image img {
-  width: 480px;
+  height: auto;
+  width: 100%;
 }
 
 /* Contact Page */
@@ -332,4 +337,30 @@ textarea:focus {
 
 .contact-image img {
   width: 500px;
+}
+
+@media only screen and (max-width: 1110px) {
+  * {
+
+  }
+
+}
+
+@media only screen and (max-width: 750px) {
+  header {
+    padding: 10vw 20vw;
+  }
+
+  footer {
+    padding: 0 10vw;
+  }
+
+  .menu ul {
+    padding-top: 10vw;
+  }
+
+  .about {
+    justify-content: center;
+    text-align: center;
+  }
 }
