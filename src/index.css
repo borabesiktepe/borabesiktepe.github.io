@@ -47,7 +47,7 @@ footer {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  position: fixed;
+  position: absolute;
   bottom: 34px;
   padding: 0 6vw;
   font-size: 12px;
@@ -349,7 +349,8 @@ textarea:focus {
   }
 
   footer {
-    padding: 0 10vw;
+    padding: 0 4vw;
+    font-size: 8px;
   }
 
   .menu ul {
@@ -359,5 +360,23 @@ textarea:focus {
   .about {
     justify-content: center;
     text-align: center;
+    margin: 0 20vw;
+  }
+
+  .about-text {
+    font-size: 10px;
+  }
+
+  .about-image {
+    display: none;
+  }
+
+  .about ul {
+    justify-content: center;
+    width: auto;
+  }
+
+  .about-text a {
+    font-size: 16px;
   }
 }
