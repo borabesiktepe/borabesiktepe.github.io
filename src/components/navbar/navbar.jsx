@@ -57,15 +57,15 @@ function Navbar() {
 
   return (
     <LazyMotion features={domAnimation}>
-      <header>
+      <m.header>
           <m.p>Bora Beşiktepe</m.p>
           <m.div className="menu-button" onClick={handleToggle}>
               <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0 0H18V2H0V0ZM0 7H12V9H0V7ZM0 14H18V16H0V14Z" fill="#E7E7E7"/>
               </svg>
             <span>Menu</span>
-          </m.div>          
-      </header>
+          </m.div>
+      </m.header>
       <m.div className="background"
           initial={{ x: "-100%" }}
           animate={{ x: isOpen ? "0%" : "-100%" }}

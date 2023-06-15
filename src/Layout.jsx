@@ -2,8 +2,11 @@ import React, { Suspense } from "react";
 
 import { Outlet } from "react-router-dom";
 
-const Navbar = React.lazy(() => import("./components/navbar/"));
-const Footer = React.lazy(() => import("./components/footer/"));
+//const Navbar = React.lazy(() => import("./components/navbar/"));
+//const Footer = React.lazy(() => import("./components/footer/"));
+
+import Navbar from "./components/navbar/";
+import Footer from "./components/footer/";
 
 function Layout() {
   return (

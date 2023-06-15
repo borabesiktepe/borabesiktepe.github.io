@@ -5,12 +5,9 @@ import aboutImage from '../../assets/about-image.png'
 
 function About() {
     return (
-        <LazyMotion features={domAnimation}>
-            <m.section 
-                className="about"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+        <>
+            <section 
+                className="about"                
             >
             <div className="about-text">
                 <h1>About Me</h1>
@@ -25,8 +22,8 @@ function About() {
             <div className="about-image">
                 <img src={aboutImage} alt=""/>
             </div>
-            </m.section>
-        </LazyMotion>
+            </section>
+        </>
     )
 }
 
