@@ -19,9 +19,7 @@ function About() {
                     <li><a href="https://artstation.com/borabesiktepe" target='_blank'>ArtStation</a></li>
                 </ul>
             </div>
-            <div className="about-image">
-                <img src={aboutImage} alt=""/>
-            </div>
+            <img src={aboutImage} alt=""/>
             </section>
         </>
     )
