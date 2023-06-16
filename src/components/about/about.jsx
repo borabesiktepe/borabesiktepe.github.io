@@ -2,6 +2,21 @@ import React from 'react';
 import { domAnimation, LazyMotion, m } from "framer-motion";
 
 import aboutImage from '../../assets/about-image.png'
+const imageUrl = `url(${aboutImage})`;
+
+const bgArtStyle = {
+    position: 'absolute',
+    top: '40px',
+    right: '0',
+    height: '800px',
+    width: '100%',
+    backgroundImage: imageUrl,
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'contain',
+    backgroundPosition: 'right',
+    opacity: '0.7',
+    zIndex: '-1',
+  };
 
 function About() {
     return (
@@ -19,8 +34,8 @@ function About() {
                     <li><a href="https://artstation.com/borabesiktepe" target='_blank'>ArtStation</a></li>
                 </ul>
             </div>
-            <img src={aboutImage} alt=""/>
             </section>
+            <div className='bgArt' style={bgArtStyle}></div>
         </>
     )
 }

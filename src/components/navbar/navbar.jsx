@@ -93,7 +93,6 @@ function Navbar() {
             </m.li>
           </m.div>
         </m.ul>
-        <img src={menuImage}></img>
       </m.div>
     </LazyMotion>
   );

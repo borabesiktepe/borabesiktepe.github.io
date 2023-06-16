@@ -1,6 +1,21 @@
 import React from 'react';
 
 import contactImage from '../../assets/contact-image.png'
+const imageUrl = `url(${contactImage})`;
+
+const bgArtStyle = {
+    position: 'absolute',
+    top: '40px',
+    right: '0',
+    height: '800px',
+    width: '100%',
+    backgroundImage: imageUrl,
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'contain',
+    backgroundPosition: 'left',
+    opacity: '0.5',
+    zIndex: '-1',
+  };
 
 function Contact() {
     return (
@@ -22,11 +37,8 @@ function Contact() {
                     </div>
                     <input type="submit" value="Submit"></input>
                 </form>
-
-                <div className="contact-image">
-                    <img src={contactImage} alt="Contact Page Image"/>
-                </div>
             </section>
+            <div className='bgArt' style={bgArtStyle}></div>
         </>
     )
 }
