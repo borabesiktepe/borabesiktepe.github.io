@@ -7,14 +7,15 @@ const bgArtStyle = {
     position: 'absolute',
     top: '40px',
     right: '0',
-    height: '800px',
+    height: '700px',
+    maxHeight: '100vh',
     width: '100%',
     backgroundImage: imageUrl,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'contain',
     backgroundPosition: 'left',
-    opacity: '0.5',
-    zIndex: '-1',
+    opacity: '0.7',
+    zIndex: '-1'
   };
 
 function Contact() {

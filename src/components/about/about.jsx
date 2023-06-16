@@ -9,6 +9,7 @@ const bgArtStyle = {
     top: '40px',
     right: '0',
     height: '800px',
+    maxHeight: '100vh',
     width: '100%',
     backgroundImage: imageUrl,
     backgroundRepeat: 'no-repeat',
