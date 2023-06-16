@@ -224,7 +224,8 @@ footer span {
 
 .about {
   display: flex;
-  margin: 0 200px;
+  gap: 20px;
+  margin: 0 20vw;
 }
 
 .about-text {
@@ -248,7 +249,7 @@ footer span {
 .about-text ul {
   display: flex;
   gap: 24px;
-  width: fit-content;
+  width: 100%;
 }
 
 .about-text li {
@@ -260,7 +261,7 @@ footer span {
 }
 
 .about img {
-  width: 25vw;
+  width: 400px;
 }
 
 /* Contact Page */
@@ -340,32 +341,17 @@ textarea:focus {
   width: 500px;
 }
 
-@media screen and (max-width: 1040px) {
-  body {
-    background-color: #888888;
+@media (max-width: 400px) {
+  header {
+    margin: 15vw;
   }
 
-  .about {
-    margin: 0 100px;
-    margin-right: 0;
+  header p {
+    font-size: 22px;
   }
 
   .about img {
-    width: 300px;
-  }
-}
-
-@media screen and (max-width: 720px) {
-  body {
-    background-color: #474747;
-  }
-
-  header {
-    margin: 100px 80px;
-  }
-
-  .about {
-    margin: 0 80px;
+    display: none;
   }
 
   .about-text {
@@ -373,11 +359,20 @@ textarea:focus {
   }
 
   .about-text ul {
-    width: 100%;
     justify-content: space-around;
+  }
+}
+
+@media (max-height: 400px) {
+  header {
+    margin: 5vw 10vw;
+  }
+
+  .about {
+    margin: 0 10vw;
   }
 
   .about img {
-    display: none;
+    width: 300px;
   }
 }
