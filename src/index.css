@@ -82,7 +82,6 @@ footer span {
 .menu ul {
   list-style: none;
   padding-top: 82px;
-  box-shadow: -50px 0 20px 15px var(--dark);
 }
 
 .menu-items {
@@ -250,6 +249,7 @@ footer span {
   display: flex;
   gap: 24px;
   width: 100%;
+  margin-bottom: 34px;
 }
 
 .about-text li {
@@ -270,7 +270,7 @@ footer span {
   display: flex;
   justify-content: space-around;
   flex-direction: row-reverse;
-  margin: 0 200px;
+  margin: 0 20vw;
 }
 
 form {
@@ -343,12 +343,14 @@ textarea:focus {
 
 @media (max-width: 400px) {
   header {
-    margin: 15vw;
+    margin: 10vw 15vw;
   }
 
   header p {
     font-size: 22px;
   }
+
+  /* About Page */
 
   .about img {
     display: none;
@@ -361,12 +363,29 @@ textarea:focus {
   .about-text ul {
     justify-content: space-around;
   }
+  
+  /* Contact Page */
+
+  .contact-image {
+    display: none;
+  }
+
+  form {
+    width: 100%;
+  }
+
+  textarea {
+    height: 100px;
+  }
+
 }
 
 @media (max-height: 400px) {
   header {
     margin: 5vw 10vw;
   }
+
+    /* About Page */
 
   .about {
     margin: 0 10vw;
@@ -375,4 +394,23 @@ textarea:focus {
   .about img {
     width: 300px;
   }
+
+    /* Contact Page */
+
+    .contact-image {
+      display: none;
+    }
+  
+    form {
+      width: 100%;
+      margin-bottom: 34px;
+    }
+
+    form h1 {
+      font-size: 18px;
+    }
+  
+    textarea {
+      height: 100px;
+    }
 }
