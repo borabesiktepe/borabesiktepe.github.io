@@ -3,11 +3,6 @@ import { motion , domAnimation, LazyMotion, m } from "framer-motion"
 
 import { NavLink } from "react-router-dom";
 
-import menuImage from "../../assets/menu-image.png";
-import Hover1 from "../../assets/hover-1.svg";
-import Hover2 from "../../assets/hover-2.svg";
-import Hover3 from "../../assets/hover-3.svg";
-
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
