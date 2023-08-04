@@ -1,4 +1,5 @@
 import Artworks from '../artworks'
+import DarkModeToggle from '../darkmode';
 
 function home() {
     return (
@@ -14,11 +15,7 @@ function home() {
                 </div>
             </div>
             <div className="content">
-                <button className="theme-button">
-                    <div className="theme-mode">DARK</div>
-                    <span>/</span>
-                    <div className="theme-mode">LIGHT</div>
-                </button>
+                <DarkModeToggle></DarkModeToggle>
                 <Artworks></Artworks>
                 <span class="desc">Based in İstanbul.</span>
             </div>

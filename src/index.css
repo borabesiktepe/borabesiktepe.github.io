@@ -27,6 +27,11 @@ body {
   animation: fade-in 2s cubic-bezier(0.56, 0, 0, 1);
 }
 
+body.light-mode {
+  background-color: var(--light-bg);
+  animation: fade-in 2s cubic-bezier(0.56, 0, 0, 1);
+}
+
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -93,6 +98,12 @@ body {
 
 .theme-button:hover {
   opacity: 0.3;
+}
+
+/* selected mode effect */
+.theme-button .theme-mode.selected {
+  opacity: 1;
+  font-weight: 700;
 }
 
 .desc {
