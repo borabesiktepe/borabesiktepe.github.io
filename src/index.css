@@ -172,7 +172,55 @@ body.light-mode {
   opacity: 1;
 }
 
+@keyframes menu-fadeIn {
+  from {
+      opacity: 0;
+      transform: translateY(-20px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
 
+.dropdown-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.911);
+  color: white;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 1;
+
+  animation: menu-fadeIn 0.3s ease forwards;
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.menu-open .dropdown-menu {
+  animation: menu-fadeIn 0.3s ease forwards;
+}
+
+.dropdown-menu ul {
+  list-style: none;
+  margin-left: 120px;
+}
+
+.dropdown-menu li {
+  padding: 32px 0;
+  font-size: 36px;
+  width: fit-content;
+  cursor: pointer;
+  transition: 0.16s ease-in-out;
+}
+
+.dropdown-menu li:hover {
+  opacity: 0.3;
+}
 
 @media only screen and (max-width: 700px) {
   #root {
