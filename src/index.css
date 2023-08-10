@@ -24,12 +24,12 @@
 
 body {
   background-color: var(--dark-bg);
-  animation: fade-in 2s cubic-bezier(0.56, 0, 0, 1);
+  transition: background-color 0.5s ease;
 }
 
 body.light-mode {
   background-color: var(--light-bg);
-  animation: fade-in 2s cubic-bezier(0.56, 0, 0, 1);
+  transition: background-color 0.5s ease;
 }
 
 @keyframes fade-in {
@@ -196,13 +196,12 @@ body.light-mode {
   flex-direction: column;
   z-index: 1;
 
-  animation: menu-fadeIn 0.3s ease forwards;
   opacity: 0;
   transform: translateY(-20px);
 }
 
 .menu-open .dropdown-menu {
-  animation: menu-fadeIn 0.3s ease forwards;
+  animation: menu-fadeIn 0.5s cubic-bezier(0.52, 0, 0, 0.82) forwards;
 }
 
 .dropdown-menu ul {
