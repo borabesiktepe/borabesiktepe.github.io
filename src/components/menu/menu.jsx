@@ -23,6 +23,8 @@ function menu() {
                             <li>HOME</li>
                             <li>ARTWORKS</li>
                             <li>ABOUT</li>
+
+                            <span>Bora Beşiktepe © 2023</span>
                         </ul>
                     </div>
                 </div>
