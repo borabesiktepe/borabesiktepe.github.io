@@ -249,6 +249,15 @@ body.light-mode {
     margin: 0 12px;
     gap: 24px;
   }
+
+  .dropdown-menu ul {
+    margin-left: 60px;
+  }
+
+  .dropdown-menu li {
+    padding: 24px 0;
+    font-size: 28px;
+  }
 }
 
 @media only screen and (max-width: 950px) {
