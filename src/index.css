@@ -191,7 +191,6 @@ body.light-mode {
   height: 100%;
 
   background-color: rgba(0, 0, 0, 0.911);
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://media.tenor.com/el39oVPZlCIAAAAd/static-noise.gif");
   background-blend-mode: hard-light;
   
   color: white;
@@ -208,7 +207,7 @@ body.light-mode {
 }
 
 .dropdown-menu ul {
-  list-style: none;
+  list-style-type: none;
   margin-left: 120px;
 }
 
