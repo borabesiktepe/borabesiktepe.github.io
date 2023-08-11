@@ -13,6 +13,9 @@ const ArtworksPage = () => {
       </nav>
 
       <section class="artworks-page">
+        <div className="artworks-title">
+          ARTWORKS
+        </div>
 
         <div class="artworks-gallery">
           <div class="gallery-item">
@@ -47,15 +50,8 @@ const ArtworksPage = () => {
             <img src="https://cdnb.artstation.com/p/assets/images/images/059/700/809/large/bora-besiktepe-121255888-1018205745270759-8621102770366216297-n.jpg?1676969786"
               alt="" srcset=""></img>
           </div>
-          <div class="gallery-item">
-            <img src="" alt="Artwork8" srcset=""></img>
-          </div>
-        </div>
 
-        <div class="artworks-title">
-          ARTWORKS
         </div>
-
       </section>
     </>
   );
