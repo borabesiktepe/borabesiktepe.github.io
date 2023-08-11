@@ -65,9 +65,7 @@ nav > h1 {
 
 .artworks-title {
   font-size: 24px;
-  padding-top: 45px;
-  padding-left: 100px;
-  padding-bottom: 36px;
+  padding: 40px 0 40px 100px;
 }
 
 .artworks-gallery {
@@ -77,18 +75,25 @@ nav > h1 {
   justify-content: center;
 }
 
+@media screen and (max-width: 768px) {
+  .artworks-title {
+    font-size: 24px;
+    padding: 16px 0 16px 10px;
+  }
+}
+
 .gallery-item {
-  flex-basis: calc(50% - 20px); /* İkili sütun düzeni */
+  flex-basis: calc(50% - 20px); /* İkili sütun */
   margin-bottom: 20px;
 }
 
 @media screen and (min-width: 768px) {
   .gallery-item {
-    flex-basis: calc(33.33% - 20px); /* Üçlü sütun düzeni */
+    flex-basis: calc(33.33% - 20px); /* Üçlü sütun */
   }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 550px) {
   .gallery-item {
     flex-basis: calc(100% - 20px);
   }
