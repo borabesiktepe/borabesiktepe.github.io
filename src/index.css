@@ -189,10 +189,7 @@ body.light-mode {
   left: 0;
   width: 100%;
   height: 100%;
-
   background-color: rgba(0, 0, 0, 0.911);
-  background-blend-mode: hard-light;
-  
   color: white;
   display: flex;
   justify-content: center;
@@ -217,6 +214,10 @@ body.light-mode {
   width: fit-content;
   cursor: pointer;
   transition: 0.16s ease-in-out;
+}
+
+.dropdown-menu a {
+  text-decoration: none;
 }
 
 .dropdown-menu li:hover {

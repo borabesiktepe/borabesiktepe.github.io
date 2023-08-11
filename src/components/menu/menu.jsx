@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function menu() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -20,9 +21,9 @@ function menu() {
                 <div className="fullscreen-overlay" onClick={toggleMenu}>
                     <div className="dropdown-menu">
                         <ul>
-                            <li>HOME</li>
-                            <li>ARTWORKS</li>
-                            <li>ABOUT</li>
+                            <li><Link to="/">HOME</Link></li>
+                            <li><Link to="/artworks">ARTWORKS</Link></li>
+                            <li><Link to="/about">ABOUT</Link></li>
 
                             <span>Bora Beşiktepe © 2023</span>
                         </ul>

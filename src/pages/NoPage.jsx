@@ -4,8 +4,8 @@ import { NavLink } from "react-router-dom";
 function NoPage() {
     return (
         <div>
-           <h1> 404 </h1> 
-           <p> go back to {" "}
+           <h1> 404 Page Not Found</h1> 
+           <p> Go back to {" "}
            <NavLink
               to="/"
             >
