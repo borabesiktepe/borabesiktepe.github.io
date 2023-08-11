@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
-function menu() {
+function Menu() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const location = useLocation();
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -15,7 +16,7 @@ function menu() {
                     <path d="M0 0H24V1.77778H0V0Z" fill="white" />
                     <path d="M0 6.22222H16V8H0V6.22222Z" fill="white" />
                 </svg>
-                <span>Menu</span>
+                {location.pathname === "/" && <span>Menu</span>}
             </div>
             {isMenuOpen && (
                 <div className="fullscreen-overlay" onClick={toggleMenu}>
@@ -24,7 +25,6 @@ function menu() {
                             <li><Link to="/">HOME</Link></li>
                             <li><Link to="/artworks">ARTWORKS</Link></li>
                             <li><Link to="/about">ABOUT</Link></li>
-
                             <span>Bora Beşiktepe © 2023</span>
                         </ul>
                     </div>
@@ -34,4 +34,4 @@ function menu() {
     );
 }
 
-export default menu;
+export default Menu;

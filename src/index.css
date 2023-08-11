@@ -41,7 +41,7 @@ body.light-mode {
   }
 }
 
-#root {
+main {
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -59,20 +59,12 @@ body.light-mode {
 }
 
 .menu-button {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  width: fit-content;
   cursor: pointer;
   transition: 0.16s ease-in-out;
 }
 
 .menu-button:hover {
   opacity: 0.3;
-}
-
-.menu-button span {
-  font-size: 16px;
 }
 
 .content {
@@ -194,7 +186,7 @@ body.light-mode {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  z-index: 1;
+  z-index: 666;
   opacity: 0;
   transform: translateY(-20px);
 }
@@ -232,7 +224,7 @@ body.light-mode {
 }
 
 @media only screen and (max-width: 700px) {
-  #root {
+  main {
     flex-direction: column;
     justify-content: center;
     width: 100%;

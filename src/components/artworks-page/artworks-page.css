@@ -1,0 +1,122 @@
+@import url("https://fonts.googleapis.com/css2?family=Libre+Bodoni&display=swap");
+
+:root {
+  --dark-color: hsl(0, 0%, 100%);
+  --dark-color-param: 0, 0%, 100%;
+  --dark-bg: hsl(0, 0%, 0%);
+  --light-color: hsl(0, 0%, 0%);
+  --light-bg: hsl(0, 0%, 79%);
+}
+
+::selection {
+  background: none;
+  color: hsl(var(--dark-color-param), 0.2);
+}
+
+::-webkit-scrollbar {
+  height: 6px;
+  background-color: var(--dark-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--dark-color);
+}
+
+nav {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: fixed;
+  height: 100%;
+  padding: 24px 16px;
+  background-color: var(--dark-bg);
+  border-right: 1px solid var(--dark-color);
+}
+
+nav > h1 {
+  display: inline-block;
+  margin-bottom: 48px;
+  writing-mode: vertical-lr;
+  transform: scale(-1, -1);
+  font-size: 20px;
+  white-space: nowrap;
+}
+
+.menu-button {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  width: fit-content;
+  cursor: pointer;
+  transition: 0.16s ease-in-out;
+}
+
+.menu-button:hover {
+  opacity: 0.3;
+}
+
+.menu-button span {
+  font-size: 16px;
+}
+
+.artworks-page {
+  margin-left: 160px;
+}
+
+.artworks-gallery {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  padding-bottom: 8px;
+}
+
+.gallery-item {
+  display: flex;
+  flex-shrink: 0;
+  width: calc(33.33% - 8px);
+  max-width: 600px;
+  background-color: white;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  align-self: center;
+}
+
+.artworks-title {
+  position: absolute;
+  bottom: 0;
+  padding-bottom: 56px;
+  font-size: 24px;
+  z-index: -1;
+}
+
+@media only screen and (max-width: 700px) {
+    
+  .artworks-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .gallery-item {
+    display: flex;
+    flex-shrink: 0;
+    background-color: white;
+  }
+  
+  .gallery-item img {
+
+  }
+  
+  .artworks-title {
+    position: absolute;
+    bottom: 0;
+    padding-bottom: 56px;
+    font-size: 24px;
+  }
+}
