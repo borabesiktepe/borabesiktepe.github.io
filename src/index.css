@@ -22,6 +22,10 @@
   font-weight: 400;
 }
 
+a {
+  text-decoration: none;
+}
+
 body {
   background-color: var(--dark-bg);
   transition: background-color 0.5s ease;
@@ -208,10 +212,6 @@ main {
   transition: 0.16s ease-in-out;
 }
 
-.dropdown-menu a {
-  text-decoration: none;
-}
-
 .dropdown-menu li:hover {
   opacity: 0.3;
 }
@@ -221,6 +221,40 @@ main {
   position: absolute;
   bottom: 50px;
   right: 50px;
+}
+
+.about-section {
+  padding: 104px 0 0 160px;
+}
+
+.about-content {
+  padding: 32px 0 0 64px;
+  font-size: 16px;
+}
+
+.about-contacts {
+  margin-top: 84px;
+  font-size: 20px;
+}
+
+.about-contacts ul {
+  list-style: none;
+  margin-top: 12px;
+}
+
+.about-contacts li {
+  font-size: 16px;
+  margin-bottom: 12px;
+  width: fit-content;
+  transition: 0.16s ease-in-out;
+}
+
+.about-contacts li:hover {
+  opacity: 0.3;
+}
+
+.about-siteinfo {
+  margin-top: 164px;
 }
 
 @media only screen and (max-width: 700px) {
