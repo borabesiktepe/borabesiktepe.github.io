@@ -1,9 +1,13 @@
 import React from 'react';
+import Menu from '../menu/menu.jsx';
 
 const About = () => {
   
   return (
-    <h1>About Me</h1>
+    <nav>
+    <Menu />
+    <h1>BORA BEŞİKTEPE</h1>
+  </nav>
   );
 
 };

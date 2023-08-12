@@ -24,6 +24,7 @@ const ArtworksPage = () => {
 
               <div className="item-info">
                 <span>{artwork.date}</span>
+                <span>{artwork.year}</span>
               </div>
             </div>
           ))}

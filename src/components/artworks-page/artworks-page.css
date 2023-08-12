@@ -65,7 +65,7 @@ nav > h1 {
 
 .artworks-title {
   font-size: 24px;
-  padding: 40px 0 40px 100px;
+  padding: 40px 0 40px 14px;
 }
 
 .artworks-gallery {
@@ -90,6 +90,11 @@ nav > h1 {
 .gallery-item {
   flex-basis: calc(50% - 20px); /* İkili sütun */
   margin-bottom: 20px;
+  transition: 0.16s ease-in-out;
+}
+
+.gallery-item:hover {
+  transform: scale(1.01);
 }
 
 @media screen and (min-width: 768px) {
