@@ -12,7 +12,7 @@ function AppRoutes() {
     const location = useLocation();
 
     return (
-        <Routes location={location}>
+        <Routes location={location} key={location.pathname}>
             <Route path="/" element={<Layout />}>
                 <Route index element={<Home />} />
                 <Route path="artworks" element={<Artworks />} />
