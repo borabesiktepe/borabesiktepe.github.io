@@ -2,13 +2,15 @@ import React from 'react';
 import "../artworks-page/artworks-page.css"
 import artworksData from '../artworks-page/artworks.json';
 import Menu from "../menu";
+import {DarkModeSwitch} from '../darkmode';
 
 const ArtworksPage = () => {
 
   return (
     <>
       <nav>
-        <Menu />
+        <DarkModeSwitch></DarkModeSwitch>
+        <Menu />        
         <h1>BORA BEŞİKTEPE</h1>
       </nav>
 

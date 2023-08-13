@@ -1,12 +1,14 @@
 import React from 'react';
 
 import Menu from '../menu/menu.jsx';
+import {DarkModeSwitch} from '../darkmode';
 
 const About = () => {
 
   return (
     <>
       <nav>
+        <DarkModeSwitch></DarkModeSwitch>
         <Menu />
         <h1>BORA BEŞİKTEPE</h1>
       </nav>
