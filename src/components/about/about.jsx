@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from "framer-motion";
 
 import Menu from '../menu/menu.jsx';
 import {DarkModeSwitch} from '../darkmode';
@@ -7,6 +8,13 @@ const About = () => {
 
   return (
     <>
+    <motion.div
+      className="whatever"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
       <nav>
         <DarkModeSwitch></DarkModeSwitch>
         <Menu />
@@ -36,6 +44,7 @@ const About = () => {
       <div className="about-background">
         <img src="https://media.tenor.com/el39oVPZlCIAAAAd/static-noise.gif"/>
       </div>
+      </motion.div>
     </>
   );
 

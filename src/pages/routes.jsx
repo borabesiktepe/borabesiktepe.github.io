@@ -1,5 +1,6 @@
 import React from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 
 import Home from "../components/home";
 import Artworks from "../components/artworks-page";
@@ -12,14 +13,16 @@ function AppRoutes() {
     const location = useLocation();
 
     return (
-        <Routes location={location} key={location.pathname}>
-            <Route path="/" element={<Layout />}>
-                <Route index element={<Home />} />
-                <Route path="artworks" element={<Artworks />} />
-                <Route path="about" element={<About />} />
-            </Route>
-            <Route path="*" element={<NoPage />} />
-        </Routes>
+        <AnimatePresence>
+            <Routes location={location} key={location.pathname}>
+                <Route path="/" element={<Layout />}>
+                    <Route index element={<Home />} />
+                    <Route path="artworks" element={<Artworks />} />
+                    <Route path="about" element={<About />} />
+                </Route>
+                <Route path="*" element={<NoPage />} />
+            </Routes>
+        </AnimatePresence>
     );
 }
 
