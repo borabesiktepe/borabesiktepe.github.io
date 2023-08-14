@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import "./darkmode.css"
 
 const DarkModeToggle = () => {
   const [lightMode, setDarkMode] = useState(false);
@@ -31,4 +32,34 @@ const DarkModeToggle = () => {
   );
 };
 
-export default DarkModeToggle;
+const DarkModeSwitch = () => {
+  const [lightMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    const islightModeEnabled = localStorage.getItem('lightModeEnabled');
+    if (islightModeEnabled) {
+      document.body.classList.add('light-mode');
+      setDarkMode(true);
+    }
+  }, []);
+
+  const toggleDarkMode = () => {
+    document.body.classList.toggle('light-mode');
+    setDarkMode(!lightMode);
+
+    if (!lightMode) {
+      localStorage.setItem('lightModeEnabled', 'true');
+    } else {
+      localStorage.removeItem('lightModeEnabled');
+    }
+  };
+
+  return (
+    <label className="switch">
+      <input type="checkbox" checked={lightMode} onChange={toggleDarkMode} />
+      <span className="slider"></span>
+    </label>
+  );
+};
+
+export { DarkModeToggle, DarkModeSwitch }

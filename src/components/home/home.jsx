@@ -1,6 +1,6 @@
 import Artworks from '../artworks';
 import Menu from '../menu';
-import DarkModeToggle from '../darkmode';
+import {DarkModeToggle} from '../darkmode';
 
 function home() {
     return (

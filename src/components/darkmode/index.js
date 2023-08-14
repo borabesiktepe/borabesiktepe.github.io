@@ -1,1 +1,1 @@
-export {default} from "./darkmode"
+export {DarkModeToggle, DarkModeSwitch} from "./darkmode"
