@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import "../artworks-page/artworks-page.css";
 import artworksData from "../artworks-page/artworks.json";
 import Menu from "../menu";
@@ -17,7 +18,12 @@ const ArtworksPage = () => {
   };
   
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
       <nav>
         <DarkModeSwitch></DarkModeSwitch>
         <Menu />
@@ -40,7 +46,7 @@ const ArtworksPage = () => {
         </div>
       </section>
       {selectedArtwork && <Showcase imageUrl={selectedArtwork} onClose={closeShowcase} />}
-    </>
+    </motion.div>
   );
 };
 

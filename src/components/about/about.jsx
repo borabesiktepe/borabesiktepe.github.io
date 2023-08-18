@@ -7,9 +7,7 @@ import {DarkModeSwitch} from '../darkmode';
 const About = () => {
 
   return (
-    <>
     <motion.div
-      className="whatever"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -39,13 +37,8 @@ const About = () => {
 
           <p className='about-siteinfo'>This website was developed with the help of React.</p>
         </div>
-      </div>
-
-      <div className="about-background">
-        <img src="https://media.tenor.com/el39oVPZlCIAAAAd/static-noise.gif"/>
-      </div>
+      </div>      
       </motion.div>
-    </>
   );
 
 };
