@@ -30,6 +30,7 @@ const About = () => {
             <ul>
               <li><a href="mailto:borabesiktepe@gmail.com">borabesiktepe@gmail.com</a></li>
               <li><a href="https://www.instagram.com/borabesiktepe/" target='_blank'>Instagram</a></li>
+              <li><a href="https://twitter.com/borabesiktepe" target='_blank'>Twitter</a></li>
               <li><a href="https://github.com/borabesiktepe" target='_blank'>GitHub</a></li>
               <li><a href="https://www.artstation.com/borabesiktepe" target='_blank'>ArtStation</a></li>
             </ul>
