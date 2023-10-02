@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import "../artworks-page/artworks-page.css";
 import artworksData from "../artworks-page/artworks.json";
 import Menu from "../menu";
@@ -16,16 +16,22 @@ const ArtworksPage = () => {
   const closeShowcase = () => {
     setSelectedArtwork(null);
   };
-  
+
+  const animState = {
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    exit: { opacity: 0, transition: { duration: 0.7 } }, // Specify a duration for the exit animation
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.7 }}
     >
       <nav>
-        <DarkModeSwitch></DarkModeSwitch>
+        <DarkModeSwitch />
         <Menu />
         <h1>BORA BEŞİKTEPE</h1>
       </nav>
@@ -35,17 +41,35 @@ const ArtworksPage = () => {
 
         <div className="artworks-gallery">
           {artworksData.map((artwork, index) => (
-            <div className="gallery-item" key={index} onClick={() => openShowcase(artwork.imageUrl)}>
+            <motion.div
+              className="gallery-item"
+              key={index}
+              onClick={() => openShowcase(artwork.imageUrl)}
+              variants={animState}
+              initial="initial"
+              whileInView="animate"
+              exit="exit"
+              transition="transition"
+              viewport={{ once: true }}
+            >
               <img src={artwork.imageUrl} alt={`Artwork ${index}`} />
               <div className="item-info">
                 <span>{artwork.date}</span>
                 <span>{artwork.year}</span>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </section>
-      {selectedArtwork && <Showcase imageUrl={selectedArtwork} onClose={closeShowcase} />}
+      <AnimatePresence>
+        {selectedArtwork && (
+          <Showcase
+            imageUrl={selectedArtwork}
+            onClose={closeShowcase}
+            key={selectedArtwork} // Make sure to provide a unique key
+          />
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };
