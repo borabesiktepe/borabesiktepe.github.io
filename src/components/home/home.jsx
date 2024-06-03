@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-
+import { Suspense } from 'react';
 import Artworks from '../artworks';
 import Menu from '../menu';
 import {DarkModeToggle} from '../darkmode';
@@ -18,7 +18,10 @@ function home() {
                 </div>
                 <div className="content">
                     <DarkModeToggle></DarkModeToggle>
-                    <Artworks></Artworks>
+                    <Suspense fallback={<div> Loading... </div>}>
+                        <Artworks></Artworks>
+                    </Suspense>
+                    
                     <span class="desc">Based in İstanbul.</span>
                 </div>
             </motion.main>        
