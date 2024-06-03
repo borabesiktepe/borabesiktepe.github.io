@@ -17,11 +17,8 @@ function home() {
                     <Menu />
                 </div>
                 <div className="content">
-                    <DarkModeToggle></DarkModeToggle>
-                    <Suspense fallback={<div> Loading... </div>}>
-                        <Artworks></Artworks>
-                    </Suspense>
-                    
+                    <DarkModeToggle></DarkModeToggle>                    
+                    <Artworks></Artworks>
                     <span class="desc">Based in İstanbul.</span>
                 </div>
             </motion.main>        
