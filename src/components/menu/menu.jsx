@@ -25,7 +25,7 @@ function Menu() {
                             <li><Link to="/">HOME</Link></li>
                             <li><Link to="/artworks">ARTWORKS</Link></li>
                             <li><Link to="/about">ABOUT</Link></li>
-                            <span>Bora Beşiktepe © 2023</span>
+                            <span>Bora Beşiktepe © 2026</span>
                         </ul>
                     </div>
                 </div>

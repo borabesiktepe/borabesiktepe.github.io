@@ -10,13 +10,27 @@ import Loader from './components/loader'
 
 export default function App() {
   const [loading, setLoading] = useState(true);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    // Simulated progress logic
+    const timer = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 90) return prev; // Stall at 90% until load complete
+        const remaining = 90 - prev;
+        const add = Math.ceil(remaining / 10);
+        return prev + add;
+      });
+    }, 200);
+
     const handleLoad = () => {
-      // Small timeout to ensure smooth transition and avoid flash
+      clearInterval(timer);
+      setProgress(100);
+
+      // Wait for 100% animation then finish
       setTimeout(() => {
         setLoading(false);
-      }, 2000);
+      }, 500);
     };
 
     if (document.readyState === 'complete') {
@@ -30,13 +44,16 @@ export default function App() {
   return (
     <>
       <AnimatePresence mode='wait'>
-        {loading && <Loader key="loader" />}
+        {loading && <Loader key="loader" progress={progress} />}
       </AnimatePresence>
-      <div style={{ opacity: loading ? 0 : 1, transition: 'opacity 0.5s ease-in-out' }}>
-        <BrowserRouter>
-          <Routes />
-        </BrowserRouter>
-      </div>
+
+      {!loading && (
+        <div style={{ opacity: 1, transition: 'opacity 0.5s ease-in-out' }}>
+          <BrowserRouter>
+            <Routes />
+          </BrowserRouter>
+        </div>
+      )}
     </>
   )
 }
