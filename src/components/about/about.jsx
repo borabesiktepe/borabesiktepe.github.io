@@ -1,8 +1,6 @@
-import React from 'react';
 import { motion } from "framer-motion";
 
-import Menu from '../menu/menu.jsx';
-import { DarkModeSwitch } from '../darkmode';
+import SideNavigation from "../side-navigation";
 
 const About = () => {
 
@@ -13,11 +11,7 @@ const About = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <nav>
-        <DarkModeSwitch></DarkModeSwitch>
-        <Menu />
-        <h1>BORA BEŞİKTEPE</h1>
-      </nav>
+      <SideNavigation />
 
       <div className="about-section">
         <div className="about-content">
@@ -29,8 +23,8 @@ const About = () => {
             <p>Want to contact me?</p>
             <ul>
               <li><a href="mailto:borabesiktepe@gmail.com">borabesiktepe@gmail.com</a></li>
-              <li><a href="https://www.instagram.com/borabesiktepe/" target='_blank'>Instagram</a></li>
-              <li><a href="https://www.artstation.com/borabesiktepe" target='_blank'>ArtStation</a></li>
+              <li><a href="https://www.instagram.com/borabesiktepe/" target='_blank' rel="noreferrer">Instagram</a></li>
+              <li><a href="https://www.artstation.com/borabesiktepe" target='_blank' rel="noreferrer">ArtStation</a></li>
             </ul>
           </div>
 

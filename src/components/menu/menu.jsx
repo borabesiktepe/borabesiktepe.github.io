@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import { Link, useLocation } from "react-router-dom";
 
 function Menu() {
@@ -18,8 +19,8 @@ function Menu() {
                 </svg>
                 {location.pathname === "/" && <span>Menu</span>}
             </div>
-            {isMenuOpen && (
-                <div className="fullscreen-overlay" onClick={toggleMenu}>
+            {isMenuOpen && createPortal(
+                <div className="fullscreen-overlay menu-open" onClick={toggleMenu}>
                     <div className="dropdown-menu">
                         <ul>
                             <li><Link to="/">HOME</Link></li>
@@ -28,7 +29,8 @@ function Menu() {
                             <span>Bora Beşiktepe © 2026</span>
                         </ul>
                     </div>
-                </div>
+                </div>,
+                document.body,
             )}
         </div>
     );

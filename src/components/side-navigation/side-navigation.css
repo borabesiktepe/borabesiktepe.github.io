@@ -1,0 +1,59 @@
+.portfolio-navigation {
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 50;
+  width: var(--rail-width, 66px);
+  border-right: 1px solid hsla(0, 0%, 100%, 0.26);
+  background: hsla(0, 0%, 0%, 0.18);
+  backdrop-filter: blur(4px);
+}
+
+.portfolio-navigation-theme {
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.portfolio-navigation .menu-container {
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.portfolio-navigation .menu-button {
+  display: block;
+  width: 25px;
+}
+
+.portfolio-navigation .menu-button svg {
+  display: block;
+  width: 22px;
+}
+
+.portfolio-navigation .menu-button path {
+  fill: currentColor;
+}
+
+.portfolio-navigation-signature {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) rotate(180deg);
+  writing-mode: vertical-rl;
+  white-space: nowrap;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+}
+
+body.light-mode .portfolio-navigation {
+  border-right-color: hsla(0, 0%, 0%, 0.26);
+  background: hsla(0, 0%, 79%, 0.24);
+}
+
+@media (max-width: 820px) {
+  .portfolio-navigation-signature {
+    display: none;
+  }
+}

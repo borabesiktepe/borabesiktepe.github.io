@@ -32,7 +32,9 @@ body {
 }
 
 body.light-mode {
+  --dark-color: #262626;
   background-color: var(--light-bg);
+  color: #262626;
   transition: background-color 0.5s ease;
 }
 
@@ -63,12 +65,20 @@ main {
 }
 
 .menu-button {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: fit-content;
   cursor: pointer;
   transition: 0.16s ease-in-out;
 }
 
 .menu-button:hover {
   opacity: 0.3;
+}
+
+.menu-button path {
+  fill: currentColor;
 }
 
 .content {
@@ -174,6 +184,11 @@ main {
   z-index: 666;
   opacity: 0;
   transform: translateY(-20px);
+}
+
+.dropdown-menu,
+.dropdown-menu * {
+  color: #fff;
 }
 
 .menu-open .dropdown-menu {
