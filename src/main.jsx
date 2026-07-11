@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
 import { AnimatePresence } from 'framer-motion'
 
@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom'
 import Routes from './pages/routes'
 import './index.css'
 import Loader from './components/loader'
+import ParticleBackground from './components/ParticleBackground'
 import { assetsToPreload } from './utils/assetList'
 
 export default function App() {
@@ -21,7 +22,7 @@ export default function App() {
     const minTimePromise = new Promise(resolve => setTimeout(resolve, 2000));
 
     const imagePromises = assetsToPreload.map(src => {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         const img = new Image();
         img.src = src;
         img.onload = () => {
@@ -59,6 +60,7 @@ export default function App() {
       {!loading && (
         <div style={{ opacity: 1, transition: 'opacity 0.5s ease-in-out' }}>
           <BrowserRouter>
+            <ParticleBackground />
             <Routes />
           </BrowserRouter>
         </div>

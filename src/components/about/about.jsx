@@ -28,7 +28,7 @@ const About = () => {
             </ul>
           </div>
 
-          <p className='about-siteinfo'>This website was developed with the help of React.</p>
+          <p className='about-siteinfo'>© Bora Beşiktepe</p>
         </div>
       </div>
     </motion.div>
