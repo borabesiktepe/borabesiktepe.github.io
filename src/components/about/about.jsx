@@ -15,7 +15,7 @@ const About = () => {
 
       <div className="about-section">
         <div className="about-content">
-          <p>Self-taught illustrator and developer from Istanbul, Türkiye.</p>
+          <p>Self-taught illustrator and engineer from Istanbul, Türkiye.</p>
 
           <h1>ABOUT</h1>
 

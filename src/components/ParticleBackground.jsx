@@ -183,12 +183,17 @@ export default function ParticleBackground() {
     let lastFrameTime = 0;
 
     const resize = () => {
-      const width = Math.max(1, Math.round(window.innerWidth));
-      const height = Math.max(1, Math.round(window.innerHeight));
+      const cssWidth = Math.max(1, window.innerWidth);
+      const cssHeight = Math.max(1, window.innerHeight);
+      const mobilePixelRatio = cssWidth <= 820
+        ? Math.min(window.devicePixelRatio || 1, 2)
+        : 1;
+      const width = Math.max(1, Math.round(cssWidth * mobilePixelRatio));
+      const height = Math.max(1, Math.round(cssHeight * mobilePixelRatio));
 
       particleCount = Math.min(
         MAX_PARTICLES,
-        Math.max(MIN_PARTICLES, Math.round((width * height) / 27)),
+        Math.max(MIN_PARTICLES, Math.round((cssWidth * cssHeight) / 27)),
       );
 
       if (canvas.width !== width || canvas.height !== height) {

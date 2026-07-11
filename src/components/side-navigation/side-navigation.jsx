@@ -21,22 +21,27 @@ export default function SideNavigation() {
   }, []);
 
   return (
-    <LiquidGlass
-      className="portfolio-navigation-glass"
-      width={railSize.width}
-      height={railSize.height}
-      radius={0}
-      strength={0.075}
-      chromaticAberration={0.08}
-      blur={0.35}
-      depth={9}
-      curvature={0.78}
-      glow={0.12}
-      edgeHighlight={0.32}
-      specular={0.85}
-      quality={256}
-      shadow="10px 0 34px rgba(0, 0, 0, 0.2)"
-    >
+    <div className="portfolio-navigation-shell">
+      <LiquidGlass
+        className="portfolio-navigation-glass"
+        width={railSize.width}
+        height={railSize.height}
+        radius={0}
+        strength={0.075}
+        chromaticAberration={0.08}
+        blur={0.35}
+        depth={9}
+        curvature={0.78}
+        glow={0.12}
+        edgeHighlight={0.32}
+        specular={0.85}
+        quality={256}
+        shadow="10px 0 34px rgba(0, 0, 0, 0.2)"
+        aria-hidden="true"
+      >
+        <div className="portfolio-navigation-surface" />
+      </LiquidGlass>
+
       <nav className="portfolio-navigation" aria-label="Site navigation">
         <div className="portfolio-navigation-theme">
           <DarkModeSwitch />
@@ -44,6 +49,6 @@ export default function SideNavigation() {
         <Menu />
         <div className="portfolio-navigation-signature">BORA BEŞİKTEPE</div>
       </nav>
-    </LiquidGlass>
+    </div>
   );
 }
