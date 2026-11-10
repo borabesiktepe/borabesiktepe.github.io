@@ -25,6 +25,21 @@ const ArtworksPage = () => {
     [selectedYear]
   );
 
+  // Split the visible list into one block per year, keeping each artwork's
+  // index in the flat list so the viewer can page through all of them.
+  const yearGroups = useMemo(() => {
+    const groups = [];
+    visibleArtworks.forEach((artwork, index) => {
+      let group = groups[groups.length - 1];
+      if (!group || group.year !== artwork.year) {
+        group = { year: artwork.year, items: [] };
+        groups.push(group);
+      }
+      group.items.push({ artwork, index });
+    });
+    return groups;
+  }, [visibleArtworks]);
+
   const filters = [ALL_YEARS, ...years];
 
   return (
@@ -74,40 +89,60 @@ const ArtworksPage = () => {
         </header>
 
         <main className="artworks-main">
-          <motion.ul className="artworks-grid" layout>
-            <AnimatePresence mode="popLayout" initial={false}>
-              {visibleArtworks.map((artwork, index) => (
-                <motion.li
-                  key={artwork.imageUrl}
-                  layout
-                  initial={{ opacity: 0, scale: 0.97 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.97 }}
-                  transition={{ duration: 0.3, ease: [0.2, 0.7, 0.2, 1] }}
-                >
-                  <button
-                    type="button"
-                    className="artwork-card"
-                    onClick={() => setOpenIndex(index)}
-                    aria-label={`Open artwork from ${artwork.date} ${artwork.year}`}
-                  >
-                    <span className="artwork-card-frame">
-                      <img
-                        src={artwork.imageUrl}
-                        alt={`Bora Beşiktepe, artwork from ${artwork.year}`}
-                        loading={index < 8 ? "eager" : "lazy"}
-                        decoding="async"
-                      />
-                    </span>
-                    <span className="artwork-card-meta">
-                      <span>{artwork.year}</span>
-                      <span>{artwork.date}</span>
-                    </span>
-                  </button>
-                </motion.li>
-              ))}
-            </AnimatePresence>
-          </motion.ul>
+          <AnimatePresence mode="popLayout" initial={false}>
+            {yearGroups.map((group) => (
+              <motion.section
+                key={group.year}
+                className="artworks-year"
+                layout
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="artworks-yearband" aria-hidden="true">
+                  <span>{group.year}</span>
+                  <span>{group.year}</span>
+                  <span>{group.year}</span>
+                </div>
+                <h2 className="artworks-year-label">{group.year}</h2>
+                <motion.ul className="artworks-grid" layout>
+                  <AnimatePresence mode="popLayout" initial={false}>
+                    {group.items.map(({ artwork, index }) => (
+                      <motion.li
+                        key={artwork.imageUrl}
+                        layout
+                        initial={{ opacity: 0, scale: 0.97 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.97 }}
+                        transition={{ duration: 0.3, ease: [0.2, 0.7, 0.2, 1] }}
+                      >
+                        <button
+                          type="button"
+                          className="artwork-card"
+                          onClick={() => setOpenIndex(index)}
+                          aria-label={`Open artwork from ${artwork.date} ${artwork.year}`}
+                        >
+                          <span className="artwork-card-frame">
+                            <img
+                              src={artwork.imageUrl}
+                              alt={`Bora Beşiktepe, artwork from ${artwork.year}`}
+                              loading={index < 8 ? "eager" : "lazy"}
+                              decoding="async"
+                            />
+                          </span>
+                          <span className="artwork-card-meta">
+                            <span>Nº {String(index + 1).padStart(3, "0")}</span>
+                            <span>{artwork.date}</span>
+                          </span>
+                        </button>
+                      </motion.li>
+                    ))}
+                  </AnimatePresence>
+                </motion.ul>
+              </motion.section>
+            ))}
+          </AnimatePresence>
         </main>
       </div>
 

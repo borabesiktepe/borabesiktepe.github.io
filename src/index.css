@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Libre+Bodoni&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,700..900;1,62..125,700..900&family=JetBrains+Mono:wght@400;500&family=Libre+Bodoni&display=swap");
 
 :root {
   --dark-color: hsl(0, 0%, 100%);
@@ -201,11 +201,22 @@ main {
 }
 
 .dropdown-menu li {
-  padding: 32px 0;
-  font-size: 36px;
+  padding: 8px 0;
+  font-family: "Archivo", "Arial Black", sans-serif;
+  font-variation-settings: "wdth" 125;
+  font-weight: 900;
+  font-style: italic;
+  font-size: clamp(56px, 11vw, 168px);
+  line-height: 0.9;
+  letter-spacing: -0.05em;
   width: fit-content;
   cursor: pointer;
   transition: 0.16s ease-in-out;
+}
+
+.dropdown-menu li a {
+  font: inherit;
+  letter-spacing: inherit;
 }
 
 .dropdown-menu li:hover {
@@ -233,9 +244,15 @@ main {
 }
 
 .about-content h1 {
-  font-size: 64px;
   margin-top: 54px;
   align-self: flex-end;
+  font-family: "Archivo", "Arial Black", sans-serif;
+  font-variation-settings: "wdth" 125;
+  font-weight: 900;
+  font-style: italic;
+  font-size: clamp(72px, 14vw, 240px);
+  line-height: 0.8;
+  letter-spacing: -0.06em;
 }
 
 .about-contacts {
@@ -328,7 +345,7 @@ main {
   }
 
   .about-content h1 {
-    font-size: 54px;
+    font-size: 64px;
   }
 }
 

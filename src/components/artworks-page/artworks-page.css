@@ -37,9 +37,67 @@ body.light-mode .artworks-layout {
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  font-size: clamp(28px, 2.6vw, 40px);
-  line-height: 1;
-  letter-spacing: 0.01em;
+  font-family: "Archivo", "Arial Black", sans-serif;
+  font-variation-settings: "wdth" 125;
+  font-weight: 900;
+  font-style: italic;
+  font-size: clamp(30px, 3.2vw, 52px);
+  line-height: 0.85;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+}
+
+.artworks-header h1 .artworks-count {
+  font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  font-style: normal;
+  font-weight: 400;
+  font-variation-settings: normal;
+  letter-spacing: 0.04em;
+}
+
+.artwork-card-meta span {
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+/* Year blocks: each year opens with a giant, cropped numeral */
+
+.artworks-year + .artworks-year {
+  margin-top: clamp(56px, 7vw, 112px);
+}
+
+.artworks-yearband {
+  --band-size: clamp(120px, 18vw, 320px);
+  display: flex;
+  gap: 0.12em;
+  height: calc(var(--band-size) * 0.56);
+  margin: 0 calc(var(--gutter) * -1) clamp(20px, 2.4vw, 32px)
+    calc(var(--gutter) * -1);
+  overflow: hidden;
+  border-bottom: 1px solid var(--dark-color);
+  font-family: "Archivo", "Arial Black", sans-serif;
+  font-variation-settings: "wdth" 62;
+  font-weight: 900;
+  font-size: var(--band-size);
+  line-height: 0.72;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.artworks-yearband span {
+  margin-left: -0.04em;
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+.artworks-year-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
 .artworks-count {
@@ -67,8 +125,9 @@ body.light-mode .artworks-layout {
   padding: 0 12px;
   border: 0;
   background: transparent;
-  font: inherit;
-  font-size: 15px;
+  font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  font-size: 13px;
+  letter-spacing: 0.04em;
   opacity: 0.5;
   cursor: pointer;
   transition: opacity 180ms ease;
@@ -142,8 +201,12 @@ body.light-mode .artworks-layout {
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
-  font-size: 12px;
-  letter-spacing: 0.04em;
+  padding-top: 6px;
+  border-top: 1px solid var(--dark-color);
+  font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   opacity: 0.5;
   font-variant-numeric: tabular-nums;
   transition: opacity 200ms ease;

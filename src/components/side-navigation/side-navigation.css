@@ -43,6 +43,10 @@
   width: 25px;
 }
 
+.portfolio-navigation .menu-button span {
+  display: none;
+}
+
 .portfolio-navigation .menu-button svg {
   display: block;
   width: 22px;

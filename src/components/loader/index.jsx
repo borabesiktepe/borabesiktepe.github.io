@@ -27,10 +27,13 @@ const Loader = ({ progress }) => {
                         animate={{ y: 0, opacity: 1 }}
                         transition={{ duration: 0.8, ease: "easeOut" }}
                         style={{
-                            fontFamily: '"Libre Bodoni", serif',
+                            fontFamily: '"Archivo", "Arial Black", sans-serif',
+                            fontVariationSettings: '"wdth" 125',
+                            fontWeight: 900,
+                            fontStyle: 'italic',
                             fontSize: 'clamp(1.5rem, 5vw, 3rem)',
                             color: 'var(--dark-color)',
-                            letterSpacing: '0.1em',
+                            letterSpacing: '-0.04em',
                             margin: 0,
                             lineHeight: 1.2,
                             whiteSpace: 'nowrap'
