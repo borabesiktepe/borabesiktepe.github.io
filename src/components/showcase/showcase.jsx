@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import "./showcase.css";
 
 const SWIPE_DISTANCE = 60;
 const SWIPE_SPEED = 0.4; // px per ms
@@ -106,7 +107,7 @@ const Showcase = ({ items, index, onIndexChange, onClose }) => {
         <motion.img
           key={item.imageUrl}
           src={item.imageUrl}
-          alt={`Bora Beşiktepe, artwork from ${item.year}`}
+          alt={item.year ? `Bora Beşiktepe, artwork from ${item.year}` : "Bora Beşiktepe, featured artwork"}
           initial={{ opacity: 0, x: direction * 40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.28, ease: [0.2, 0.7, 0.2, 1] }}
@@ -127,7 +128,7 @@ const Showcase = ({ items, index, onIndexChange, onClose }) => {
           </button>
         )}
         <span className="showcase-caption">
-          {item.year} · {item.date}
+          {item.caption ?? `${item.year} · ${item.date}`}
         </span>
         {total > 1 && (
           <button

@@ -1,0 +1,106 @@
+/* Viewer */
+
+.showcase-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  background: hsl(0, 0%, 3%);
+  cursor: zoom-out;
+}
+
+.showcase-overlay,
+.showcase-overlay * {
+  color: hsl(0, 0%, 96%);
+}
+
+.showcase-bar,
+.showcase-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px clamp(16px, 3vw, 32px);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  cursor: default;
+}
+
+.showcase-footer {
+  justify-content: center;
+  gap: clamp(20px, 6vw, 56px);
+  padding-bottom: max(14px, env(safe-area-inset-bottom));
+}
+
+.showcase-counter,
+.showcase-caption {
+  opacity: 0.6;
+}
+
+.showcase-close,
+.showcase-nav {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 8px;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  opacity: 0.75;
+  cursor: pointer;
+  transition: opacity 160ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.showcase-nav {
+  font-size: 20px;
+}
+
+.showcase-close:hover,
+.showcase-nav:hover,
+.showcase-close:focus-visible,
+.showcase-nav:focus-visible {
+  opacity: 1;
+}
+
+.showcase-stage {
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 0 clamp(12px, 4vw, 64px);
+  overflow: hidden;
+  touch-action: pan-y pinch-zoom;
+}
+
+.showcase-stage img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.showcase-stage img:active {
+  cursor: grabbing;
+}
+
+/* Viewer UI uses the site's mono label face. */
+.showcase-bar,
+.showcase-footer,
+.showcase-bar *,
+.showcase-footer * {
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.showcase-nav {
+  text-transform: none;
+}

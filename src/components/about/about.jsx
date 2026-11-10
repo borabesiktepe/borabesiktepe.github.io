@@ -1,39 +1,63 @@
 import { motion } from "framer-motion";
+import artworks from "../artworks-page/artworks.json";
+import "./about.css";
 
-import SideNavigation from "../side-navigation";
+const CONTACTS = [
+  { label: "Email", href: "mailto:borabesiktepe@gmail.com" },
+  { label: "Instagram", href: "https://www.instagram.com/borabesiktepe/" },
+  { label: "ArtStation", href: "https://www.artstation.com/borabesiktepe" },
+];
 
-const About = () => {
+// The bio set as a poster. Display words are written in capitals in the
+// source so Turkish İ stays correct (CSS uppercasing would give I).
+const About = () => (
+  <motion.main
+    className="about"
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    transition={{ duration: 0.4 }}
+  >
+    <h1 className="about-sr">About Bora Beşiktepe</h1>
 
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
+    <p
+      className="about-manifesto"
+      aria-label="Self-taught illustrator and engineer, drawing digital portraits, from İstanbul, Türkiye."
     >
-      <SideNavigation />
+      <span className="about-line" aria-hidden="true">
+        <b className="about-box">SELF-TAUGHT</b> <i>illustrator</i>
+      </span>
+      <span className="about-line" aria-hidden="true">
+        <i>&amp;</i> ENGINEER <i>drawing</i>
+      </span>
+      <span className="about-line" aria-hidden="true">
+        <b className="about-box">DIGITAL</b> PORTRAITS
+      </span>
+      <span className="about-line" aria-hidden="true">
+        <i>from</i> İSTANBUL,
+      </span>
+      <span className="about-line" aria-hidden="true">
+        TÜRKİYE.
+      </span>
+    </p>
 
-      <div className="about-section">
-        <div className="about-content">
-          <p>Self-taught illustrator and engineer from Istanbul, Türkiye.</p>
-
-          <h1>ABOUT</h1>
-
-          <div className="about-contacts">
-            <p>Want to contact me?</p>
-            <ul>
-              <li><a href="mailto:borabesiktepe@gmail.com">borabesiktepe@gmail.com</a></li>
-              <li><a href="https://www.instagram.com/borabesiktepe/" target='_blank' rel="noreferrer">Instagram</a></li>
-              <li><a href="https://www.artstation.com/borabesiktepe" target='_blank' rel="noreferrer">ArtStation</a></li>
-            </ul>
-          </div>
-
-          <p className='about-siteinfo'>© Bora Beşiktepe</p>
-        </div>
-      </div>
-    </motion.div>
-  );
-
-};
+    <div className="about-strip t-mono">
+      <span className="about-strip-info">
+        {artworks.length} works · © {new Date().getFullYear()}
+      </span>
+      {CONTACTS.map((c) => (
+        <a
+          key={c.label}
+          href={c.href}
+          {...(c.href.startsWith("http")
+            ? { target: "_blank", rel: "noreferrer" }
+            : {})}
+        >
+          {c.label} <span aria-hidden="true">↗</span>
+        </a>
+      ))}
+    </div>
+  </motion.main>
+);
 
 export default About;

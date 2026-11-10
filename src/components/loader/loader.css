@@ -1,0 +1,108 @@
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  overflow: hidden;
+  background: var(--paper);
+  user-select: none;
+}
+
+/* Same height and rule as the site header, so the sheet lines up. */
+.loader-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: var(--header-h);
+  padding: 0 var(--gutter);
+  border-bottom: var(--rule);
+}
+
+.loader-pct {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Panel rules of the home page, drawn top to bottom as images load */
+.loader-rules {
+  position: absolute;
+  top: var(--header-h);
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.loader-rules i {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--ink);
+  transform-origin: top;
+}
+
+/* Barrier tape */
+.loader-band {
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  top: 50%;
+  height: clamp(84px, 13vw, 190px);
+  margin-top: calc(clamp(84px, 13vw, 190px) / -2);
+  overflow: hidden;
+  background: var(--ink);
+  rotate: -5deg;
+}
+
+.loader-track {
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
+  height: 100%;
+  width: max-content;
+  font-family: var(--display);
+  font-weight: 900;
+  font-style: italic;
+  font-size: clamp(60px, 9.4vw, 136px);
+  letter-spacing: -0.045em;
+  white-space: nowrap;
+  animation: loader-tick 6s linear infinite;
+}
+
+.loader-track span,
+.loader-track b {
+  font: inherit;
+  letter-spacing: inherit;
+  line-height: 1;
+}
+
+.loader-track span {
+  color: var(--paper);
+}
+
+.loader-track b {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--paper);
+}
+
+@keyframes loader-tick {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Thin progress line along the bottom edge of the tape */
+.loader-fill {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 6px;
+  background: var(--paper);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loader-track {
+    animation: none;
+  }
+}

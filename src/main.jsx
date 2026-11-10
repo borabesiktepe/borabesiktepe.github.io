@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom'
 import Routes from './pages/routes'
 import './index.css'
 import Loader from './components/loader'
-import ParticleBackground from './components/ParticleBackground'
+import SiteHeader from './components/site-header'
 import { assetsToPreload } from './utils/assetList'
 
 export default function App() {
@@ -60,7 +60,7 @@ export default function App() {
       {!loading && (
         <div style={{ opacity: 1, transition: 'opacity 0.5s ease-in-out' }}>
           <BrowserRouter>
-            <ParticleBackground />
+            <SiteHeader />
             <Routes />
           </BrowserRouter>
         </div>

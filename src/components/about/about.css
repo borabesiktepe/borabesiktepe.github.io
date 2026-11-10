@@ -1,0 +1,171 @@
+/* About as a manifesto poster: the bio fills the sheet in heavy italic
+   capitals alternating with serif italics, key words boxed in ink, a small
+   and the contact strip along the bottom. */
+
+.about {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - var(--header-h));
+  min-height: calc(100dvh - var(--header-h));
+  overflow: hidden;
+}
+
+.about-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.about-manifesto {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.06em;
+  padding: clamp(20px, 3vw, 44px) var(--gutter);
+  /* Sized so the longest line ("SELF-TAUGHT illustrator") fits the width. */
+  font-size: min(calc((100vw - 2 * var(--gutter)) / 13.6), 13vh);
+}
+
+.about-line {
+  display: block;
+  font: inherit;
+  font-family: var(--display);
+  font-variation-settings: "wdth" 100;
+  font-weight: 900;
+  font-style: italic;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+  white-space: nowrap;
+  animation: about-rise 0.9s cubic-bezier(0.65, 0.05, 0.12, 0.99) both;
+}
+
+.about-line:nth-child(1) { animation-delay: 0.1s; }
+.about-line:nth-child(2) { animation-delay: 0.2s; }
+.about-line:nth-child(3) { animation-delay: 0.3s; }
+.about-line:nth-child(4) { animation-delay: 0.4s; }
+.about-line:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes about-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.about-line b,
+.about-line i {
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+/* Serif italic words between the heavy capitals */
+.about-line i {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-style: italic;
+  font-size: 0.92em;
+  letter-spacing: -0.02em;
+}
+
+/* Ink box around key words */
+.about-box {
+  display: inline-block;
+  padding: 0 0.12em 0.04em 0.06em;
+  background: var(--ink);
+  color: var(--paper);
+  line-height: 0.95;
+  white-space: nowrap;
+}
+
+/* Contact strip */
+
+.about-strip {
+  display: flex;
+  border-top: var(--rule);
+  background: var(--paper);
+}
+
+.about-strip > * {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 var(--gutter);
+  white-space: nowrap;
+}
+
+.about-strip-info {
+  flex: 1;
+  color: var(--ink-soft);
+}
+
+.about-strip a {
+  border-left: var(--rule);
+  transition: background-color 0.12s ease;
+}
+
+.about-strip a:hover {
+  background: var(--ink);
+}
+
+.about-strip a:hover,
+.about-strip a:hover * {
+  color: var(--paper);
+}
+
+.about-strip a:focus-visible {
+  outline-offset: -4px;
+}
+
+@media (max-width: 820px) {
+  .about-manifesto {
+    padding-top: 28px;
+    font-size: calc((100vw - 2 * var(--gutter)) / 7.6);
+  }
+
+  /* Narrow screens: let the poster lines wrap between words. */
+  .about-line {
+    white-space: normal;
+  }
+
+
+  .about-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .about-strip-info {
+    grid-column: 1 / -1;
+    min-height: 38px;
+    border-bottom: var(--rule);
+  }
+
+  .about-strip > * {
+    padding: 0 14px;
+    font-size: 10px;
+  }
+
+  .about-strip a {
+    justify-content: center;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .about-strip a:first-of-type {
+    border-left: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-line {
+    animation: none;
+  }
+}
