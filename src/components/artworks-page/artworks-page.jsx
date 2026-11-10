@@ -7,18 +7,25 @@ import Showcase from "../showcase";
 
 const ALL_YEARS = "all";
 
-const ArtworksPage = () => {
-  const [selectedArtwork, setSelectedArtwork] = useState(null);
-  const [selectedYear, setSelectedYear] = useState(ALL_YEARS);
+const artworks = [...artworksData].sort(
+  (a, b) => Number(b.year) - Number(a.year)
+);
 
-  const years = useMemo(
-    () => [...new Set(artworksData.map((artwork) => artwork.year))].sort(
-      (a, b) => Number(b) - Number(a),
-    ),
-    [],
+const years = [...new Set(artworks.map((artwork) => artwork.year))];
+
+const ArtworksPage = () => {
+  const [selectedYear, setSelectedYear] = useState(ALL_YEARS);
+  const [openIndex, setOpenIndex] = useState(null);
+
+  const visibleArtworks = useMemo(
+    () =>
+      selectedYear === ALL_YEARS
+        ? artworks
+        : artworks.filter((artwork) => artwork.year === selectedYear),
+    [selectedYear]
   );
 
-  const visibleYears = selectedYear === ALL_YEARS ? years : [selectedYear];
+  const filters = [ALL_YEARS, ...years];
 
   return (
     <motion.div
@@ -30,84 +37,87 @@ const ArtworksPage = () => {
     >
       <SideNavigation />
 
-      <aside className="artworks-index" aria-label="Artwork filters">
-        <h1>ARTWORKS</h1>
+      <div className="artworks-content">
+        <header className="artworks-header">
+          <h1>
+            Artworks
+            <span className="artworks-count">{visibleArtworks.length}</span>
+          </h1>
 
-        <div className="artworks-filters">
-          <button
-            type="button"
-            className={selectedYear === ALL_YEARS ? "is-active" : ""}
-            onClick={() => setSelectedYear(ALL_YEARS)}
-          >
-            All
-          </button>
-
-          {years.map((year) => (
-            <button
-              type="button"
-              key={year}
-              className={selectedYear === year ? "is-active" : ""}
-              onClick={() => setSelectedYear(year)}
-            >
-              {year}
-            </button>
-          ))}
-        </div>
-
-      </aside>
-
-      <main className="artworks-main">
-          <div className="artworks-groups">
-            {visibleYears.map((year) => {
-              const yearArtworks = artworksData.filter(
-                (artwork) => artwork.year === year,
-              );
-
+          <nav className="artworks-filters" aria-label="Filter by year">
+            {filters.map((year) => {
+              const isActive = selectedYear === year;
               return (
-                <section className="artwork-year-group" key={year}>
-                  <header className="artwork-year-header">
-                    <h2>{year}</h2>
-                    <div className="artwork-timeline" aria-hidden="true">
-                      <span className="artwork-timeline-line" />
-                    </div>
-                  </header>
-
-                  <div className="artworks-gallery">
-                    {yearArtworks.map((artwork, index) => (
-                      <motion.button
-                        type="button"
-                        className="gallery-item"
-                        key={artwork.imageUrl}
-                        onClick={() => setSelectedArtwork(artwork.imageUrl)}
-                        initial={{ opacity: 0, y: 18 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{
-                          duration: 0.4,
-                          delay: Math.min(index * 0.06, 0.3),
-                        }}
-                        aria-label={`${year} tarihli eseri aç, ${artwork.date}`}
-                      >
-                        <img
-                          src={artwork.imageUrl}
-                          alt={`Bora Beşiktepe, ${year} tarihli eser`}
-                          loading="lazy"
-                        />
-                        <span className="gallery-item-date">{artwork.date}</span>
-                      </motion.button>
-                    ))}
-                  </div>
-                </section>
+                <button
+                  type="button"
+                  key={year}
+                  className={isActive ? "is-active" : ""}
+                  aria-pressed={isActive}
+                  onClick={() => setSelectedYear(year)}
+                >
+                  {year === ALL_YEARS ? "All" : year}
+                  {isActive && (
+                    <motion.span
+                      className="artworks-filter-indicator"
+                      layoutId="artworks-filter-indicator"
+                      transition={{
+                        type: "spring",
+                        stiffness: 500,
+                        damping: 40,
+                      }}
+                    />
+                  )}
+                </button>
               );
             })}
-          </div>
-      </main>
+          </nav>
+        </header>
+
+        <main className="artworks-main">
+          <motion.ul className="artworks-grid" layout>
+            <AnimatePresence mode="popLayout" initial={false}>
+              {visibleArtworks.map((artwork, index) => (
+                <motion.li
+                  key={artwork.imageUrl}
+                  layout
+                  initial={{ opacity: 0, scale: 0.97 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.97 }}
+                  transition={{ duration: 0.3, ease: [0.2, 0.7, 0.2, 1] }}
+                >
+                  <button
+                    type="button"
+                    className="artwork-card"
+                    onClick={() => setOpenIndex(index)}
+                    aria-label={`Open artwork from ${artwork.date} ${artwork.year}`}
+                  >
+                    <span className="artwork-card-frame">
+                      <img
+                        src={artwork.imageUrl}
+                        alt={`Bora Beşiktepe, artwork from ${artwork.year}`}
+                        loading={index < 8 ? "eager" : "lazy"}
+                        decoding="async"
+                      />
+                    </span>
+                    <span className="artwork-card-meta">
+                      <span>{artwork.year}</span>
+                      <span>{artwork.date}</span>
+                    </span>
+                  </button>
+                </motion.li>
+              ))}
+            </AnimatePresence>
+          </motion.ul>
+        </main>
+      </div>
 
       <AnimatePresence>
-        {selectedArtwork && (
+        {openIndex !== null && (
           <Showcase
-            imageUrl={selectedArtwork}
-            onClose={() => setSelectedArtwork(null)}
-            key={selectedArtwork}
+            items={visibleArtworks}
+            index={openIndex}
+            onIndexChange={setOpenIndex}
+            onClose={() => setOpenIndex(null)}
           />
         )}
       </AnimatePresence>
