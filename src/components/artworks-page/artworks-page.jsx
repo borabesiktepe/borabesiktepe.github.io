@@ -2,7 +2,6 @@ import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import "../artworks-page/artworks-page.css";
 import artworksData from "../artworks-page/artworks.json";
-import SideNavigation from "../side-navigation";
 import Showcase from "../showcase";
 
 const ALL_YEARS = "all";
@@ -50,16 +49,16 @@ const ArtworksPage = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.45 }}
     >
-      <SideNavigation />
-
       <div className="artworks-content">
         <header className="artworks-header">
-          <h1>
-            Artworks
-            <span className="artworks-count">{visibleArtworks.length}</span>
+          <h1 className="t-display">
+            Works
+            <span className="artworks-count t-mono">
+              {String(visibleArtworks.length).padStart(2, "0")}
+            </span>
           </h1>
 
-          <nav className="artworks-filters" aria-label="Filter by year">
+          <nav className="artworks-filters t-mono" aria-label="Filter by year">
             {filters.map((year) => {
               const isActive = selectedYear === year;
               return (
@@ -71,17 +70,6 @@ const ArtworksPage = () => {
                   onClick={() => setSelectedYear(year)}
                 >
                   {year === ALL_YEARS ? "All" : year}
-                  {isActive && (
-                    <motion.span
-                      className="artworks-filter-indicator"
-                      layoutId="artworks-filter-indicator"
-                      transition={{
-                        type: "spring",
-                        stiffness: 500,
-                        damping: 40,
-                      }}
-                    />
-                  )}
                 </button>
               );
             })}

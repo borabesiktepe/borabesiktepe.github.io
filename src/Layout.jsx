@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 function Layout() {
   return (
     <>
-      <div style={{ position: "relative", zIndex: 1, minHeight: "100vh" }}>
+      <div style={{ position: "relative" }}>
         <Suspense fallback={<></>}>
           <Outlet></Outlet>
         </Suspense>

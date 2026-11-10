@@ -1,77 +1,87 @@
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import Artworks from "../artworks";
-import SideNavigation from "../side-navigation";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import Showcase from "../showcase";
 import "./home.css";
 
-const LINKS = [
-  { label: "Artworks", to: "/artworks" },
-  { label: "About", to: "/about" },
+// Five featured pieces; the darkest, most finished drawing sits in the centre.
+const FEATURED = [
+  "/art/NOfW88G.png",
+  "/art/i4d67of.jpg",
+  "/art/bora-besiktepe-adsiz-resim.jpg",
+  "/art/EV7wJGa.png",
+  "/art/S6Gf6so.png",
+].map((imageUrl, i) => ({
+  imageUrl,
+  caption: `Featured · Nº${String(i + 1).padStart(2, "0")}`,
+}));
+
+const CONTACTS = [
   { label: "Instagram", href: "https://www.instagram.com/borabesiktepe/" },
   { label: "ArtStation", href: "https://www.artstation.com/borabesiktepe" },
+  { label: "Email", href: "mailto:borabesiktepe@gmail.com" },
 ];
 
 function Home() {
+  const [openIndex, setOpenIndex] = useState(null);
+
   return (
     <motion.main
-      className="poster-home"
+      className="home"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.4 }}
     >
-      <SideNavigation />
+      <div className="home-panels">
+        {FEATURED.map((item, i) => (
+          <button
+            type="button"
+            key={item.imageUrl}
+            className="home-panel"
+            onClick={() => setOpenIndex(i)}
+            aria-label={`View featured artwork ${i + 1} of ${FEATURED.length}`}
+          >
+            <img src={item.imageUrl} alt="" decoding="async" />
+            <span className="home-panel-num t-mono">
+              Nº{String(i + 1).padStart(2, "0")}
+            </span>
+          </button>
+        ))}
+      </div>
 
-      <div className="poster-stage">
-        <Artworks />
+      <div className="home-bottom">
+        {/* Capitals in the source keep Ş and İ correct. */}
+        <h1 className="home-name t-display">
+          <span>BORA</span>
+          <span>BEŞİKTEPE</span>
+        </h1>
 
-        <div className="poster-top">
-          <span className="poster-based">Based in İstanbul</span>
-          <span className="poster-issue">Issue Nº01</span>
-        </div>
-
-        <div className="poster-bottom">
-          <h1 className="poster-name">
-            <span>BORA</span>
-            <span>BEŞİKTEPE</span>
-          </h1>
-
-          <div className="poster-sub">
-            <span>Illustrator / Visual Artist</span>
-            <span className="poster-rule" aria-hidden="true" />
-            <Link className="poster-cta" to="/artworks">
-              Explore works <span aria-hidden="true">→</span>
-            </Link>
-          </div>
-
-          <nav className="poster-links" aria-label="Sections">
-            {LINKS.map((link, i) => {
-              const text = (
-                <>
-                  <span className="poster-links-num">
-                    [{String(i + 1).padStart(2, "0")}]
-                  </span>{" "}
-                  {link.label}
-                </>
-              );
-              return link.to ? (
-                <Link key={link.label} to={link.to}>
-                  {text}
-                </Link>
-              ) : (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {text}
-                </a>
-              );
-            })}
-          </nav>
+        <div className="home-strip t-mono">
+          <span className="home-strip-info">Based in İstanbul</span>
+          {CONTACTS.map((c) => (
+            <a
+              key={c.label}
+              href={c.href}
+              {...(c.href.startsWith("http")
+                ? { target: "_blank", rel: "noreferrer" }
+                : {})}
+            >
+              {c.label} <span aria-hidden="true">↗</span>
+            </a>
+          ))}
         </div>
       </div>
+
+      <AnimatePresence>
+        {openIndex !== null && (
+          <Showcase
+            items={FEATURED}
+            index={openIndex}
+            onIndexChange={setOpenIndex}
+            onClose={() => setOpenIndex(null)}
+          />
+        )}
+      </AnimatePresence>
     </motion.main>
   );
 }

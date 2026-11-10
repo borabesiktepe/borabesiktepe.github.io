@@ -1,0 +1,107 @@
+.about {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - var(--header-h));
+  min-height: calc(100dvh - var(--header-h));
+}
+
+.about-title {
+  padding: clamp(20px, 3vw, 40px) var(--gutter) 0;
+  font-size: clamp(88px, 19vw, 320px);
+  line-height: 0.82;
+  border-bottom: var(--rule);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.about-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+  flex: 1;
+}
+
+.about-lede {
+  padding: clamp(24px, 3vw, 40px) var(--gutter);
+  border-right: var(--rule);
+  font-size: clamp(22px, 2.2vw, 32px);
+  font-style: italic;
+  line-height: 1.25;
+}
+
+.about-contact h2 {
+  padding: 14px var(--gutter);
+  border-bottom: var(--rule);
+  color: var(--ink-soft);
+}
+
+.about-contact ul {
+  list-style: none;
+}
+
+.about-contact a {
+  display: grid;
+  grid-template-columns: 130px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  padding: 20px var(--gutter);
+  border-bottom: var(--rule);
+  transition: background-color 0.12s ease;
+}
+
+.about-contact a:hover {
+  background: var(--ink);
+}
+
+.about-contact a:hover,
+.about-contact a:hover * {
+  color: var(--paper);
+}
+
+.about-contact a:focus-visible {
+  outline-offset: -4px;
+}
+
+.about-contact-value {
+  font-size: clamp(18px, 1.6vw, 24px);
+  overflow-wrap: anywhere;
+}
+
+.about-contact-arrow {
+  font-family: var(--mono);
+  font-size: 18px;
+}
+
+.about-foot {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px var(--gutter);
+  border-top: var(--rule);
+  color: var(--ink-soft);
+}
+
+@media (max-width: 820px) {
+  .about-body {
+    grid-template-columns: 1fr;
+    align-content: start;
+  }
+
+  .about-lede {
+    border-right: 0;
+    border-bottom: var(--rule);
+    max-width: none;
+  }
+
+  .about-contact a {
+    grid-template-columns: 1fr auto;
+    gap: 4px 12px;
+    padding: 16px var(--gutter);
+  }
+
+  .about-contact-label {
+    grid-column: 1 / -1;
+  }
+
+  .about-contact-value {
+    font-size: 18px;
+  }
+}
