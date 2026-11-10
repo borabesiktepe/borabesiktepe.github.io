@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 
 // A large, softly masked disc filled with slowly drifting, domain-warped noise.
 // Every pixel samples the noise at a small random offset, which dithers the
@@ -7,6 +8,19 @@ import { useEffect, useRef } from "react";
 
 // Share of pixels that light up (1 = every pixel, as dense as possible).
 const GRAIN_DENSITY = 0.7;
+
+// Where the disc sits on each page, in noise-plane coordinates:
+// [centre x, centre y, radius]. The visible screen covers roughly
+// x 0.4..1.1 and y 0.48..0.85 of that plane on a landscape display.
+const DISC_LAYOUTS = {
+  "/": [0.585, 0.62, 0.375],
+  "/artworks": [0.33, 0.72, 0.36],
+  "/about": [0.97, 0.5, 0.38],
+};
+const DEFAULT_LAYOUT = DISC_LAYOUTS["/"];
+
+// How quickly the disc glides to a new page's layout (higher is faster).
+const GLIDE_SPEED = 1.4;
 
 const VERTEX_SHADER = `
   attribute vec2 aPosition;
@@ -24,6 +38,7 @@ const FRAGMENT_SHADER = `
   uniform float uSeed;
   uniform float uLightMode;
   uniform float uDensity;
+  uniform vec3 uDisc; // centre xy, radius
 
   #define TAU 6.283185307179586
 
@@ -87,7 +102,7 @@ const FRAGMENT_SHADER = `
   // The disc: crisp along its upper-right rim, feathered toward the
   // lower-left so it melts into the background.
   float discMask(vec2 uv) {
-    vec2 d = uv - vec2(0.585, 0.62);
+    vec2 d = uv - uDisc.xy;
     float dist = length(d);
     vec2 dir = d / max(dist, 1e-4);
     float feather = mix(
@@ -95,9 +110,7 @@ const FRAGMENT_SHADER = `
       0.16,
       smoothstep(-0.35, 1.0, dot(dir, normalize(vec2(-0.55, -1.0))))
     );
-    float inside = 1.0 - smoothstep(0.375 - feather, 0.375 + feather * 0.35, dist);
-    vec2 edge = step(vec2(0.0), uv) * step(uv, vec2(1.0));
-    return inside * edge.x * edge.y;
+    return 1.0 - smoothstep(uDisc.z - feather, uDisc.z + feather * 0.35, dist);
   }
 
   void main() {
@@ -173,6 +186,13 @@ function createProgram(gl) {
 
 export default function ParticleBackground() {
   const canvasRef = useRef(null);
+  const { pathname } = useLocation();
+  const layoutRef = useRef(DISC_LAYOUTS[pathname] || DEFAULT_LAYOUT);
+
+  useEffect(() => {
+    layoutRef.current = DISC_LAYOUTS[pathname] || DEFAULT_LAYOUT;
+    canvasRef.current?.dispatchEvent(new Event("layoutchange"));
+  }, [pathname]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -220,6 +240,7 @@ export default function ParticleBackground() {
       seed: gl.getUniformLocation(program, "uSeed"),
       lightMode: gl.getUniformLocation(program, "uLightMode"),
       density: gl.getUniformLocation(program, "uDensity"),
+      disc: gl.getUniformLocation(program, "uDisc"),
     };
 
     gl.uniform1f(uniforms.seed, Math.random() * 100);
@@ -229,6 +250,7 @@ export default function ParticleBackground() {
     const startTime = performance.now();
     let lastTime = startTime;
     let lightMix = document.body.classList.contains("light-mode") ? 1 : 0;
+    const disc = [...layoutRef.current];
 
     const resize = () => {
       const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
@@ -259,6 +281,13 @@ export default function ParticleBackground() {
       gl.clear(gl.COLOR_BUFFER_BIT);
       gl.uniform1f(uniforms.time, elapsed);
       gl.uniform1f(uniforms.lightMode, lightMix);
+
+      // Glide the disc toward the current page's layout.
+      const glide = reduceMotion.matches ? 1 : 1 - Math.exp(-delta * GLIDE_SPEED);
+      for (let index = 0; index < 3; index += 1) {
+        disc[index] += (layoutRef.current[index] - disc[index]) * glide;
+      }
+      gl.uniform3f(uniforms.disc, disc[0], disc[1], disc[2]);
       gl.drawArrays(gl.TRIANGLES, 0, 6);
     };
 
@@ -277,9 +306,11 @@ export default function ParticleBackground() {
       }
     };
 
-    const themeObserver = new MutationObserver(() => {
+    const redrawIfStill = () => {
       if (reduceMotion.matches) draw(performance.now());
-    });
+    };
+    const themeObserver = new MutationObserver(redrawIfStill);
+    canvas.addEventListener("layoutchange", redrawIfStill);
 
     resize();
     restart();
@@ -297,6 +328,7 @@ export default function ParticleBackground() {
       document.removeEventListener("visibilitychange", restart);
       reduceMotion.removeEventListener("change", restart);
       themeObserver.disconnect();
+      canvas.removeEventListener("layoutchange", redrawIfStill);
       gl.deleteBuffer(quad);
       gl.deleteProgram(program);
     };
