@@ -66,10 +66,11 @@
 }
 
 .poster-name-last {
-  /* The surname is always shown whole on one line, only cropped at the
-     bottom edge, so it never reads as two words. */
-  bottom: -0.2em;
+  /* The surname is always shown whole on one line and never cropped, so
+     it never reads as two words and the Ş cedilla stays visible. */
+  bottom: 0.1em;
   left: 0.04em;
+  line-height: 1;
   font-size: clamp(100px, 24.5vw, 500px);
   font-variation-settings: "wdth" 62;
   animation-delay: 1.15s !important;
@@ -107,8 +108,9 @@
   right: 24px;
 }
 
+/* Top-left, so it never covers the Ş cedilla at the bottom. */
 .poster-label-place {
-  bottom: 24px;
+  top: 24px;
   left: 24px;
 }
 
@@ -129,7 +131,7 @@
   }
 
   .poster-name-last {
-    bottom: 0.02em;
+    bottom: 0.08em;
     left: 0.02em;
     font-size: 19vw;
   }
@@ -145,7 +147,8 @@
 
   /* Sit just above the cropped surname instead of on top of it. */
   .poster-label-place {
-    bottom: calc(19vw + 16px + env(safe-area-inset-bottom));
+    top: auto;
+    bottom: calc(21vw + 16px + env(safe-area-inset-bottom));
     left: 14px;
   }
 }

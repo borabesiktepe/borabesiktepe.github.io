@@ -8,7 +8,7 @@ function Artworks() {
         <ImageWithLoading src="/art/NOfW88G.png" alt="Artwork1"></ImageWithLoading>
       </div>
       <div className="artwork-item">
-        <ImageWithLoading src="/art/wxcZzVd.png" alt="Artwork2"></ImageWithLoading>
+        <ImageWithLoading src="/art/i4d67of.jpg" alt="Artwork2"></ImageWithLoading>
       </div>
       <div className="artwork-item">
         <ImageWithLoading src="/art/EV7wJGa.png" alt="Artwork3"></ImageWithLoading>
