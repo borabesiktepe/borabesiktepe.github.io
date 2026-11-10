@@ -5,6 +5,9 @@ import { useEffect, useRef } from "react";
 // smooth pattern into a fine, particle-like grain. Runs on its own: no pointer
 // interaction.
 
+// Share of pixels that light up (1 = every pixel, as dense as possible).
+const GRAIN_DENSITY = 0.7;
+
 const VERTEX_SHADER = `
   attribute vec2 aPosition;
 
@@ -20,6 +23,7 @@ const FRAGMENT_SHADER = `
   uniform float uTime;
   uniform float uSeed;
   uniform float uLightMode;
+  uniform float uDensity;
 
   #define TAU 6.283185307179586
 
@@ -120,6 +124,10 @@ const FRAGMENT_SHADER = `
     float n = warped(uv * freq + scatter);
     n = smoothstep(0.0, 1.0, pow(n * 1.05, 6.0));
 
+    // Thin out the grain: only part of the pixels light up.
+    float keep = step(hash22(gl_FragCoord.yx * 1.37 + 91.0).x, uDensity);
+    n *= keep;
+
     vec3 back = vec3(mix(0.0, 0.898, uLightMode));
     vec3 front = vec3(0.5);
     vec3 color = mix(back, front, n);
@@ -211,9 +219,11 @@ export default function ParticleBackground() {
       time: gl.getUniformLocation(program, "uTime"),
       seed: gl.getUniformLocation(program, "uSeed"),
       lightMode: gl.getUniformLocation(program, "uLightMode"),
+      density: gl.getUniformLocation(program, "uDensity"),
     };
 
     gl.uniform1f(uniforms.seed, Math.random() * 100);
+    gl.uniform1f(uniforms.density, GRAIN_DENSITY);
 
     let frameId;
     const startTime = performance.now();
