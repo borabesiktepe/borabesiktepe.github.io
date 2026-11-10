@@ -1,168 +1,131 @@
 import { useEffect, useRef } from "react";
 
-// A huge, slowly turning globe made of fine dust. Bright bands of noise sweep
-// across its surface, and the pointer gently tilts the whole thing.
-
-const MAX_PARTICLES = 480_000;
-const MIN_PARTICLES = 160_000;
-const TARGET_FPS = 60;
-
-const NOISE = `
-  vec4 permute(vec4 x) { return mod(((x * 34.0) + 1.0) * x, 289.0); }
-  vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
-
-  float snoise(vec3 v) {
-    const vec2 C = vec2(1.0 / 6.0, 1.0 / 3.0);
-    const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
-
-    vec3 i = floor(v + dot(v, C.yyy));
-    vec3 x0 = v - i + dot(i, C.xxx);
-
-    vec3 g = step(x0.yzx, x0.xyz);
-    vec3 l = 1.0 - g;
-    vec3 i1 = min(g.xyz, l.zxy);
-    vec3 i2 = max(g.xyz, l.zxy);
-
-    vec3 x1 = x0 - i1 + C.xxx;
-    vec3 x2 = x0 - i2 + 2.0 * C.xxx;
-    vec3 x3 = x0 - 1.0 + 3.0 * C.xxx;
-
-    i = mod(i, 289.0);
-    vec4 p = permute(permute(permute(
-      i.z + vec4(0.0, i1.z, i2.z, 1.0)) +
-      i.y + vec4(0.0, i1.y, i2.y, 1.0)) +
-      i.x + vec4(0.0, i1.x, i2.x, 1.0));
-
-    float n_ = 1.0 / 7.0;
-    vec3 ns = n_ * D.wyz - D.xzx;
-
-    vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
-    vec4 x_ = floor(j * ns.z);
-    vec4 y_ = floor(j - 7.0 * x_);
-
-    vec4 x = x_ * ns.x + ns.yyyy;
-    vec4 y = y_ * ns.x + ns.yyyy;
-    vec4 h = 1.0 - abs(x) - abs(y);
-
-    vec4 b0 = vec4(x.xy, y.xy);
-    vec4 b1 = vec4(x.zw, y.zw);
-    vec4 s0 = floor(b0) * 2.0 + 1.0;
-    vec4 s1 = floor(b1) * 2.0 + 1.0;
-    vec4 sh = -step(h, vec4(0.0));
-
-    vec4 a0 = b0.xzyw + s0.xzyw * sh.xxyy;
-    vec4 a1 = b1.xzyw + s1.xzyw * sh.zzww;
-
-    vec3 p0 = vec3(a0.xy, h.x);
-    vec3 p1 = vec3(a0.zw, h.y);
-    vec3 p2 = vec3(a1.xy, h.z);
-    vec3 p3 = vec3(a1.zw, h.w);
-
-    vec4 norm = taylorInvSqrt(vec4(dot(p0, p0), dot(p1, p1), dot(p2, p2), dot(p3, p3)));
-    p0 *= norm.x;
-    p1 *= norm.y;
-    p2 *= norm.z;
-    p3 *= norm.w;
-
-    vec4 m = max(0.6 - vec4(dot(x0, x0), dot(x1, x1), dot(x2, x2), dot(x3, x3)), 0.0);
-    m = m * m;
-    return 42.0 * dot(m * m, vec4(dot(p0, x0), dot(p1, x1), dot(p2, x2), dot(p3, x3)));
-  }
-`;
+// A large, softly masked disc filled with slowly drifting, domain-warped noise.
+// Every pixel samples the noise at a small random offset, which dithers the
+// smooth pattern into a fine, particle-like grain. Runs on its own: no pointer
+// interaction.
 
 const VERTEX_SHADER = `
-  precision highp float;
-
-  attribute vec4 aParticle; // xyz: point on unit sphere, w: random 0..1
-
-  uniform float uTime;
-  uniform float uAspect;
-  uniform float uPointSize;
-  uniform vec2 uPointer;
-  uniform float uLightMode;
-
-  varying float vAlpha;
-
-  ${NOISE}
-
-  mat3 rotateX(float a) {
-    float c = cos(a), s = sin(a);
-    return mat3(1.0, 0.0, 0.0, 0.0, c, s, 0.0, -s, c);
-  }
-
-  mat3 rotateY(float a) {
-    float c = cos(a), s = sin(a);
-    return mat3(c, 0.0, -s, 0.0, 1.0, 0.0, s, 0.0, c);
-  }
-
-  mat3 rotateZ(float a) {
-    float c = cos(a), s = sin(a);
-    return mat3(c, s, 0.0, -s, c, 0.0, 0.0, 0.0, 1.0);
-  }
+  attribute vec2 aPosition;
 
   void main() {
-    float seed = aParticle.w;
-    vec3 dir = aParticle.xyz;
-
-    // The globe turns on its own axis; the pointer adds a soft tilt on top.
-    mat3 spin = rotateY(uTime * 0.045) * rotateX(0.35 + sin(uTime * 0.03) * 0.12);
-    mat3 tilt = rotateX(uPointer.y * 0.22) * rotateY(uPointer.x * 0.3) * rotateZ(-0.25);
-    vec3 normal = tilt * (spin * dir);
-
-    // Noise is sampled in the globe's own space so its patterns ride along
-    // with the rotation while also slowly morphing over time.
-    vec3 local = spin * dir;
-    float flow = snoise(local * 1.35 + vec3(0.0, uTime * 0.11, uTime * 0.07));
-    float detail = snoise(local * 3.4 - vec3(uTime * 0.09, 0.0, uTime * 0.05));
-
-    // A thin, slightly uneven shell gives the surface its grainy depth.
-    float radius = 1.0 + flow * 0.004 + detail * 0.003 + (seed - 0.5) * 0.025;
-    vec3 world = normal * radius;
-
-    // Place the globe left of centre so its right rim crosses the screen.
-    world += vec3(-0.5, 0.12, 0.0);
-
-    vec3 camera = vec3(0.0, 0.0, 1.55);
-    vec3 view = world - camera;
-    float depth = -view.z;
-
-    // Bands of light sweep over the surface.
-    float band = smoothstep(-0.45, 0.6, flow + detail * 0.3);
-    vec3 lightDir = normalize(vec3(
-      cos(uTime * 0.07) * 0.8,
-      0.55,
-      0.6 + sin(uTime * 0.07) * 0.4
-    ));
-    float lambert = clamp(dot(normal, lightDir) * 0.5 + 0.5, 0.0, 1.0);
-    float facing = dot(normal, normalize(camera - world));
-    float faceFade = mix(0.25, 1.0, smoothstep(-0.25, 0.15, facing));
-
-    float sparkle = mix(0.6, 1.0, fract(seed * 91.7));
-    vAlpha = band * mix(0.1, 1.0, lambert) * faceFade * sparkle;
-    vAlpha *= mix(0.95, 0.75, uLightMode);
-    vAlpha *= smoothstep(0.05, 0.35, depth);
-
-    float focal = 1.0 / tan(radians(34.0));
-    gl_Position = vec4(
-      view.x * focal / uAspect,
-      view.y * focal,
-      0.0,
-      depth
-    );
-    gl_PointSize = uPointSize;
+    gl_Position = vec4(aPosition, 0.0, 1.0);
   }
 `;
 
 const FRAGMENT_SHADER = `
   precision highp float;
 
+  uniform vec2 uResolution;
+  uniform float uTime;
+  uniform float uSeed;
   uniform float uLightMode;
-  varying float vAlpha;
+
+  #define TAU 6.283185307179586
+
+  // 2D simplex noise.
+  // Based on webgl-noise by Ian McEwan / Ashima Arts (MIT License).
+  vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+  vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+  vec3 permute(vec3 x) { return mod289(((x * 34.0) + 10.0) * x); }
+
+  float simplex(vec2 v) {
+    const vec4 C = vec4(
+      0.211324865405187,
+      0.366025403784439,
+      -0.577350269189626,
+      0.024390243902439
+    );
+    vec2 i = floor(v + dot(v, C.yy));
+    vec2 x0 = v - i + dot(i, C.xx);
+    vec2 i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+    vec4 x12 = x0.xyxy + C.xxzz;
+    x12.xy -= i1;
+    i = mod289(i);
+    vec3 p = permute(permute(i.y + vec3(0.0, i1.y, 1.0)) + i.x + vec3(0.0, i1.x, 1.0));
+    vec3 m = max(0.5 - vec3(dot(x0, x0), dot(x12.xy, x12.xy), dot(x12.zw, x12.zw)), 0.0);
+    m = m * m;
+    m = m * m;
+    vec3 x = 2.0 * fract(p * C.www) - 1.0;
+    vec3 h = abs(x) - 0.5;
+    vec3 ox = floor(x + 0.5);
+    vec3 a0 = x - ox;
+    m *= 1.79284291400159 - 0.85373472095314 * (a0 * a0 + h * h);
+    vec3 g;
+    g.x = a0.x * x0.x + h.x * x0.y;
+    g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+    return 130.0 * dot(m, g);
+  }
+
+  // Slowly drifting noise remapped to 0..1.
+  float drift(vec2 p) {
+    p += vec2(uTime * 0.02, -uTime * 0.04 + uSeed);
+    return simplex(p) * 0.5 + 0.5;
+  }
+
+  // Two rounds of domain warping give the soft, folded light shapes.
+  float warped(vec2 p) {
+    vec2 a = vec2(drift(p), drift(p + vec2(5.2, 1.3)));
+    vec2 b = vec2(
+      drift(p + 4.0 * a + vec2(1.7, 9.2)),
+      drift(p + 4.0 * a + vec2(8.3, 2.8))
+    );
+    return drift(p + b);
+  }
+
+  // Per-pixel white noise used for the grain scatter.
+  vec2 hash22(vec2 p) {
+    vec3 q = fract(vec3(p.xyx) * vec3(0.1031, 0.1030, 0.0973));
+    q += dot(q, q.yzx + 33.33);
+    return fract((q.xx + q.yz) * q.zy);
+  }
+
+  // The disc: crisp along its upper-right rim, feathered toward the
+  // lower-left so it melts into the background.
+  float discMask(vec2 uv) {
+    vec2 d = uv - vec2(0.585, 0.62);
+    float dist = length(d);
+    vec2 dir = d / max(dist, 1e-4);
+    float feather = mix(
+      0.012,
+      0.16,
+      smoothstep(-0.35, 1.0, dot(dir, normalize(vec2(-0.55, -1.0))))
+    );
+    float inside = 1.0 - smoothstep(0.375 - feather, 0.375 + feather * 0.35, dist);
+    vec2 edge = step(vec2(0.0), uv) * step(uv, vec2(1.0));
+    return inside * edge.x * edge.y;
+  }
 
   void main() {
-    vec3 color = mix(vec3(0.95), vec3(0.12), uLightMode);
-    // Output is premultiplied so the page composites it correctly.
-    gl_FragColor = vec4(color * vAlpha, vAlpha);
+    // Scene space: the shorter screen side spans 2 units, like an
+    // orthographic camera. The noise plane is 3x3 units, centred down-left.
+    float aspect = uResolution.x / uResolution.y;
+    vec2 scene = aspect >= 1.0 ? vec2(2.0, 2.0 / aspect) : vec2(2.0 * aspect, 2.0);
+    vec2 world = (gl_FragCoord.xy / uResolution - 0.5) * scene;
+    vec2 uv = (world - vec2(-0.8, -0.5)) / 3.0 + 0.5;
+
+    float mask = discMask(uv);
+    if (mask <= 0.0) {
+      gl_FragColor = vec4(0.0);
+      return;
+    }
+
+    // Scatter each pixel's sample point in a random direction; the scatter
+    // is stronger where the disc fades out, so the edge dissolves into dust.
+    vec2 rnd = hash22(gl_FragCoord.xy + fract(uSeed) * 517.0);
+    float spread = pow(rnd.x, 1.5) + 0.5 * (1.0 - mask);
+    vec2 scatter = 0.05 * spread * vec2(cos(rnd.y * TAU), sin(rnd.y * TAU));
+
+    vec2 freq = vec2(0.2, 0.4) + 0.1 * (1.0 - mask);
+    float n = warped(uv * freq + scatter);
+    n = smoothstep(0.0, 1.0, pow(n * 1.05, 6.0));
+
+    vec3 back = vec3(mix(0.0, 0.898, uLightMode));
+    vec3 front = vec3(0.5);
+    vec3 color = mix(back, front, n);
+
+    // Premultiplied output.
+    gl_FragColor = vec4(color * mask, mask);
   }
 `;
 
@@ -174,7 +137,7 @@ function createShader(gl, type, source) {
   if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
     const message = gl.getShaderInfoLog(shader);
     gl.deleteShader(shader);
-    throw new Error(`Particle shader could not compile: ${message}`);
+    throw new Error(`Background shader could not compile: ${message}`);
   }
 
   return shader;
@@ -194,38 +157,10 @@ function createProgram(gl) {
   if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
     const message = gl.getProgramInfoLog(program);
     gl.deleteProgram(program);
-    throw new Error(`Particle shader could not link: ${message}`);
+    throw new Error(`Background shader could not link: ${message}`);
   }
 
   return program;
-}
-
-function createParticleData() {
-  const data = new Float32Array(MAX_PARTICLES * 4);
-  let state = 0x9e3779b9;
-
-  const random = () => {
-    state += 0x6d2b79f5;
-    let value = state;
-    value = Math.imul(value ^ (value >>> 15), value | 1);
-    value ^= value + Math.imul(value ^ (value >>> 7), value | 61);
-    return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
-  };
-
-  for (let index = 0; index < MAX_PARTICLES; index += 1) {
-    // Uniformly distributed points on the unit sphere.
-    const z = random() * 2 - 1;
-    const angle = random() * Math.PI * 2;
-    const ring = Math.sqrt(1 - z * z);
-    const offset = index * 4;
-
-    data[offset] = ring * Math.cos(angle);
-    data[offset + 1] = ring * Math.sin(angle);
-    data[offset + 2] = z;
-    data[offset + 3] = random();
-  }
-
-  return data;
 }
 
 export default function ParticleBackground() {
@@ -258,83 +193,73 @@ export default function ParticleBackground() {
       return undefined;
     }
 
-    const particleBuffer = gl.createBuffer();
-    const particleLocation = gl.getAttribLocation(program, "aParticle");
+    const quad = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, quad);
+    gl.bufferData(
+      gl.ARRAY_BUFFER,
+      new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]),
+      gl.STATIC_DRAW,
+    );
+    gl.useProgram(program);
+
+    const positionLocation = gl.getAttribLocation(program, "aPosition");
+    gl.enableVertexAttribArray(positionLocation);
+    gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+
     const uniforms = {
+      resolution: gl.getUniformLocation(program, "uResolution"),
       time: gl.getUniformLocation(program, "uTime"),
-      aspect: gl.getUniformLocation(program, "uAspect"),
-      pointSize: gl.getUniformLocation(program, "uPointSize"),
-      pointer: gl.getUniformLocation(program, "uPointer"),
+      seed: gl.getUniformLocation(program, "uSeed"),
       lightMode: gl.getUniformLocation(program, "uLightMode"),
     };
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, particleBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, createParticleData(), gl.STATIC_DRAW);
-    gl.useProgram(program);
-    gl.enableVertexAttribArray(particleLocation);
-    gl.vertexAttribPointer(particleLocation, 4, gl.FLOAT, false, 0, 0);
-    gl.enable(gl.BLEND);
+    gl.uniform1f(uniforms.seed, Math.random() * 100);
 
     let frameId;
-    let particleCount = MIN_PARTICLES;
-    let pixelRatio = 1;
-    let startTime = performance.now();
-    let lastFrameTime = 0;
-    const pointer = { x: 0, y: 0, targetX: 0, targetY: 0 };
+    const startTime = performance.now();
+    let lastTime = startTime;
+    let lightMix = document.body.classList.contains("light-mode") ? 1 : 0;
 
     const resize = () => {
-      const cssWidth = Math.max(1, window.innerWidth);
-      const cssHeight = Math.max(1, window.innerHeight);
-      pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
-      const width = Math.max(1, Math.round(cssWidth * pixelRatio));
-      const height = Math.max(1, Math.round(cssHeight * pixelRatio));
-
-      particleCount = Math.min(
-        MAX_PARTICLES,
-        Math.max(MIN_PARTICLES, Math.round((cssWidth * cssHeight) / 2.6)),
-      );
+      const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+      const width = Math.max(1, Math.round(window.innerWidth * pixelRatio));
+      const height = Math.max(1, Math.round(window.innerHeight * pixelRatio));
 
       if (canvas.width !== width || canvas.height !== height) {
         canvas.width = width;
         canvas.height = height;
         gl.viewport(0, 0, width, height);
       }
+      gl.uniform2f(uniforms.resolution, width, height);
     };
 
     const draw = (time) => {
-      const elapsed = reduceMotion.matches ? 12.0 : (time - startTime) * 0.001;
-      const lightMode = document.body.classList.contains("light-mode");
+      const elapsed = reduceMotion.matches ? 20 : (time - startTime) * 0.001;
+      const target = document.body.classList.contains("light-mode") ? 1 : 0;
 
-      pointer.x += (pointer.targetX - pointer.x) * 0.04;
-      pointer.y += (pointer.targetY - pointer.y) * 0.04;
-
-      if (lightMode) {
-        gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
-      } else {
-        // Additive blending lets dense areas (like the rim) glow brighter.
-        gl.blendFunc(gl.ONE, gl.ONE);
+      // Ease the background tone when the theme flips.
+      const delta = Math.min(0.1, Math.max(0, time - lastTime) * 0.001);
+      lastTime = time;
+      lightMix += (target - lightMix) * Math.min(1, delta * 3);
+      if (Math.abs(target - lightMix) < 0.002 || reduceMotion.matches) {
+        lightMix = target;
       }
 
       gl.clearColor(0, 0, 0, 0);
       gl.clear(gl.COLOR_BUFFER_BIT);
       gl.uniform1f(uniforms.time, elapsed);
-      gl.uniform1f(uniforms.aspect, canvas.width / canvas.height);
-      gl.uniform1f(uniforms.pointSize, Math.max(1, pixelRatio));
-      gl.uniform2f(uniforms.pointer, pointer.x, pointer.y);
-      gl.uniform1f(uniforms.lightMode, lightMode ? 1 : 0);
-      gl.drawArrays(gl.POINTS, 0, particleCount);
+      gl.uniform1f(uniforms.lightMode, lightMix);
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
     };
 
     const animate = (time) => {
-      if (time - lastFrameTime >= 1000 / TARGET_FPS - 2) {
-        draw(time);
-        lastFrameTime = time;
-      }
+      draw(time);
       frameId = window.requestAnimationFrame(animate);
     };
 
     const restart = () => {
       window.cancelAnimationFrame(frameId);
+      lastTime = performance.now();
       if (reduceMotion.matches || document.hidden) {
         draw(performance.now());
       } else {
@@ -342,22 +267,14 @@ export default function ParticleBackground() {
       }
     };
 
-    const handleVisibility = () => {
-      restart();
-    };
-
-    const handlePointer = (event) => {
-      pointer.targetX = (event.clientX / window.innerWidth) * 2 - 1;
-      pointer.targetY = (event.clientY / window.innerHeight) * 2 - 1;
-    };
-
-    const themeObserver = new MutationObserver(() => draw(performance.now()));
+    const themeObserver = new MutationObserver(() => {
+      if (reduceMotion.matches) draw(performance.now());
+    });
 
     resize();
     restart();
     window.addEventListener("resize", resize);
-    window.addEventListener("pointermove", handlePointer, { passive: true });
-    document.addEventListener("visibilitychange", handleVisibility);
+    document.addEventListener("visibilitychange", restart);
     reduceMotion.addEventListener("change", restart);
     themeObserver.observe(document.body, {
       attributes: true,
@@ -367,11 +284,10 @@ export default function ParticleBackground() {
     return () => {
       window.cancelAnimationFrame(frameId);
       window.removeEventListener("resize", resize);
-      window.removeEventListener("pointermove", handlePointer);
-      document.removeEventListener("visibilitychange", handleVisibility);
+      document.removeEventListener("visibilitychange", restart);
       reduceMotion.removeEventListener("change", restart);
       themeObserver.disconnect();
-      gl.deleteBuffer(particleBuffer);
+      gl.deleteBuffer(quad);
       gl.deleteProgram(program);
     };
   }, []);
