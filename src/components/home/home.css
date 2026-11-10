@@ -66,9 +66,11 @@
 }
 
 .poster-name-last {
+  /* The surname is always shown whole on one line, only cropped at the
+     bottom edge, so it never reads as two words. */
   bottom: -0.2em;
-  left: -0.3em;
-  font-size: clamp(110px, 27vw, 540px);
+  left: 0.04em;
+  font-size: clamp(100px, 24.5vw, 500px);
   font-variation-settings: "wdth" 62;
   animation-delay: 1.15s !important;
 }
@@ -127,9 +129,9 @@
   }
 
   .poster-name-last {
-    bottom: -0.12em;
-    left: -0.03em;
-    font-size: 21vw;
+    bottom: 0.02em;
+    left: 0.02em;
+    font-size: 19vw;
   }
 
   .poster-label {
@@ -143,7 +145,7 @@
 
   /* Sit just above the cropped surname instead of on top of it. */
   .poster-label-place {
-    bottom: calc(17vw + 16px + env(safe-area-inset-bottom));
+    bottom: calc(19vw + 16px + env(safe-area-inset-bottom));
     left: 14px;
   }
 }
