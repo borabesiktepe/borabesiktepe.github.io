@@ -1,24 +1,17 @@
 import { motion } from "framer-motion";
+import artworks from "../artworks-page/artworks.json";
 import "./about.css";
 
 const CONTACTS = [
-  {
-    label: "Email",
-    value: "borabesiktepe@gmail.com",
-    href: "mailto:borabesiktepe@gmail.com",
-  },
-  {
-    label: "Instagram",
-    value: "@borabesiktepe",
-    href: "https://www.instagram.com/borabesiktepe/",
-  },
-  {
-    label: "ArtStation",
-    value: "artstation.com/borabesiktepe",
-    href: "https://www.artstation.com/borabesiktepe",
-  },
+  { label: "Email", href: "mailto:borabesiktepe@gmail.com" },
+  { label: "Instagram", href: "https://www.instagram.com/borabesiktepe/" },
+  { label: "ArtStation", href: "https://www.artstation.com/borabesiktepe" },
 ];
 
+const firstYear = Math.min(...artworks.map((a) => Number(a.year)));
+
+// The bio set as a poster. Display words are written in capitals in the
+// source so Turkish İ stays correct (CSS uppercasing would give I).
 const About = () => (
   <motion.main
     className="about"
@@ -27,40 +20,50 @@ const About = () => (
     exit={{ opacity: 0 }}
     transition={{ duration: 0.4 }}
   >
-    <h1 className="about-title t-display">About</h1>
+    <h1 className="about-sr">About Bora Beşiktepe</h1>
 
-    <section className="about-body">
-      <p className="about-lede">
-        Self-taught illustrator and engineer from İstanbul, Türkiye.
-      </p>
+    <p
+      className="about-manifesto"
+      aria-label="Self-taught illustrator and engineer, drawing digital portraits, from İstanbul, Türkiye."
+    >
+      <span className="about-line" aria-hidden="true">
+        <b className="about-box">SELF-TAUGHT</b> <i>illustrator</i>
+      </span>
+      <span className="about-line" aria-hidden="true">
+        <i>&amp;</i> ENGINEER <i>drawing</i>
+      </span>
+      <span className="about-line" aria-hidden="true">
+        <b className="about-box">DIGITAL</b> PORTRAITS
+      </span>
+      <span className="about-line" aria-hidden="true">
+        <i>from</i> İSTANBUL,
+      </span>
+      <span className="about-line" aria-hidden="true">
+        TÜRKİYE.
+      </span>
+    </p>
 
-      <div className="about-contact">
-        <h2 className="t-mono">Contact</h2>
-        <ul>
-          {CONTACTS.map((c) => (
-            <li key={c.label}>
-              <a
-                href={c.href}
-                {...(c.href.startsWith("http")
-                  ? { target: "_blank", rel: "noreferrer" }
-                  : {})}
-              >
-                <span className="about-contact-label t-mono">{c.label}</span>
-                <span className="about-contact-value">{c.value}</span>
-                <span className="about-contact-arrow" aria-hidden="true">
-                  ↗
-                </span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
+    <figure className="about-pin" aria-hidden="true">
+      <img src="/art/i4d67of.jpg" alt="" draggable={false} />
+      <span className="about-tape" />
+    </figure>
 
-    <footer className="about-foot t-mono">
-      <span>© {new Date().getFullYear()} Bora Beşiktepe</span>
-      <span>İstanbul</span>
-    </footer>
+    <div className="about-strip t-mono">
+      <span className="about-strip-info">
+        Since {firstYear} · {artworks.length} works · © {new Date().getFullYear()}
+      </span>
+      {CONTACTS.map((c) => (
+        <a
+          key={c.label}
+          href={c.href}
+          {...(c.href.startsWith("http")
+            ? { target: "_blank", rel: "noreferrer" }
+            : {})}
+        >
+          {c.label} <span aria-hidden="true">↗</span>
+        </a>
+      ))}
+    </div>
   </motion.main>
 );
 

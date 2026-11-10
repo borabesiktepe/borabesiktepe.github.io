@@ -1,107 +1,218 @@
+/* About as a manifesto poster: the bio fills the sheet in heavy italic
+   capitals alternating with serif italics, key words boxed in ink, a small
+   drawing taped to the corner, and the contact strip along the bottom. */
+
 .about {
+  position: relative;
   display: flex;
   flex-direction: column;
   min-height: calc(100vh - var(--header-h));
   min-height: calc(100dvh - var(--header-h));
+  overflow: hidden;
 }
 
-.about-title {
-  padding: clamp(20px, 3vw, 40px) var(--gutter) 0;
-  font-size: clamp(88px, 19vw, 320px);
-  line-height: 0.82;
-  border-bottom: var(--rule);
+.about-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
   overflow: hidden;
+  clip: rect(0 0 0 0);
   white-space: nowrap;
 }
 
-.about-body {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+.about-manifesto {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.06em;
+  padding: clamp(20px, 3vw, 44px) var(--gutter);
+  /* Sized so the longest line ("SELF-TAUGHT illustrator") fits the width. */
+  font-size: min(calc((100vw - 2 * var(--gutter)) / 13.6), 13vh);
 }
 
-.about-lede {
-  padding: clamp(24px, 3vw, 40px) var(--gutter);
-  border-right: var(--rule);
-  font-size: clamp(22px, 2.2vw, 32px);
+.about-line {
+  display: block;
+  font: inherit;
+  font-family: var(--display);
+  font-variation-settings: "wdth" 100;
+  font-weight: 900;
   font-style: italic;
-  line-height: 1.25;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+  white-space: nowrap;
+  animation: about-rise 0.9s cubic-bezier(0.65, 0.05, 0.12, 0.99) both;
 }
 
-.about-contact h2 {
-  padding: 14px var(--gutter);
-  border-bottom: var(--rule);
+.about-line:nth-child(1) { animation-delay: 0.1s; }
+.about-line:nth-child(2) { animation-delay: 0.2s; }
+.about-line:nth-child(3) { animation-delay: 0.3s; }
+.about-line:nth-child(4) { animation-delay: 0.4s; }
+.about-line:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes about-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.about-line b,
+.about-line i {
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+/* Serif italic words between the heavy capitals */
+.about-line i {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-style: italic;
+  font-size: 0.92em;
+  letter-spacing: -0.02em;
+}
+
+/* Ink box around key words */
+.about-box {
+  display: inline-block;
+  padding: 0 0.12em 0.04em 0.06em;
+  background: var(--ink);
+  color: var(--paper);
+  line-height: 0.95;
+  white-space: nowrap;
+}
+
+/* Taped drawing */
+
+.about-pin {
+  position: absolute;
+  right: clamp(24px, 5vw, 80px);
+  bottom: calc(46px + clamp(24px, 6vh, 64px));
+  width: clamp(140px, 15vw, 230px);
+  aspect-ratio: 4 / 5;
+  padding: 8px;
+  background: var(--paper);
+  border: var(--rule);
+  transform: rotate(3deg);
+  pointer-events: none;
+  user-select: none;
+  animation: fade-in 0.6s ease 0.7s both;
+}
+
+.about-pin img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 25%;
+  filter: grayscale(1) contrast(1.1);
+  mix-blend-mode: multiply;
+}
+
+.about-tape {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  width: 46%;
+  height: 24px;
+  background: rgba(205, 199, 182, 0.85);
+  transform: translateX(-50%) rotate(-4deg);
+}
+
+/* Contact strip */
+
+.about-strip {
+  display: flex;
+  border-top: var(--rule);
+  background: var(--paper);
+}
+
+.about-strip > * {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 var(--gutter);
+  white-space: nowrap;
+}
+
+.about-strip-info {
+  flex: 1;
   color: var(--ink-soft);
 }
 
-.about-contact ul {
-  list-style: none;
-}
-
-.about-contact a {
-  display: grid;
-  grid-template-columns: 130px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 16px;
-  padding: 20px var(--gutter);
-  border-bottom: var(--rule);
+.about-strip a {
+  border-left: var(--rule);
   transition: background-color 0.12s ease;
 }
 
-.about-contact a:hover {
+.about-strip a:hover {
   background: var(--ink);
 }
 
-.about-contact a:hover,
-.about-contact a:hover * {
+.about-strip a:hover,
+.about-strip a:hover * {
   color: var(--paper);
 }
 
-.about-contact a:focus-visible {
+.about-strip a:focus-visible {
   outline-offset: -4px;
 }
 
-.about-contact-value {
-  font-size: clamp(18px, 1.6vw, 24px);
-  overflow-wrap: anywhere;
-}
-
-.about-contact-arrow {
-  font-family: var(--mono);
-  font-size: 18px;
-}
-
-.about-foot {
-  display: flex;
-  justify-content: space-between;
-  padding: 14px var(--gutter);
-  border-top: var(--rule);
-  color: var(--ink-soft);
-}
-
 @media (max-width: 820px) {
-  .about-body {
-    grid-template-columns: 1fr;
-    align-content: start;
+  .about-manifesto {
+    justify-content: flex-start;
+    padding-top: 28px;
+    font-size: calc((100vw - 2 * var(--gutter)) / 7.6);
   }
 
-  .about-lede {
-    border-right: 0;
-    border-bottom: var(--rule);
-    max-width: none;
+  /* Narrow screens: let the poster lines wrap between words. */
+  .about-line {
+    white-space: normal;
   }
 
-  .about-contact a {
-    grid-template-columns: 1fr auto;
-    gap: 4px 12px;
-    padding: 16px var(--gutter);
+  .about-pin {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    align-self: flex-end;
+    width: 36vw;
+    margin: 0 var(--gutter) 28px 0;
   }
 
-  .about-contact-label {
+  .about-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .about-strip-info {
     grid-column: 1 / -1;
+    min-height: 38px;
+    border-bottom: var(--rule);
   }
 
-  .about-contact-value {
-    font-size: 18px;
+  .about-strip > * {
+    padding: 0 14px;
+    font-size: 10px;
+  }
+
+  .about-strip a {
+    justify-content: center;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .about-strip a:first-of-type {
+    border-left: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-line,
+  .about-pin {
+    animation: none;
   }
 }
