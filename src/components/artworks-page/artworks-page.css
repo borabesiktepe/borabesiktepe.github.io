@@ -25,13 +25,12 @@ body.light-mode .artworks-layout {
   align-items: flex-end;
   justify-content: space-between;
   gap: 24px;
-  padding: 44px 0 18px;
-  margin-bottom: 28px;
-  background: linear-gradient(
-    to bottom,
-    var(--page-bg) 70%,
-    color-mix(in srgb, var(--page-bg) 0%, transparent)
-  );
+  /* full-bleed: reach the screen's left edge (under the nav rail) and right edge */
+  margin: 0 calc(var(--gutter) * -1) 32px
+    calc((var(--rail-width) + var(--gutter)) * -1);
+  padding: 44px var(--gutter) 18px calc(var(--rail-width) + var(--gutter));
+  background: var(--page-bg);
+  border-bottom: 1px solid color-mix(in srgb, var(--dark-color) 12%, transparent);
 }
 
 .artworks-header h1 {
@@ -285,13 +284,14 @@ body.light-mode .artworks-layout {
     flex-direction: column;
     align-items: stretch;
     gap: 14px;
-    padding: 28px 0 10px;
-    margin-bottom: 16px;
+    padding-top: 28px;
+    padding-bottom: 6px;
+    margin-bottom: 20px;
   }
 
   .artworks-filters {
-    margin: 0 calc(var(--gutter) * -1);
-    padding: 0 calc(var(--gutter) - 12px);
+    margin: 0 calc(var(--gutter) * -1) 0 -12px;
+    padding-right: calc(var(--gutter) - 12px);
   }
 
   .artworks-grid {
