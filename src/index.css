@@ -4,8 +4,6 @@
   --dark-color: hsl(0, 0%, 100%);
   --dark-color-param: 0, 0%, 100%;
   --dark-bg: hsl(0, 0%, 0%);
-  --light-color: hsl(0, 0%, 0%);
-  --light-bg: #e5e5e5;
 }
 
 ::selection {
@@ -28,14 +26,6 @@ a {
 
 body {
   background-color: var(--dark-bg);
-  transition: background-color 0.5s ease;
-}
-
-body.light-mode {
-  --dark-color: #262626;
-  background-color: var(--light-bg);
-  color: #262626;
-  transition: background-color 0.5s ease;
 }
 
 @keyframes fade-in {
@@ -151,12 +141,6 @@ main {
   object-fit: cover;
   opacity: 0.9;
   filter: grayscale();
-  transition: 0.2s ease-in-out;
-}
-
-.artwork-item img:hover {
-  filter: none;
-  opacity: 1;
 }
 
 @keyframes menu-fadeIn {

@@ -6,10 +6,6 @@
   color: var(--dark-color);
 }
 
-body.light-mode .artworks-layout {
-  --page-bg: var(--light-bg);
-}
-
 .artworks-content {
   margin-left: var(--rail-width);
   padding: 0 var(--gutter) 96px;

@@ -24,13 +24,6 @@
   box-sizing: border-box;
 }
 
-.portfolio-navigation-theme {
-  position: absolute;
-  top: 22px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
 .portfolio-navigation .menu-container {
   position: absolute;
   top: 48%;
@@ -67,18 +60,9 @@
   letter-spacing: 0.04em;
 }
 
-body.light-mode .portfolio-navigation-surface {
-  border-right-color: hsla(0, 0%, 0%, 0.12);
-  background: var(--light-bg);
-}
-
 @media (max-width: 820px) {
   .portfolio-navigation-shell {
     width: 50px;
-  }
-
-  .portfolio-navigation-theme {
-    top: max(16px, env(safe-area-inset-top));
   }
 
   .portfolio-navigation .menu-container {
