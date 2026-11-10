@@ -1,19 +1,15 @@
-import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import Showcase from "../showcase";
+import { motion } from "framer-motion";
 import "./home.css";
 
 // Five featured pieces; the darkest, most finished drawing sits in the centre.
+// On the home page the panels are pure display: no click, drag or selection.
 const FEATURED = [
   "/art/NOfW88G.png",
   "/art/i4d67of.jpg",
   "/art/bora-besiktepe-adsiz-resim.jpg",
   "/art/EV7wJGa.png",
   "/art/S6Gf6so.png",
-].map((imageUrl, i) => ({
-  imageUrl,
-  caption: `Featured · Nº${String(i + 1).padStart(2, "0")}`,
-}));
+];
 
 const CONTACTS = [
   { label: "Instagram", href: "https://www.instagram.com/borabesiktepe/" },
@@ -21,9 +17,9 @@ const CONTACTS = [
   { label: "Email", href: "mailto:borabesiktepe@gmail.com" },
 ];
 
-function Home() {
-  const [openIndex, setOpenIndex] = useState(null);
+const preventDrag = (event) => event.preventDefault();
 
+function Home() {
   return (
     <motion.main
       className="home"
@@ -31,21 +27,17 @@ function Home() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.4 }}
+      onDragStart={preventDrag}
+      onContextMenu={preventDrag}
     >
-      <div className="home-panels">
-        {FEATURED.map((item, i) => (
-          <button
-            type="button"
-            key={item.imageUrl}
-            className="home-panel"
-            onClick={() => setOpenIndex(i)}
-            aria-label={`View featured artwork ${i + 1} of ${FEATURED.length}`}
-          >
-            <img src={item.imageUrl} alt="" decoding="async" />
+      <div className="home-panels" aria-hidden="true">
+        {FEATURED.map((src, i) => (
+          <div key={src} className="home-panel">
+            <img src={src} alt="" decoding="async" draggable={false} />
             <span className="home-panel-num t-mono">
               Nº{String(i + 1).padStart(2, "0")}
             </span>
-          </button>
+          </div>
         ))}
       </div>
 
@@ -62,6 +54,7 @@ function Home() {
             <a
               key={c.label}
               href={c.href}
+              draggable={false}
               {...(c.href.startsWith("http")
                 ? { target: "_blank", rel: "noreferrer" }
                 : {})}
@@ -71,17 +64,6 @@ function Home() {
           ))}
         </div>
       </div>
-
-      <AnimatePresence>
-        {openIndex !== null && (
-          <Showcase
-            items={FEATURED}
-            index={openIndex}
-            onIndexChange={setOpenIndex}
-            onClose={() => setOpenIndex(null)}
-          />
-        )}
-      </AnimatePresence>
     </motion.main>
   );
 }

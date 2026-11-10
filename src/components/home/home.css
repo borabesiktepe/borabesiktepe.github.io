@@ -1,9 +1,14 @@
 /* Home as a printed poster: five tall artwork panels split by 1px rules, the
    full name stacked across the lower half (never cropped, so Ş and İ always
-   read), and one strip of contact links. Panels open the viewer. */
+   read), and one strip of contact links. The panels are display only. */
 
 .home {
   position: relative;
+  /* Nothing on the home page is selectable or draggable except the two
+     info labels; links stay clickable. */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
   display: block;
   height: calc(100vh - var(--header-h));
   height: calc(100dvh - var(--header-h));
@@ -27,7 +32,7 @@
   border: 0;
   border-right: var(--rule);
   background: var(--paper);
-  cursor: zoom-in;
+  cursor: default;
   clip-path: inset(0 0 100% 0);
   animation: panel-drop 1.2s cubic-bezier(0.65, 0.05, 0.12, 0.99) forwards;
   -webkit-tap-highlight-color: transparent;
@@ -57,6 +62,8 @@
   object-position: 50% 20%;
   filter: grayscale(1) contrast(1.15);
   mix-blend-mode: multiply;
+  pointer-events: none;
+  -webkit-user-drag: none;
 }
 
 .home-panel-num {
@@ -67,11 +74,6 @@
   background: var(--paper);
   border: var(--rule);
   font-size: 11px;
-}
-
-.home-panel:focus-visible {
-  outline: 3px solid var(--ink);
-  outline-offset: -3px;
 }
 
 /* Name + strip */
@@ -146,6 +148,8 @@
 
 .home-strip-info {
   flex: 1;
+  user-select: text;
+  -webkit-user-select: text;
   color: var(--ink-soft);
 }
 

@@ -12,6 +12,7 @@
 .site-header-mark,
 .site-header-issue {
   display: flex;
+  -webkit-user-drag: none;
   align-items: center;
   padding: 0 var(--gutter);
   white-space: nowrap;
