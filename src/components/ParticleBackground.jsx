@@ -1,76 +1,152 @@
 import { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 
-const MAX_PARTICLES = 80_000;
-const MIN_PARTICLES = 28_000;
-const TARGET_FPS = 30;
+// A large, softly masked disc filled with slowly drifting, domain-warped noise.
+// Every pixel samples the noise at a small random offset, which dithers the
+// smooth pattern into a fine, particle-like grain. Runs on its own: no pointer
+// interaction.
+
+// Share of pixels that light up (1 = every pixel, as dense as possible).
+const GRAIN_DENSITY = 0.7;
+
+// Where the disc sits on each page, in noise-plane coordinates:
+// [centre x, centre y, radius]. The visible screen covers roughly
+// x 0.4..1.1 and y 0.48..0.85 of that plane on a landscape display.
+const DISC_LAYOUTS = {
+  "/": [0.585, 0.62, 0.375],
+  "/artworks": [0.33, 0.72, 0.36],
+  "/about": [0.97, 0.5, 0.38],
+};
+const DEFAULT_LAYOUT = DISC_LAYOUTS["/"];
+
+// How quickly the disc glides to a new page's layout (higher is faster).
+const GLIDE_SPEED = 1.4;
 
 const VERTEX_SHADER = `
-  precision highp float;
-
-  attribute vec4 aParticle;
-
-  uniform float uTime;
-  uniform float uLightMode;
-
-  varying float vAlpha;
+  attribute vec2 aPosition;
 
   void main() {
-    float variation = aParticle.w;
-    float speed = mix(0.006, 0.013, variation);
-    float travel = fract(aParticle.x + uTime * speed);
-
-    // Particles continuously enter from the left and fade before reaching the
-    // far right. Each point has its own vertical offset and orbital phase.
-    float x = travel * 1.14 - 0.08;
-    float center =
-      0.5 +
-      sin(x * 2.35 + uTime * 0.075) * 0.095 +
-      sin(x * 0.82 - uTime * 0.038 + 1.7) * 0.055;
-    float width = 0.15 +
-      (0.5 + 0.5 * sin(x * 1.55 - uTime * 0.045 + aParticle.z * 0.07)) *
-      0.17;
-
-    float y = center + aParticle.y * width;
-
-    // Slow counter-clockwise local orbits keep neighboring points from moving
-    // as a rigid texture while the cloud as a whole travels to the right.
-    float orbitAngle = aParticle.z + uTime * mix(0.11, 0.19, variation);
-    float orbitSize = mix(0.006, 0.024, variation);
-    x += cos(orbitAngle) * orbitSize;
-    y += sin(orbitAngle) * orbitSize * 1.55;
-
-    // Seeded micro-currents break up the silhouette without creating a shared,
-    // repeating edge across the cloud.
-    y += sin(aParticle.z * 1.73 + x * 4.7 + uTime * 0.09) *
-      mix(0.006, 0.021, variation);
-    x += sin(aParticle.z * 0.61 + y * 3.2 - uTime * 0.055) * 0.009;
-
-    float leftFade = smoothstep(-0.075, 0.025, x);
-    float rightFade = 1.0 - smoothstep(0.7, 1.02, x);
-    float verticalFade = smoothstep(0.015, 0.09, y) *
-      smoothstep(0.015, 0.09, 1.0 - y);
-    float themeAlpha = mix(1.0, 0.68, uLightMode);
-
-    vAlpha = leftFade * rightFade * verticalFade *
-      mix(0.3, 0.68, variation) * themeAlpha;
-
-    gl_PointSize = mix(1.65, 2.45, variation);
-    gl_Position = vec4(x * 2.0 - 1.0, y * 2.0 - 1.0, 0.0, 1.0);
+    gl_Position = vec4(aPosition, 0.0, 1.0);
   }
 `;
 
 const FRAGMENT_SHADER = `
   precision highp float;
 
+  uniform vec2 uResolution;
+  uniform float uTime;
+  uniform float uSeed;
   uniform float uLightMode;
-  varying float vAlpha;
+  uniform float uDensity;
+  uniform vec3 uDisc; // centre xy, radius
+
+  #define TAU 6.283185307179586
+
+  // 2D simplex noise.
+  // Based on webgl-noise by Ian McEwan / Ashima Arts (MIT License).
+  vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+  vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+  vec3 permute(vec3 x) { return mod289(((x * 34.0) + 10.0) * x); }
+
+  float simplex(vec2 v) {
+    const vec4 C = vec4(
+      0.211324865405187,
+      0.366025403784439,
+      -0.577350269189626,
+      0.024390243902439
+    );
+    vec2 i = floor(v + dot(v, C.yy));
+    vec2 x0 = v - i + dot(i, C.xx);
+    vec2 i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+    vec4 x12 = x0.xyxy + C.xxzz;
+    x12.xy -= i1;
+    i = mod289(i);
+    vec3 p = permute(permute(i.y + vec3(0.0, i1.y, 1.0)) + i.x + vec3(0.0, i1.x, 1.0));
+    vec3 m = max(0.5 - vec3(dot(x0, x0), dot(x12.xy, x12.xy), dot(x12.zw, x12.zw)), 0.0);
+    m = m * m;
+    m = m * m;
+    vec3 x = 2.0 * fract(p * C.www) - 1.0;
+    vec3 h = abs(x) - 0.5;
+    vec3 ox = floor(x + 0.5);
+    vec3 a0 = x - ox;
+    m *= 1.79284291400159 - 0.85373472095314 * (a0 * a0 + h * h);
+    vec3 g;
+    g.x = a0.x * x0.x + h.x * x0.y;
+    g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+    return 130.0 * dot(m, g);
+  }
+
+  // Slowly drifting noise remapped to 0..1.
+  float drift(vec2 p) {
+    p += vec2(uTime * 0.02, -uTime * 0.04 + uSeed);
+    return simplex(p) * 0.5 + 0.5;
+  }
+
+  // Two rounds of domain warping give the soft, folded light shapes.
+  float warped(vec2 p) {
+    vec2 a = vec2(drift(p), drift(p + vec2(5.2, 1.3)));
+    vec2 b = vec2(
+      drift(p + 4.0 * a + vec2(1.7, 9.2)),
+      drift(p + 4.0 * a + vec2(8.3, 2.8))
+    );
+    return drift(p + b);
+  }
+
+  // Per-pixel white noise used for the grain scatter.
+  vec2 hash22(vec2 p) {
+    vec3 q = fract(vec3(p.xyx) * vec3(0.1031, 0.1030, 0.0973));
+    q += dot(q, q.yzx + 33.33);
+    return fract((q.xx + q.yz) * q.zy);
+  }
+
+  // The disc: crisp along its upper-right rim, feathered toward the
+  // lower-left so it melts into the background.
+  float discMask(vec2 uv) {
+    vec2 d = uv - uDisc.xy;
+    float dist = length(d);
+    vec2 dir = d / max(dist, 1e-4);
+    float feather = mix(
+      0.012,
+      0.16,
+      smoothstep(-0.35, 1.0, dot(dir, normalize(vec2(-0.55, -1.0))))
+    );
+    return 1.0 - smoothstep(uDisc.z - feather, uDisc.z + feather * 0.35, dist);
+  }
 
   void main() {
-    float distanceFromCenter = length(gl_PointCoord - vec2(0.5));
-    float coverage = 1.0 - smoothstep(0.16, 0.54, distanceFromCenter);
-    vec3 color = mix(vec3(0.94), vec3(0.14), uLightMode);
+    // Scene space: the shorter screen side spans 2 units, like an
+    // orthographic camera. The noise plane is 3x3 units, centred down-left.
+    float aspect = uResolution.x / uResolution.y;
+    vec2 scene = aspect >= 1.0 ? vec2(2.0, 2.0 / aspect) : vec2(2.0 * aspect, 2.0);
+    vec2 world = (gl_FragCoord.xy / uResolution - 0.5) * scene;
+    vec2 uv = (world - vec2(-0.8, -0.5)) / 3.0 + 0.5;
 
-    gl_FragColor = vec4(color, vAlpha * coverage);
+    float mask = discMask(uv);
+    if (mask <= 0.0) {
+      gl_FragColor = vec4(0.0);
+      return;
+    }
+
+    // Scatter each pixel's sample point in a random direction; the scatter
+    // is stronger where the disc fades out, so the edge dissolves into dust.
+    vec2 rnd = hash22(gl_FragCoord.xy + fract(uSeed) * 517.0);
+    float spread = pow(rnd.x, 1.5) + 0.5 * (1.0 - mask);
+    vec2 scatter = 0.05 * spread * vec2(cos(rnd.y * TAU), sin(rnd.y * TAU));
+
+    vec2 freq = vec2(0.2, 0.4) + 0.1 * (1.0 - mask);
+    float n = warped(uv * freq + scatter);
+    n = smoothstep(0.0, 1.0, pow(n * 1.05, 6.0));
+
+    // Thin out the grain: only part of the pixels light up.
+    float keep = step(hash22(gl_FragCoord.yx * 1.37 + 91.0).x, uDensity);
+    n *= keep;
+
+    vec3 back = vec3(mix(0.0, 0.898, uLightMode));
+    vec3 front = vec3(0.5);
+    vec3 color = mix(back, front, n);
+
+    // Premultiplied output.
+    gl_FragColor = vec4(color * mask, mask);
   }
 `;
 
@@ -82,7 +158,7 @@ function createShader(gl, type, source) {
   if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
     const message = gl.getShaderInfoLog(shader);
     gl.deleteShader(shader);
-    throw new Error(`Particle shader could not compile: ${message}`);
+    throw new Error(`Background shader could not compile: ${message}`);
   }
 
   return shader;
@@ -102,40 +178,21 @@ function createProgram(gl) {
   if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
     const message = gl.getProgramInfoLog(program);
     gl.deleteProgram(program);
-    throw new Error(`Particle shader could not link: ${message}`);
+    throw new Error(`Background shader could not link: ${message}`);
   }
 
   return program;
 }
 
-function createParticleData() {
-  const data = new Float32Array(MAX_PARTICLES * 4);
-  let state = 0x6d2b79f5;
-
-  const random = () => {
-    state += 0x6d2b79f5;
-    let value = state;
-    value = Math.imul(value ^ (value >>> 15), value | 1);
-    value ^= value + Math.imul(value ^ (value >>> 7), value | 61);
-    return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
-  };
-
-  for (let index = 0; index < MAX_PARTICLES; index += 1) {
-    const offset = index * 4;
-    const verticalDistribution =
-      (random() + random() + random() + random()) * 0.5 - 1.0;
-
-    data[offset] = random();
-    data[offset + 1] = verticalDistribution;
-    data[offset + 2] = random() * Math.PI * 2;
-    data[offset + 3] = random();
-  }
-
-  return data;
-}
-
 export default function ParticleBackground() {
   const canvasRef = useRef(null);
+  const { pathname } = useLocation();
+  const layoutRef = useRef(DISC_LAYOUTS[pathname] || DEFAULT_LAYOUT);
+
+  useEffect(() => {
+    layoutRef.current = DISC_LAYOUTS[pathname] || DEFAULT_LAYOUT;
+    canvasRef.current?.dispatchEvent(new Event("layoutchange"));
+  }, [pathname]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -144,7 +201,7 @@ export default function ParticleBackground() {
       antialias: false,
       depth: false,
       stencil: false,
-      premultipliedAlpha: false,
+      premultipliedAlpha: true,
       powerPreference: "high-performance",
     });
 
@@ -164,66 +221,84 @@ export default function ParticleBackground() {
       return undefined;
     }
 
-    const particleBuffer = gl.createBuffer();
-    const particleLocation = gl.getAttribLocation(program, "aParticle");
-    const timeLocation = gl.getUniformLocation(program, "uTime");
-    const lightModeLocation = gl.getUniformLocation(program, "uLightMode");
-
-    gl.bindBuffer(gl.ARRAY_BUFFER, particleBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, createParticleData(), gl.STATIC_DRAW);
+    const quad = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, quad);
+    gl.bufferData(
+      gl.ARRAY_BUFFER,
+      new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]),
+      gl.STATIC_DRAW,
+    );
     gl.useProgram(program);
-    gl.enableVertexAttribArray(particleLocation);
-    gl.vertexAttribPointer(particleLocation, 4, gl.FLOAT, false, 0, 0);
-    gl.enable(gl.BLEND);
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+    const positionLocation = gl.getAttribLocation(program, "aPosition");
+    gl.enableVertexAttribArray(positionLocation);
+    gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+
+    const uniforms = {
+      resolution: gl.getUniformLocation(program, "uResolution"),
+      time: gl.getUniformLocation(program, "uTime"),
+      seed: gl.getUniformLocation(program, "uSeed"),
+      lightMode: gl.getUniformLocation(program, "uLightMode"),
+      density: gl.getUniformLocation(program, "uDensity"),
+      disc: gl.getUniformLocation(program, "uDisc"),
+    };
+
+    gl.uniform1f(uniforms.seed, Math.random() * 100);
+    gl.uniform1f(uniforms.density, GRAIN_DENSITY);
 
     let frameId;
-    let particleCount = MIN_PARTICLES;
-    let startTime = performance.now();
-    let lastFrameTime = 0;
+    const startTime = performance.now();
+    let lastTime = startTime;
+    let lightMix = document.body.classList.contains("light-mode") ? 1 : 0;
+    const disc = [...layoutRef.current];
 
     const resize = () => {
-      const cssWidth = Math.max(1, window.innerWidth);
-      const cssHeight = Math.max(1, window.innerHeight);
-      const mobilePixelRatio = cssWidth <= 820
-        ? Math.min(window.devicePixelRatio || 1, 2)
-        : 1;
-      const width = Math.max(1, Math.round(cssWidth * mobilePixelRatio));
-      const height = Math.max(1, Math.round(cssHeight * mobilePixelRatio));
-
-      particleCount = Math.min(
-        MAX_PARTICLES,
-        Math.max(MIN_PARTICLES, Math.round((cssWidth * cssHeight) / 27)),
-      );
+      const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+      const width = Math.max(1, Math.round(window.innerWidth * pixelRatio));
+      const height = Math.max(1, Math.round(window.innerHeight * pixelRatio));
 
       if (canvas.width !== width || canvas.height !== height) {
         canvas.width = width;
         canvas.height = height;
         gl.viewport(0, 0, width, height);
       }
+      gl.uniform2f(uniforms.resolution, width, height);
     };
 
     const draw = (time) => {
-      const elapsed = reduceMotion.matches ? 4.0 : (time - startTime) * 0.001;
-      const lightMode = document.body.classList.contains("light-mode");
+      const elapsed = reduceMotion.matches ? 20 : (time - startTime) * 0.001;
+      const target = document.body.classList.contains("light-mode") ? 1 : 0;
+
+      // Ease the background tone when the theme flips.
+      const delta = Math.min(0.1, Math.max(0, time - lastTime) * 0.001);
+      lastTime = time;
+      lightMix += (target - lightMix) * Math.min(1, delta * 3);
+      if (Math.abs(target - lightMix) < 0.002 || reduceMotion.matches) {
+        lightMix = target;
+      }
 
       gl.clearColor(0, 0, 0, 0);
       gl.clear(gl.COLOR_BUFFER_BIT);
-      gl.uniform1f(timeLocation, elapsed);
-      gl.uniform1f(lightModeLocation, lightMode ? 1 : 0);
-      gl.drawArrays(gl.POINTS, 0, particleCount);
+      gl.uniform1f(uniforms.time, elapsed);
+      gl.uniform1f(uniforms.lightMode, lightMix);
+
+      // Glide the disc toward the current page's layout.
+      const glide = reduceMotion.matches ? 1 : 1 - Math.exp(-delta * GLIDE_SPEED);
+      for (let index = 0; index < 3; index += 1) {
+        disc[index] += (layoutRef.current[index] - disc[index]) * glide;
+      }
+      gl.uniform3f(uniforms.disc, disc[0], disc[1], disc[2]);
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
     };
 
     const animate = (time) => {
-      if (time - lastFrameTime >= 1000 / TARGET_FPS) {
-        draw(time);
-        lastFrameTime = time;
-      }
+      draw(time);
       frameId = window.requestAnimationFrame(animate);
     };
 
     const restart = () => {
       window.cancelAnimationFrame(frameId);
+      lastTime = performance.now();
       if (reduceMotion.matches || document.hidden) {
         draw(performance.now());
       } else {
@@ -231,19 +306,16 @@ export default function ParticleBackground() {
       }
     };
 
-    const handleVisibility = () => {
-      if (!document.hidden) {
-        startTime = performance.now() - 4000;
-      }
-      restart();
+    const redrawIfStill = () => {
+      if (reduceMotion.matches) draw(performance.now());
     };
-
-    const themeObserver = new MutationObserver(() => draw(performance.now()));
+    const themeObserver = new MutationObserver(redrawIfStill);
+    canvas.addEventListener("layoutchange", redrawIfStill);
 
     resize();
     restart();
     window.addEventListener("resize", resize);
-    document.addEventListener("visibilitychange", handleVisibility);
+    document.addEventListener("visibilitychange", restart);
     reduceMotion.addEventListener("change", restart);
     themeObserver.observe(document.body, {
       attributes: true,
@@ -253,10 +325,11 @@ export default function ParticleBackground() {
     return () => {
       window.cancelAnimationFrame(frameId);
       window.removeEventListener("resize", resize);
-      document.removeEventListener("visibilitychange", handleVisibility);
+      document.removeEventListener("visibilitychange", restart);
       reduceMotion.removeEventListener("change", restart);
       themeObserver.disconnect();
-      gl.deleteBuffer(particleBuffer);
+      canvas.removeEventListener("layoutchange", redrawIfStill);
+      gl.deleteBuffer(quad);
       gl.deleteProgram(program);
     };
   }, []);
