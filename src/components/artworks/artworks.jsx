@@ -11,10 +11,10 @@ function Artworks() {
         <ImageWithLoading src="/art/i4d67of.jpg" alt="Artwork2"></ImageWithLoading>
       </div>
       <div className="artwork-item">
-        <ImageWithLoading src="/art/EV7wJGa.png" alt="Artwork3"></ImageWithLoading>
+        <ImageWithLoading src="/art/bora-besiktepe-adsiz-resim.jpg" alt="Artwork3"></ImageWithLoading>
       </div>
       <div className="artwork-item">
-        <ImageWithLoading src="/art/bora-besiktepe-adsiz-resim.jpg" alt="Artwork4"></ImageWithLoading>
+        <ImageWithLoading src="/art/EV7wJGa.png" alt="Artwork4"></ImageWithLoading>
       </div>
       <div className="artwork-item">
         <ImageWithLoading src="/art/S6Gf6so.png" alt="Artwork5"></ImageWithLoading>
