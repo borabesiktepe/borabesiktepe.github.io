@@ -8,8 +8,6 @@ const CONTACTS = [
   { label: "ArtStation", href: "https://www.artstation.com/borabesiktepe" },
 ];
 
-const firstYear = Math.min(...artworks.map((a) => Number(a.year)));
-
 // The bio set as a poster. Display words are written in capitals in the
 // source so Turkish İ stays correct (CSS uppercasing would give I).
 const About = () => (
@@ -43,14 +41,9 @@ const About = () => (
       </span>
     </p>
 
-    <figure className="about-pin" aria-hidden="true">
-      <img src="/art/i4d67of.jpg" alt="" draggable={false} />
-      <span className="about-tape" />
-    </figure>
-
     <div className="about-strip t-mono">
       <span className="about-strip-info">
-        Since {firstYear} · {artworks.length} works · © {new Date().getFullYear()}
+        {artworks.length} works · © {new Date().getFullYear()}
       </span>
       {CONTACTS.map((c) => (
         <a
