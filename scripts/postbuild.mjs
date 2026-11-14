@@ -2,9 +2,9 @@
 //
 // GitHub Pages only serves files that exist. Without these copies, /about and
 // /artworks fall through to 404.html and answer with HTTP 404, which keeps
-// them out of Google. Each route gets its own index.html with its own title,
+// them out of Google. Each route gets its own HTML file with its own title,
 // description and canonical URL; 404.html keeps the SPA fallback working.
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 
 const SITE = "https://borabesiktepe.com";
 const base = readFileSync("dist/index.html", "utf8");
@@ -32,9 +32,11 @@ const swap = (html, { path, title, description }) =>
     .replace(/(<link rel="canonical" href=")[^"]*/, `$1${SITE}/${path}`)
     .replace(/(<meta property="og:url" content=")[^"]*/, `$1${SITE}/${path}`);
 
+// about.html rather than about/index.html: GitHub Pages serves /about
+// straight from about.html, while a folder makes it redirect to /about/
+// and the canonical URL would point at a redirect.
 for (const route of ROUTES) {
-  mkdirSync(`dist/${route.path}`, { recursive: true });
-  writeFileSync(`dist/${route.path}/index.html`, swap(base, route));
+  writeFileSync(`dist/${route.path}.html`, swap(base, route));
 }
 
 // The 404 page must not claim to be the home page.
