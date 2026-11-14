@@ -6,7 +6,7 @@
   "homepage": "https://borabesiktepe.com/",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && shx cp dist/index.html dist/404.html",
+    "build": "vite build && node scripts/postbuild.mjs",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
