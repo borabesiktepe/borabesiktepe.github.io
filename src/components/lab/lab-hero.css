@@ -427,6 +427,205 @@
   }
 }
 
+
+/* ---------------------------------------------------------------------
+   Round 3: after the kinetic brutalist poster Bora shared. Wide caps on a
+   sine wave, outline and filled copies of the same line, lines clipped
+   mid-glyph by their band. Everything settles into the usual name.
+   --------------------------------------------------------------------- */
+
+@property --amp {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+@property --ph {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0deg;
+}
+
+.lab-copy,
+.lab-ghost,
+.lab-real,
+.lab-reel,
+.lab-reel b {
+  font: inherit;
+  font-style: inherit;
+  color: inherit;
+}
+
+.lab-stack {
+  position: relative;
+}
+
+.lab-ghost {
+  visibility: hidden;
+}
+
+.lab-copy {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Outline copies: no fill, a stroke in the same light colour, so under the
+   inversion they read as ink outlines on the paper and light ones on the
+   dark drawing. */
+.lab-outline {
+  color: transparent !important;
+  -webkit-text-stroke: max(1.5px, 0.012em) #f7f6f1;
+}
+
+/* A travelling sine wave across the letters. --amp fades the wave out,
+   --ph moves it along; both animate on the name and every letter reads
+   them. While it waves the letters are also stretched wide (Archivo's
+   width axis goes to 125), like the extended caps in the poster. */
+.lab-v-wave .home-name,
+.lab-v-outline .home-name {
+  animation: lab-wave 1.8s cubic-bezier(0.3, 0, 0.2, 1) 0.9s both;
+}
+
+@keyframes lab-wave {
+  from {
+    --amp: 1;
+    --ph: 0deg;
+  }
+  to {
+    --amp: 0;
+    --ph: -540deg;
+  }
+}
+
+.lab-v-wave .home-name span,
+.lab-v-outline .home-name span {
+  animation: lab-cut-in 0.01s steps(1, end) 0.9s both;
+  font-variation-settings: "wdth" calc(100 + 25 * var(--amp));
+}
+
+@keyframes lab-cut-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.lab-v-wave .lab-ch,
+.lab-v-outline .lab-ch {
+  transform: translateY(calc(sin(var(--i) * 38deg + var(--ph)) * 0.32em * var(--amp)))
+    rotate(calc(cos(var(--i) * 38deg + var(--ph)) * -9deg * var(--amp)));
+}
+
+/* 15. Wave: as above. */
+
+/* 16. Outline: the same wave, but the letters wave as outlines and are
+   filled in one hard cut, letter by letter, as the wave dies down. */
+.lab-v-outline .lab-ch {
+  animation: lab-hollow steps(1, end) 0.9s backwards;
+  animation-duration: calc(1s + var(--i) * 0.05s);
+}
+
+/* Held from before the start until each letter's moment, then the letter
+   falls back to its normal fill in a single frame. */
+@keyframes lab-hollow {
+  from,
+  to {
+    color: transparent;
+    -webkit-text-stroke: max(1.5px, 0.012em) #f7f6f1;
+  }
+}
+
+/* 17. Echo: three copies of each line (outline, fill, outline) are stacked
+   above it like the poster's repeated lines, then drop into it one by one
+   in hard steps and vanish as they land. */
+.lab-v-echo .home-name span {
+  animation: none;
+}
+
+.lab-v-echo .lab-real {
+  animation: lab-cut-in 0.01s steps(1, end) both;
+  animation-delay: calc(0.9s + var(--line, 0) * 0.15s);
+}
+
+.lab-v-echo .home-name span:last-child .lab-real {
+  animation-delay: 1.05s;
+}
+
+.lab-v-echo .lab-echo {
+  opacity: 0;
+  animation: lab-echo 0.9s steps(5, end) forwards;
+  animation-delay: calc(0.9s + var(--line) * 0.15s + (3 - var(--k)) * 0.12s);
+}
+
+@keyframes lab-echo {
+  0% {
+    opacity: 1;
+    transform: translateY(calc(var(--k) * -92%));
+  }
+  99% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+/* 18. Reel: each line is a band clipped just around its letters. A reel of
+   copies (outline, fill, outline, fill) rolls down through it, cutting the
+   letters mid-glyph at the edges, and stops dead on the filled one. */
+.lab-v-reel .home-name span {
+  animation: none;
+}
+
+.lab-band {
+  clip-path: inset(-14% -4% -22% -4%);
+}
+
+.lab-reel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  transform: translateY(-75%);
+  animation: lab-reel 1s cubic-bezier(0.55, 0, 1, 0.45) both;
+  animation-delay: calc(0.9s + var(--line) * 0.2s);
+}
+
+.lab-reel b {
+  display: block;
+  font-weight: inherit;
+}
+
+/* Once the reel stops, the copies around the filled one go, so nothing
+   peeks into the band's overhang. */
+.lab-v-reel .lab-reel b + b {
+  animation: lab-reel-off 1s steps(1, end) forwards;
+  animation-delay: calc(0.9s + var(--line) * 0.2s);
+}
+
+@keyframes lab-reel-off {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes lab-reel {
+  from {
+    transform: translateY(-75%);
+  }
+  to {
+    transform: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .home[class*="lab-v-"] *,
   .home[class*="lab-v-"] *::after {

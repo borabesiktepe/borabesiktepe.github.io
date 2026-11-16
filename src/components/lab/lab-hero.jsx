@@ -8,9 +8,46 @@ import "./lab-hero.css";
 
 const CONTACTS = ["Instagram", "ArtStation", "Email"];
 const LINES = ["BORA", "BEŞİKTEPE"];
-const SPLIT = new Set(["letters", "stamp"]);
+const SPLIT = new Set(["letters", "stamp", "wave", "outline"]);
+const ECHOES = 3;
+const REEL = ["fill", "outline", "fill", "outline"];
 
-function Line({ text, line, split, sliced }) {
+function Line({ text, line, split, sliced, variant }) {
+  // Round 3: copies of the line stacked above it (alternating outline and
+  // fill) that collapse down into it.
+  if (variant === "echo") {
+    return (
+      <span className="lab-stack" aria-label={text}>
+        <i className="lab-real" aria-hidden="true">{text}</i>
+        {Array.from({ length: ECHOES }, (_, k) => (
+          <i
+            key={k}
+            aria-hidden="true"
+            className={`lab-copy lab-echo${k % 2 ? "" : " lab-outline"}`}
+            style={{ "--k": k + 1, "--line": line }}
+          >
+            {text}
+          </i>
+        ))}
+      </span>
+    );
+  }
+  // Round 3: the line is a clipped band; a reel of copies rolls through it
+  // and stops on the filled one.
+  if (variant === "reel") {
+    return (
+      <span className="lab-stack lab-band" aria-label={text}>
+        <i className="lab-ghost" aria-hidden="true">{text}</i>
+        <i className="lab-reel" aria-hidden="true" style={{ "--line": line }}>
+          {REEL.map((kind, k) => (
+            <b key={k} className={kind === "outline" ? "lab-outline" : ""}>
+              {text}
+            </b>
+          ))}
+        </i>
+      </span>
+    );
+  }
   if (sliced) {
     return (
       <span aria-label={text}>
@@ -71,6 +108,7 @@ export default function LabHero({ variant }) {
               line={line}
               split={split}
               sliced={sliced}
+              variant={variant}
             />
           ))}
         </h1>

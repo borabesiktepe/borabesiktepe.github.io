@@ -83,8 +83,33 @@ const VARIANTS = [
     title: "Yığın",
     text: "Önce BEŞİKTEPE yukarıdan düşüp şeride oturuyor, sonra BORA onun üstüne düşüyor. Sekme yok, saf yerçekimi; her inişte afiş sarsılıyor.",
   },
+  {
+    id: "wave",
+    round: 3,
+    title: "Dalga",
+    text: "Harfler geniş (fontun genişlik ekseni sonuna kadar açık) ve bir sinüs dalgası üstünde kıvrılarak geliyor; dalga sönünce isim düz ve normal genişliğine oturuyor.",
+  },
+  {
+    id: "outline",
+    round: 3,
+    title: "Kontur dalgası",
+    text: "Aynı dalga, ama harfler önce içi boş kontur; dalga sönerken her harf tek karede dolup ismi oluşturuyor.",
+  },
+  {
+    id: "echo",
+    round: 3,
+    title: "Yankı",
+    text: "Posterdeki tekrar eden satırlar gibi: her satırın üstünde kontur ve dolu kopyaları yığılı, kopyalar sert adımlarla aşağı inip ismin içine çöküyor.",
+  },
+  {
+    id: "reel",
+    round: 3,
+    title: "Makara",
+    text: "Her satır kendi bandına kırpılmış; içinden kontur ve dolu kopyalar makara gibi akıyor, kenarlarda harfler ortadan kesik görünüyor, dolu olanda frensiz duruyor.",
+  },
 ];
 
+const ROUND_3 = VARIANTS.filter((v) => v.round === 3);
 const ROUND_1 = VARIANTS.filter((v) => !v.round);
 const ROUND_2 = VARIANTS.filter((v) => v.round === 2);
 
@@ -171,6 +196,17 @@ function Overview() {
           için başlığa tıkla.
         </p>
       </header>
+
+      <section className="lab-round">
+        <h2 className="lab-round-title t-mono">
+          Tur 3 · Paylaştığın posterden: dalga, kontur, tekrar, kırpık bant
+        </h2>
+        <ol className="lab-list">
+          {ROUND_3.map((v) => (
+            <Card key={v.id} v={v} i={VARIANTS.indexOf(v)} />
+          ))}
+        </ol>
+      </section>
 
       <section className="lab-round">
         <h2 className="lab-round-title t-mono">
