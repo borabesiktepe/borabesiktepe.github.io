@@ -1,4 +1,15 @@
+import { useEffect } from "react";
+
 function NoPage() {
+  // Tell Google not to index whatever address ended up here.
+  useEffect(() => {
+    const meta = document.createElement("meta");
+    meta.name = "robots";
+    meta.content = "noindex";
+    document.head.appendChild(meta);
+    return () => meta.remove();
+  }, []);
+
   return (
     <main
       style={{

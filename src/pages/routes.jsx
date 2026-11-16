@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 
 import Home from "../components/home";
@@ -32,6 +32,14 @@ function AppRoutes() {
                     <Route path="artworks" element={<Artworks />} />
                     <Route path="about" element={<About />} />
                 </Route>
+                {/* The build writes index.html, about.html and artworks.html, and
+                    GitHub Pages answers 200 for them. Send those addresses to the
+                    clean URL instead of showing a 404 page with a 200 status,
+                    which Google reports as a soft 404. /contact was an old page. */}
+                <Route path="index.html" element={<Navigate to="/" replace />} />
+                <Route path="about.html" element={<Navigate to="/about" replace />} />
+                <Route path="artworks.html" element={<Navigate to="/artworks" replace />} />
+                <Route path="contact" element={<Navigate to="/about" replace />} />
                 <Route path="*" element={<NoPage />} />
             </Routes>
         </AnimatePresence>
