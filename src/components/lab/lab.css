@@ -121,3 +121,15 @@
   top: calc(var(--header-h) + 12px);
   z-index: 200;
 }
+
+.lab-round + .lab-round {
+  margin-top: clamp(56px, 8vw, 104px);
+}
+
+.lab-round-title {
+  margin-bottom: 18px;
+  padding: 6px 10px;
+  display: inline-block;
+  background: var(--ink);
+  color: var(--paper);
+}

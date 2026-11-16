@@ -10,7 +10,19 @@ const CONTACTS = ["Instagram", "ArtStation", "Email"];
 const LINES = ["BORA", "BEŞİKTEPE"];
 const SPLIT = new Set(["letters", "stamp"]);
 
-function Line({ text, line, split }) {
+function Line({ text, line, split, sliced }) {
+  if (sliced) {
+    return (
+      <span aria-label={text}>
+        <i aria-hidden="true" className="lab-sl-a">
+          {text}
+        </i>
+        <i aria-hidden="true" className="lab-sl-b">
+          {text}
+        </i>
+      </span>
+    );
+  }
   if (!split) return <span>{text}</span>;
   return (
     <span aria-label={text}>
@@ -30,6 +42,7 @@ function Line({ text, line, split }) {
 
 export default function LabHero({ variant }) {
   const split = SPLIT.has(variant);
+  const sliced = variant === "slices";
   return (
     <main className={`home lab-v-${variant}`}>
       <div className="home-panels" aria-hidden="true">
@@ -52,7 +65,13 @@ export default function LabHero({ variant }) {
       <div className="home-bottom">
         <h1 className="home-name t-display">
           {LINES.map((text, line) => (
-            <Line key={text} text={text} line={line} split={split} />
+            <Line
+              key={text}
+              text={text}
+              line={line}
+              split={split}
+              sliced={sliced}
+            />
           ))}
         </h1>
 
