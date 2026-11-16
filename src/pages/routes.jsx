@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { lazy, useEffect } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 
@@ -7,12 +7,17 @@ import Artworks from "../components/artworks-page";
 import About from "../components/about";
 
 import NoPage from "./NoPage";
+
 import Layout from "../Layout";
+
+// Unlisted test page; loaded only when someone opens /lab.
+const Lab = lazy(() => import("../components/lab"));
 
 const TITLES = {
     "/": "Bora Beşiktepe",
     "/artworks": "Artworks | Bora Beşiktepe",
     "/about": "About | Bora Beşiktepe",
+    "/lab": "Lab | Bora Beşiktepe",
 };
 
 function AppRoutes() {
@@ -31,6 +36,7 @@ function AppRoutes() {
                     <Route index element={<Home />} />
                     <Route path="artworks" element={<Artworks />} />
                     <Route path="about" element={<About />} />
+                    <Route path="lab" element={<Lab />} />
                 </Route>
                 {/* The build writes index.html, about.html and artworks.html, and
                     GitHub Pages answers 200 for them. Send those addresses to the

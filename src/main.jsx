@@ -30,11 +30,16 @@ const preload = (path) =>
     img.src = src
   })
 
+// The /lab test page shows the home hero many times in iframes; skip the
+// loader there.
+const IS_LAB = window.location.pathname.replace(/\/+$/, '') === '/lab'
+
 export default function App() {
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(!IS_LAB)
   const [progress, setProgress] = useState(0)
 
   useEffect(() => {
+    if (IS_LAB) return
     let loaded = 0
     const images = Promise.all(
       FEATURED.map((path) =>

@@ -39,6 +39,13 @@ for (const route of ROUTES) {
   writeFileSync(`dist/${route.path}.html`, swap(base, route));
 }
 
+// Unlisted test page: served with 200 but kept out of search and the sitemap.
+writeFileSync(
+  "dist/lab.html",
+  swap(base, { path: "lab", title: "Lab | Bora Beşiktepe", description: "Test page." })
+    .replace(/\s*<link rel="canonical" href="[^"]*">/, "\n  <meta name=\"robots\" content=\"noindex, nofollow\">"),
+);
+
 // The 404 page must not claim to be the home page.
 writeFileSync(
   "dist/404.html",
