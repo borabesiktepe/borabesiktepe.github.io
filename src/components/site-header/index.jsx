@@ -4,10 +4,8 @@ import "./site-header.css";
 
 // One bar, one job per control: the name goes home, each tab opens its page.
 export default function SiteHeader() {
-  const { pathname, search } = useLocation();
-  // The /lab?v=… previews stand in for the home page.
-  const isHome =
-    pathname === "/" || (pathname === "/lab" && search.startsWith("?v="));
+  const { pathname } = useLocation();
+  const isHome = pathname === "/";
 
   return (
     <header className="site-header">

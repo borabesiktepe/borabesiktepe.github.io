@@ -93,6 +93,9 @@
   padding: 0 var(--gutter);
   /* Sized so BEŞİKTEPE always fits the width on one line. */
   font-size: calc((100vw - 2 * var(--gutter)) / 6.15);
+  /* Inverts what is behind it: ink over the paper, light over the dark
+     drawings, so the letters never vanish into black. */
+  mix-blend-mode: difference;
 }
 
 .home-name span {
@@ -105,6 +108,9 @@
   letter-spacing: -0.045em;
   line-height: 0.9;
   white-space: nowrap;
+  /* Paper plus the ink's darkness: under the difference blend this comes
+     out as the usual ink (#0b0b0b) over the paper. */
+  color: #f7f6f1;
   animation: name-rise 1s cubic-bezier(0.65, 0.05, 0.12, 0.99) both;
 }
 
