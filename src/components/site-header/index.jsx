@@ -21,7 +21,7 @@ export default function SiteHeader() {
       )}
 
       <span className="site-header-role t-mono">
-        Illustrator / Visual Artist
+        SKETCHES / DIGITAL ART
       </span>
 
       <nav className="site-header-nav t-mono" aria-label="Main">

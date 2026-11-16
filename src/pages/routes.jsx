@@ -10,7 +10,7 @@ import NoPage from "./NoPage";
 import Layout from "../Layout";
 
 const TITLES = {
-    "/": "Bora Beşiktepe | Digital Illustrator from İstanbul",
+    "/": "Bora Beşiktepe",
     "/artworks": "Artworks | Bora Beşiktepe",
     "/about": "About | Bora Beşiktepe",
 };
