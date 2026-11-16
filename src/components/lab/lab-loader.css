@@ -28,7 +28,7 @@
   user-select: none;
   /* One wave cycle per phrase. Its phase turns once while the rows move
      one phrase, so the bend stays in place and the letters run through it. */
-  --step: 24deg; /* 360deg / letters in a phrase */
+  /* --step (360deg / letters in a phrase) is set from the component. */
   --dur: 7s;
   animation: ll-phase var(--dur) linear infinite;
 }
@@ -61,19 +61,27 @@
 }
 
 .ll-rows {
+  --rh: calc((100dvh - var(--header-h)) / var(--rows, 8));
   position: absolute;
-  top: var(--header-h);
+  /* The extra rows sit above the bar, out of sight, and the stack sinks
+     slowly into view. */
+  top: calc(var(--header-h) - var(--above, 6) * var(--rh));
   left: 0;
   right: 0;
-  bottom: 0;
   display: grid;
   /* The column must not grow to the long tracks, or the mirrored rows flip
      around the wrong centre. */
   grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: repeat(var(--rows, 8), 1fr);
+  grid-auto-rows: var(--rh);
   align-items: center;
-  /* The rows fill the sheet below the bar. */
-  font-size: calc((100dvh - var(--header-h)) / var(--rows, 8) * 0.86);
+  font-size: calc(var(--rh) * 0.86);
+  animation: ll-sink 9s linear both;
+}
+
+@keyframes ll-sink {
+  to {
+    transform: translateY(calc(var(--above, 6) * var(--rh)));
+  }
 }
 
 .ll-row {
@@ -85,6 +93,16 @@
    its own letters still run left through the same wave. */
 .ll-mirror {
   transform: scaleX(-1);
+}
+
+/* Zigzag: rows tilt one way and the next the other, so the text runs down
+   the sheet like a Z, back and forth. */
+.ll-row {
+  rotate: -2.5deg;
+}
+
+.ll-row.ll-mirror {
+  rotate: 2.5deg;
 }
 
 .ll-track {
@@ -134,7 +152,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .ll,
-  .ll-track {
+  .ll-track,
+  .ll-rows {
     animation: none;
   }
 }

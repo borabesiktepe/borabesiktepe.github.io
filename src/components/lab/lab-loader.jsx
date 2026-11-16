@@ -2,9 +2,10 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import "./lab-loader.css";
 
-// Lab only: a loader after the kinetic ribbon reference. Rows of the name in
+// Lab only: a loader after the kinetic ribbon reference. Rows of LOADING in
 // wide caps run left and right through one standing wave, every other row
-// mirrored. Rows start as outlines and fill in one hard cut each as the
+// mirrored, each row tilted the other way so the stack zigzags like a Z,
+// and the whole stack slowly sinks. Rows start as outlines and fill in one hard cut each as the
 // images load, top to bottom, so the sheet itself is the progress bar.
 
 // Eight rows on a wide screen; a tall phone gets more, smaller rows so the
@@ -16,8 +17,11 @@ function rowCount() {
   const font = Math.min(((h - bar) / 8) * 0.86, w * 0.12);
   return Math.max(8, Math.round((h - bar) / (font / 0.86)));
 }
-const PHRASE = "BORA BEŞİKTEPE ";
-const COPIES = 4; // phrases per row: enough to cover the widest screen twice
+const PHRASE = "LOADING ";
+const COPIES = 8; // phrases per row: enough to cover the widest screen twice
+// Extra rows waiting above the screen: the stack slowly sinks, so these
+// come into view while the loader runs.
+const ABOVE = 6;
 
 function Row({ r, filled }) {
   return (
@@ -76,7 +80,11 @@ function KineticLoader({ progress }) {
         transition: { duration: 0.6, ease: [0.65, 0.05, 0.12, 0.99] },
       }}
       initial={{ clipPath: "inset(0 0 0% 0)" }}
-      style={{ "--rows": rows }}
+      style={{
+        "--rows": rows,
+        "--above": ABOVE,
+        "--step": `${360 / PHRASE.length}deg`,
+      }}
     >
       <div className="ll-top t-mono">
         <span>Portfolio · 2019—2026</span>
@@ -85,8 +93,14 @@ function KineticLoader({ progress }) {
         </span>
       </div>
       <div className="ll-rows" aria-hidden="true">
-        {Array.from({ length: rows }, (_, r) => (
-          <Row key={r} r={r} filled={progress >= ((r + 1) / rows) * 100} />
+        {Array.from({ length: rows + ABOVE }, (_, r) => (
+          <Row
+            key={r}
+            r={r}
+            // Fills from the top down, starting with the rows still above
+            // the screen, so solid rows sink into view like a pour.
+            filled={progress >= ((r + 1) / (rows + ABOVE)) * 100}
+          />
         ))}
       </div>
     </motion.div>
