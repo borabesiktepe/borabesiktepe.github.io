@@ -1,10 +1,14 @@
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import "../artworks-page/artworks-page.css";
-import artworksData from "../artworks-page/artworks.json";
+import "./artworks-page.css";
+import artworksData from "./artworks.json";
 import Showcase from "../showcase";
+import { artImage } from "../../utils/art";
 
 const ALL_YEARS = "all";
+
+// Card width at each grid breakpoint in artworks-page.css (4, 3, 2 columns).
+const GRID_SIZES = "(max-width: 820px) 50vw, (max-width: 1100px) 34vw, 26vw";
 
 const artworks = [...artworksData].sort(
   (a, b) => Number(b.year) - Number(a.year)
@@ -113,7 +117,8 @@ const ArtworksPage = () => {
                         >
                           <span className="artwork-card-frame">
                             <img
-                              src={artwork.imageUrl}
+                              {...artImage(artwork.imageUrl)}
+                              sizes={GRID_SIZES}
                               alt={`Bora Beşiktepe, artwork from ${artwork.year}`}
                               loading={index < 8 ? "eager" : "lazy"}
                               decoding="async"

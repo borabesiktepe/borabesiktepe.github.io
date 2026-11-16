@@ -1,0 +1,301 @@
+{
+  "/art/9imrukf.jpg": {
+    "full": "/art/9imrukf.jpg",
+    "width": 1080,
+    "height": 1350,
+    "sizes": [
+      {
+        "src": "/art/web/9imrukf-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/art/web/9imrukf-960.webp",
+        "width": 960
+      }
+    ]
+  },
+  "/art/EV7wJGa.png": {
+    "full": "/art/web/EV7wJGa.webp",
+    "width": 910,
+    "height": 1350,
+    "sizes": [
+      {
+        "src": "/art/web/EV7wJGa-480.webp",
+        "width": 480
+      }
+    ]
+  },
+  "/art/NOfW88G.png": {
+    "full": "/art/web/NOfW88G.webp",
+    "width": 910,
+    "height": 1350,
+    "sizes": [
+      {
+        "src": "/art/web/NOfW88G-480.webp",
+        "width": 480
+      }
+    ]
+  },
+  "/art/S6Gf6so.png": {
+    "full": "/art/web/S6Gf6so.webp",
+    "width": 910,
+    "height": 1350,
+    "sizes": [
+      {
+        "src": "/art/web/S6Gf6so-480.webp",
+        "width": 480
+      }
+    ]
+  },
+  "/art/bora-besiktepe-107531353-713989812502318-4353869834234070874-n.jpg": {
+    "full": "/art/bora-besiktepe-107531353-713989812502318-4353869834234070874-n.jpg",
+    "width": 1080,
+    "height": 1350,
+    "sizes": [
+      {
+        "src": "/art/web/bora-besiktepe-107531353-713989812502318-4353869834234070874-n-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/art/web/bora-besiktepe-107531353-713989812502318-4353869834234070874-n-960.webp",
+        "width": 960
+      }
+    ]
+  },
+  "/art/bora-besiktepe-121255888-1018205745270759-8621102770366216297-n.jpg": {
+    "full": "/art/bora-besiktepe-121255888-1018205745270759-8621102770366216297-n.jpg",
+    "width": 1080,
+    "height": 1350,
+    "sizes": [
+      {
+        "src": "/art/web/bora-besiktepe-121255888-1018205745270759-8621102770366216297-n-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/art/web/bora-besiktepe-121255888-1018205745270759-8621102770366216297-n-960.webp",
+        "width": 960
+      }
+    ]
+  },
+  "/art/bora-besiktepe-125891010-213217880206292-2947657047317913642-n.jpg": {
+    "full": "/art/bora-besiktepe-125891010-213217880206292-2947657047317913642-n.jpg",
+    "width": 1080,
+    "height": 1350,
+    "sizes": [
+      {
+        "src": "/art/web/bora-besiktepe-125891010-213217880206292-2947657047317913642-n-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/art/web/bora-besiktepe-125891010-213217880206292-2947657047317913642-n-960.webp",
+        "width": 960
+      }
+    ]
+  },
+  "/art/bora-besiktepe-137269091-713051319415574-2780865654196107180-n.jpg": {
+    "full": "/art/bora-besiktepe-137269091-713051319415574-2780865654196107180-n.jpg",
+    "width": 1080,
+    "height": 1350,
+    "sizes": [
+      {
+        "src": "/art/web/bora-besiktepe-137269091-713051319415574-2780865654196107180-n-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/art/web/bora-besiktepe-137269091-713051319415574-2780865654196107180-n-960.webp",
+        "width": 960
+      }
+    ]
+  },
+  "/art/bora-besiktepe-167278825-302211417991360-5320717863167325527-n.jpg": {
+    "full": "/art/bora-besiktepe-167278825-302211417991360-5320717863167325527-n.jpg",
+    "width": 1080,
+    "height": 1350,
+    "sizes": [
+      {
+        "src": "/art/web/bora-besiktepe-167278825-302211417991360-5320717863167325527-n-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/art/web/bora-besiktepe-167278825-302211417991360-5320717863167325527-n-960.webp",
+        "width": 960
+      }
+    ]
+  },
+  "/art/bora-besiktepe-185255469-518941912464951-334296113164757913-n.jpg": {
+    "full": "/art/bora-besiktepe-185255469-518941912464951-334296113164757913-n.jpg",
+    "width": 1080,
+    "height": 1348,
+    "sizes": [
+      {
+        "src": "/art/web/bora-besiktepe-185255469-518941912464951-334296113164757913-n-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/art/web/bora-besiktepe-185255469-518941912464951-334296113164757913-n-960.webp",
+        "width": 960
+      }
+    ]
+  },
+  "/art/bora-besiktepe-243716927-591849758833509-4850822869558982970-n.jpg": {
+    "full": "/art/bora-besiktepe-243716927-591849758833509-4850822869558982970-n.jpg",
+    "width": 1080,
+    "height": 1350,
+    "sizes": [
+      {
+        "src": "/art/web/bora-besiktepe-243716927-591849758833509-4850822869558982970-n-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/art/web/bora-besiktepe-243716927-591849758833509-4850822869558982970-n-960.webp",
+        "width": 960
+      }
+    ]
+  },
+  "/art/bora-besiktepe-309920803-1242645133253186-7848651775024215199-n.jpg": {
+    "full": "/art/bora-besiktepe-309920803-1242645133253186-7848651775024215199-n.jpg",
+    "width": 1080,
+    "height": 1350,
+    "sizes": [
+      {
+        "src": "/art/web/bora-besiktepe-309920803-1242645133253186-7848651775024215199-n-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/art/web/bora-besiktepe-309920803-1242645133253186-7848651775024215199-n-960.webp",
+        "width": 960
+      }
+    ]
+  },
+  "/art/bora-besiktepe-90143153-516442732591379-6140912824639170032-n.jpg": {
+    "full": "/art/bora-besiktepe-90143153-516442732591379-6140912824639170032-n.jpg",
+    "width": 1080,
+    "height": 1349,
+    "sizes": [
+      {
+        "src": "/art/web/bora-besiktepe-90143153-516442732591379-6140912824639170032-n-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/art/web/bora-besiktepe-90143153-516442732591379-6140912824639170032-n-960.webp",
+        "width": 960
+      }
+    ]
+  },
+  "/art/bora-besiktepe-92293094-220960985635638-3489854601378050551-n.jpg": {
+    "full": "/art/bora-besiktepe-92293094-220960985635638-3489854601378050551-n.jpg",
+    "width": 1080,
+    "height": 1350,
+    "sizes": [
+      {
+        "src": "/art/web/bora-besiktepe-92293094-220960985635638-3489854601378050551-n-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/art/web/bora-besiktepe-92293094-220960985635638-3489854601378050551-n-960.webp",
+        "width": 960
+      }
+    ]
+  },
+  "/art/bora-besiktepe-adsiz-resim.jpg": {
+    "full": "/art/bora-besiktepe-adsiz-resim.jpg",
+    "width": 1920,
+    "height": 2400,
+    "sizes": [
+      {
+        "src": "/art/web/bora-besiktepe-adsiz-resim-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/art/web/bora-besiktepe-adsiz-resim-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/art/web/bora-besiktepe-adsiz-resim-1440.webp",
+        "width": 1440
+      }
+    ]
+  },
+  "/art/i4d67of.jpg": {
+    "full": "/art/i4d67of.jpg",
+    "width": 1080,
+    "height": 1350,
+    "sizes": [
+      {
+        "src": "/art/web/i4d67of-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/art/web/i4d67of-960.webp",
+        "width": 960
+      }
+    ]
+  },
+  "/art/lfdmig7.jpg": {
+    "full": "/art/lfdmig7.jpg",
+    "width": 1080,
+    "height": 1350,
+    "sizes": [
+      {
+        "src": "/art/web/lfdmig7-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/art/web/lfdmig7-960.webp",
+        "width": 960
+      }
+    ]
+  },
+  "/art/mTkh2tz.png": {
+    "full": "/art/web/mTkh2tz.webp",
+    "width": 910,
+    "height": 1350,
+    "sizes": [
+      {
+        "src": "/art/web/mTkh2tz-480.webp",
+        "width": 480
+      }
+    ]
+  },
+  "/art/p6samef.jpg": {
+    "full": "/art/p6samef.jpg",
+    "width": 1080,
+    "height": 1350,
+    "sizes": [
+      {
+        "src": "/art/web/p6samef-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/art/web/p6samef-960.webp",
+        "width": 960
+      }
+    ]
+  },
+  "/art/t0b209g.jpg": {
+    "full": "/art/t0b209g.jpg",
+    "width": 1080,
+    "height": 1350,
+    "sizes": [
+      {
+        "src": "/art/web/t0b209g-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/art/web/t0b209g-960.webp",
+        "width": 960
+      }
+    ]
+  },
+  "/art/wxcZzVd.png": {
+    "full": "/art/web/wxcZzVd.webp",
+    "width": 910,
+    "height": 1350,
+    "sizes": [
+      {
+        "src": "/art/web/wxcZzVd-480.webp",
+        "width": 480
+      }
+    ]
+  }
+}

@@ -1,15 +1,10 @@
 import { motion } from "framer-motion";
+import { FEATURED, HOME_SIZES, artImage } from "../../utils/art";
 import "./home.css";
 
-// Five featured pieces; the darkest, most finished drawing sits in the centre.
-// On the home page the panels are pure display: no click, drag or selection.
-const FEATURED = [
-  "/art/NOfW88G.png",
-  "/art/i4d67of.jpg",
-  "/art/bora-besiktepe-adsiz-resim.jpg",
-  "/art/EV7wJGa.png",
-  "/art/S6Gf6so.png",
-];
+// Five featured pieces (see utils/art.js); the darkest, most finished drawing
+// sits in the centre. On the home page the panels are pure display: no click,
+// drag or selection.
 
 const CONTACTS = [
   { label: "Instagram", href: "https://www.instagram.com/borabesiktepe/" },
@@ -33,7 +28,13 @@ function Home() {
       <div className="home-panels" aria-hidden="true">
         {FEATURED.map((src, i) => (
           <div key={src} className="home-panel">
-            <img src={src} alt="" decoding="async" draggable={false} />
+            <img
+              {...artImage(src)}
+              sizes={HOME_SIZES}
+              alt=""
+              decoding="async"
+              draggable={false}
+            />
             <span className="home-panel-num t-mono">
               Nº{String(i + 1).padStart(2, "0")}
             </span>

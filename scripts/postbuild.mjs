@@ -50,11 +50,12 @@ writeFileSync(
 const artworks = JSON.parse(
   readFileSync("src/components/artworks-page/artworks.json", "utf8"),
 );
+const manifest = JSON.parse(readFileSync("src/utils/art-manifest.json", "utf8"));
 const today = new Date().toISOString().slice(0, 10);
 const images = artworks
   .map(
     (a) => `
-    <image:image><image:loc>${SITE}${encodeURI(a.imageUrl)}</image:loc></image:image>`,
+    <image:image><image:loc>${SITE}${encodeURI(manifest[a.imageUrl]?.full ?? a.imageUrl)}</image:loc></image:image>`,
   )
   .join("");
 const url = (path, extra = "") => `

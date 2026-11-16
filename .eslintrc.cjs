@@ -11,5 +11,7 @@ module.exports = {
   plugins: ['react-refresh'],
   rules: {
     'react-refresh/only-export-components': 'warn',
+    // Components here are small and local; PropTypes would only add noise.
+    'react/prop-types': 'off',
   },
 }

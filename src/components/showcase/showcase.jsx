@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { fullImage } from "../../utils/art";
 import "./showcase.css";
 
 const SWIPE_DISTANCE = 60;
@@ -9,6 +10,8 @@ const Showcase = ({ items, index, onIndexChange, onClose }) => {
   const [direction, setDirection] = useState(0);
   const swipeStart = useRef(null);
   const swiped = useRef(false);
+  const dialogRef = useRef(null);
+  const closeRef = useRef(null);
   const total = items.length;
   const item = items[index];
 
@@ -25,16 +28,37 @@ const Showcase = ({ items, index, onIndexChange, onClose }) => {
       if (event.key === "Escape") onClose();
       else if (event.key === "ArrowRight") go(1);
       else if (event.key === "ArrowLeft") go(-1);
+      else if (event.key === "Tab") {
+        // Keep keyboard focus inside the viewer while it is open.
+        const buttons = dialogRef.current?.querySelectorAll("button");
+        if (!buttons?.length) return;
+        const first = buttons[0];
+        const last = buttons[buttons.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [go, onClose]);
 
+  // Lock page scroll, move focus into the viewer, and on close hand focus
+  // back to the card that opened it.
   useEffect(() => {
+    const opener = document.activeElement;
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    closeRef.current?.focus({ preventScroll: true });
     return () => {
       document.body.style.overflow = previous;
+      if (opener instanceof HTMLElement && opener.isConnected) {
+        opener.focus({ preventScroll: true });
+      }
     };
   }, []);
 
@@ -48,6 +72,7 @@ const Showcase = ({ items, index, onIndexChange, onClose }) => {
       role="dialog"
       aria-modal="true"
       aria-label="Artwork viewer"
+      ref={dialogRef}
       onClick={onClose}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1, transition: { duration: 0.2 } }}
@@ -62,6 +87,7 @@ const Showcase = ({ items, index, onIndexChange, onClose }) => {
           type="button"
           className="showcase-close"
           onClick={onClose}
+          ref={closeRef}
           aria-label="Close"
         >
           Close
@@ -106,7 +132,7 @@ const Showcase = ({ items, index, onIndexChange, onClose }) => {
       >
         <motion.img
           key={item.imageUrl}
-          src={item.imageUrl}
+          src={fullImage(item.imageUrl)}
           alt={item.year ? `Bora Beşiktepe, artwork from ${item.year}` : "Bora Beşiktepe, featured artwork"}
           initial={{ opacity: 0, x: direction * 40 }}
           animate={{ opacity: 1, x: 0 }}

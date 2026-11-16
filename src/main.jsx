@@ -8,48 +8,51 @@ import Routes from './pages/routes'
 import './index.css'
 import Loader from './components/loader'
 import SiteHeader from './components/site-header'
-import { assetsToPreload } from './utils/assetList'
+import { FEATURED, HOME_SIZES, artImage } from './utils/art'
+
+// The loader shows for at least MIN_MS so it never flashes, and at most MAX_MS
+// so a slow connection still reaches the site; images still loading then
+// simply finish on the page.
+const MIN_MS = 2000
+const MAX_MS = 5000
+
+// Load each home image the same way the page will ask for it (same srcset and
+// sizes), so the browser picks the same file and the page finds it cached.
+const preload = (path) =>
+  new Promise((resolve) => {
+    const { src, srcSet } = artImage(path)
+    const img = new Image()
+    img.onload = img.onerror = resolve
+    if (srcSet) {
+      img.sizes = HOME_SIZES
+      img.srcset = srcSet
+    }
+    img.src = src
+  })
 
 export default function App() {
-  const [loading, setLoading] = useState(true);
-  const [progress, setProgress] = useState(0);
+  const [loading, setLoading] = useState(true)
+  const [progress, setProgress] = useState(0)
 
   useEffect(() => {
-    let loadedCount = 0;
-    const totalAssets = assetsToPreload.length;
+    let loaded = 0
+    const images = Promise.all(
+      FEATURED.map((path) =>
+        preload(path).then(() => {
+          loaded++
+          setProgress(Math.round((loaded / FEATURED.length) * 100))
+        })
+      )
+    )
+    const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
-    // Minimum time to show loader (to avoid flash on super fast connections)
-    const minTimePromise = new Promise(resolve => setTimeout(resolve, 2000));
-
-    const imagePromises = assetsToPreload.map(src => {
-      return new Promise((resolve) => {
-        const img = new Image();
-        img.src = src;
-        img.onload = () => {
-          loadedCount++;
-          // Update progress based on actual loaded count
-          setProgress(Math.round((loadedCount / totalAssets) * 100));
-          resolve();
-        };
-        img.onerror = () => {
-          // Determine if we should fail or just continue. 
-          // Using resolve to continue even if one image fails.
-          loadedCount++;
-          setProgress(Math.round((loadedCount / totalAssets) * 100));
-          resolve();
-        };
-      });
-    });
-
-    Promise.all([Promise.all(imagePromises), minTimePromise])
-      .then(() => {
-        setProgress(100);
-        setTimeout(() => {
-          setLoading(false);
-        }, 500);
-      });
-
-  }, []);
+    let timer
+    Promise.race([Promise.all([images, wait(MIN_MS)]), wait(MAX_MS)]).then(() => {
+      setProgress(100)
+      timer = setTimeout(() => setLoading(false), 500)
+    })
+    return () => clearTimeout(timer)
+  }, [])
 
   return (
     <>
@@ -58,12 +61,10 @@ export default function App() {
       </AnimatePresence>
 
       {!loading && (
-        <div style={{ opacity: 1, transition: 'opacity 0.5s ease-in-out' }}>
-          <BrowserRouter>
-            <SiteHeader />
-            <Routes />
-          </BrowserRouter>
-        </div>
+        <BrowserRouter>
+          <SiteHeader />
+          <Routes />
+        </BrowserRouter>
       )}
     </>
   )
