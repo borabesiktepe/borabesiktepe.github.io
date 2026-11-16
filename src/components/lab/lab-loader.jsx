@@ -92,6 +92,19 @@ function KineticLoader({ progress }) {
           Loading {String(progress).padStart(3, "0")}%
         </span>
       </div>
+      {/* The live loader's sheet: the home page's four panel rules draw in
+          as the images load, under the LOADING rows. */}
+      <div className="ll-rules" aria-hidden="true">
+        {Array.from({ length: 4 }, (_, i) => (
+          <motion.i
+            key={i}
+            style={{ left: `${(i + 1) * 20}%` }}
+            initial={{ scaleY: 0 }}
+            animate={{ scaleY: progress >= (i + 1) * 20 ? 1 : 0 }}
+            transition={{ duration: 0.6, ease: [0.65, 0.05, 0.12, 0.99] }}
+          />
+        ))}
+      </div>
       <div className="ll-rows" aria-hidden="true">
         {Array.from({ length: rows + ABOVE }, (_, r) => (
           <Row

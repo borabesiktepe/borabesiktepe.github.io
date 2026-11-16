@@ -24,7 +24,8 @@
   inset: 0;
   z-index: 1;
   overflow: hidden;
-  background: var(--ink);
+  /* The live loader's paper sheet. */
+  background: var(--paper);
   user-select: none;
   /* One wave cycle per phrase. Its phase turns once while the rows move
      one phrase, so the bend stays in place and the letters run through it. */
@@ -47,13 +48,31 @@
   align-items: center;
   height: var(--header-h);
   padding: 0 var(--gutter);
-  border-bottom: 1px solid var(--paper);
-  background: var(--ink);
+  border-bottom: var(--rule);
+  background: var(--paper);
 }
 
 .ll-top,
 .ll-top * {
-  color: var(--paper);
+  color: var(--ink);
+}
+
+/* Panel rules, as in the live loader */
+.ll-rules {
+  position: absolute;
+  top: var(--header-h);
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.ll-rules i {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--ink);
+  transform-origin: top;
 }
 
 .ll-pct {
@@ -132,7 +151,7 @@
   font-size: 1em;
   line-height: 1;
   color: transparent;
-  -webkit-text-stroke: max(1px, 0.012em) var(--paper);
+  -webkit-text-stroke: max(1px, 0.012em) var(--ink);
   /* The standing wave: each letter rides it and is sheared to its slope,
      like type printed on a waving flag; letters on the slopes dim a little. */
   --th: calc(var(--i) * var(--step) - var(--ph));
@@ -146,7 +165,7 @@
 
 /* Filled rows: a hard cut from outline to solid, no fade. */
 .ll-filled .ll-ch {
-  color: var(--paper);
+  color: var(--ink);
   opacity: calc(0.78 + 0.22 * cos(var(--th)));
 }
 
