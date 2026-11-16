@@ -8,7 +8,7 @@ import "./lab-hero.css";
 
 const CONTACTS = ["Instagram", "ArtStation", "Email"];
 const LINES = ["BORA", "BEŞİKTEPE"];
-const SPLIT = new Set(["letters", "stamp", "wave", "outline"]);
+const SPLIT = new Set(["letters", "stamp", "wave", "outline", "lens"]);
 const ECHOES = 3;
 const REEL = ["fill", "outline", "fill", "outline"];
 
@@ -29,6 +29,30 @@ function Line({ text, line, split, sliced, variant }) {
             {text}
           </i>
         ))}
+      </span>
+    );
+  }
+  // Round 3: the line rides a ribbon of three copies that scrolls in from
+  // the side and stops with its middle copy in place; BORA also gets two
+  // outline ribbons above it running the other way, like the video.
+  if (variant === "ribbon") {
+    const ribbon = (cls, style) => (
+      <i className={`lab-ribbon ${cls}`} aria-hidden="true" style={style}>
+        {[0, 1, 2].map((k) => (
+          <b key={k}>{text}</b>
+        ))}
+      </i>
+    );
+    return (
+      <span className="lab-stack" aria-label={text}>
+        <i className="lab-ghost" aria-hidden="true">{text}</i>
+        {ribbon("lab-ribbon-main", { "--dir": line ? 1 : -1, "--line": line })}
+        {line === 0 &&
+          [1, 2].map((k) => (
+            <i key={k} className="lab-ribbon-row" aria-hidden="true" style={{ "--k": k }}>
+              {ribbon("lab-outline lab-ribbon-echo", { "--dir": k % 2 ? 1 : -1, "--line": 0 })}
+            </i>
+          ))}
       </span>
     );
   }
@@ -68,7 +92,11 @@ function Line({ text, line, split, sliced, variant }) {
           key={i}
           aria-hidden="true"
           className="lab-ch"
-          style={{ "--i": i + (line ? 4 : 0) }}
+          style={{
+            "--i": i + (line ? 4 : 0),
+            // -1 at the line's left end, 1 at its right end.
+            "--c": ((2 * i) / Math.max(1, [...text].length - 1) - 1).toFixed(3),
+          }}
         >
           {ch}
         </i>

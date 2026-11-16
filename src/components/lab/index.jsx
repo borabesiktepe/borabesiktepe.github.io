@@ -107,6 +107,18 @@ const VARIANTS = [
     title: "Makara",
     text: "Her satır kendi bandına kırpılmış; içinden kontur ve dolu kopyalar makara gibi akıyor, kenarlarda harfler ortadan kesik görünüyor, dolu olanda frensiz duruyor.",
   },
+  {
+    id: "ribbon",
+    round: 3,
+    title: "Şerit akışı",
+    text: "Videodaki kayan satırlar gibi: her satır üç kopyalık bir şerit, yandan akıp ortadaki kopyası yerine gelince duruyor; BORA’nın üstünde ters yöne akan iki kontur şerit daha var, isim oturunca hepsi tek karede kesiliyor.",
+  },
+  {
+    id: "lens",
+    round: 3,
+    title: "Mercek",
+    text: "Videodaki şişen “STORIES” satırları gibi: harfler satırın ortasında büyüyüp uçlarda eziliyor, mercekten bakılıyormuş gibi, sonra düzleşip isme dönüyor.",
+  },
 ];
 
 const ROUND_3 = VARIANTS.filter((v) => v.round === 3);
@@ -199,7 +211,7 @@ function Overview() {
 
       <section className="lab-round">
         <h2 className="lab-round-title t-mono">
-          Tur 3 · Paylaştığın posterden: dalga, kontur, tekrar, kırpık bant
+          Tur 3 · Paylaştığın videodan: dalga, kontur, tekrar, kırpık bant, akan şerit, mercek
         </h2>
         <ol className="lab-list">
           {ROUND_3.map((v) => (

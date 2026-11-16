@@ -626,6 +626,94 @@
   }
 }
 
+/* 19. Ribbon: from the video's scrolling lines. Each line is a ribbon of
+   three copies; it scrolls in from the side and stops with the middle copy
+   exactly in place, then the side copies are cut. BORA has two outline
+   ribbons stacked above it running the other way, cut at the same moment. */
+/* Nothing shows until the ribbons start moving. */
+.lab-v-ribbon .home-name .lab-stack {
+  animation: lab-cut-in 0.01s steps(1, end) 0.9s both;
+}
+
+.lab-ribbon,
+.lab-ribbon b {
+  font: inherit;
+  font-style: inherit;
+  color: inherit;
+}
+
+.lab-ribbon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  white-space: nowrap;
+  transform: translateX(-33.333%);
+  animation: lab-ribbon 1.5s cubic-bezier(0.2, 0.6, 0.3, 1) both;
+  animation-delay: calc(0.9s + var(--line) * 0.1s);
+}
+
+.lab-ribbon b {
+  padding-right: 0.35em;
+  font-weight: inherit;
+}
+
+@keyframes lab-ribbon {
+  from {
+    transform: translateX(calc(-33.333% + var(--dir) * 33.333%));
+  }
+  to {
+    transform: translateX(-33.333%);
+  }
+}
+
+/* The side copies of the main ribbon are cut the moment it stops. */
+.lab-ribbon-main b:not(:nth-child(2)) {
+  animation: lab-reel-off 1.6s steps(1, end) forwards;
+  animation-delay: calc(0.9s + var(--line) * 0.1s);
+}
+
+.lab-ribbon-row {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--k) * -100%);
+  height: 100%;
+  font: inherit;
+  font-style: inherit;
+  color: inherit;
+}
+
+.lab-ribbon-echo {
+  animation-duration: 1.5s;
+}
+
+/* The outline rows above BORA are cut in one frame when the name lands. */
+.lab-v-ribbon .lab-ribbon-row {
+  animation: lab-reel-off 1.6s steps(1, end) 0.9s forwards;
+}
+
+/* 20. Lens: from the video's bulging "STORIES" lines. The letters swell in
+   the middle of each line and squeeze at its ends, as if seen through a
+   lens, and flatten out to the normal name. --c is each letter's place on
+   its line, -1 to 1. */
+.lab-v-lens .home-name {
+  animation: lab-wave 1.6s cubic-bezier(0.3, 0, 0.2, 1) 0.9s both;
+}
+
+.lab-v-lens .home-name span {
+  animation: lab-cut-in 0.01s steps(1, end) 0.9s both;
+}
+
+.lab-v-lens .lab-ch {
+  transform-origin: 50% 100%;
+  transform: scale(
+      calc(1 + var(--amp) * (cos(var(--c) * 90deg) * 0.5 - 0.25)),
+      calc(1 + var(--amp) * (cos(var(--c) * 90deg) * 1.4 - 0.5))
+    )
+    rotate(calc(var(--c) * -14deg * var(--amp)));
+}
+
 @media (prefers-reduced-motion: reduce) {
   .home[class*="lab-v-"] *,
   .home[class*="lab-v-"] *::after {
