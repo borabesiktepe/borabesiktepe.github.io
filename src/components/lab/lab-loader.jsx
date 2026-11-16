@@ -5,7 +5,8 @@ import "./lab-loader.css";
 // Lab only: a loader after the kinetic ribbon reference. Rows of LOADING in
 // wide caps run left and right through one standing wave, every other row
 // mirrored, each row tilted the other way so the stack zigzags like a Z,
-// and the whole stack slowly sinks. Rows start as outlines and fill in one hard cut each as the
+// and the whole stack slowly sinks. Each row is a strip of black tape like
+// the live loader's. Rows start as outlines and fill in one hard cut each as the
 // images load, top to bottom, so the sheet itself is the progress bar.
 
 // Eight rows on a wide screen; a tall phone gets more, smaller rows so the

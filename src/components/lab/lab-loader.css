@@ -1,4 +1,5 @@
-/* Lab loader after the kinetic ribbon reference. */
+/* Lab loader after the kinetic ribbon reference: rows of black tape on
+   the live loader's paper sheet. */
 
 @property --ph {
   syntax: "<angle>";
@@ -93,7 +94,7 @@
   grid-template-columns: minmax(0, 1fr);
   grid-auto-rows: var(--rh);
   align-items: center;
-  font-size: calc(var(--rh) * 0.86);
+  font-size: calc(var(--rh) * 0.56);
   animation: ll-sink 9s linear both;
 }
 
@@ -106,6 +107,18 @@
 .ll-row {
   white-space: nowrap;
   line-height: 1;
+}
+
+/* Each row is a strip of the live loader's black barrier tape, a bit
+   shorter than its slot so paper and the panel rules show between strips.
+   It runs past both screen edges so the tilt never shows its corners. */
+.ll-row {
+  display: flex;
+  align-items: center;
+  height: calc(var(--rh) * 0.8);
+  margin: 0 -10vw;
+  overflow: hidden;
+  background: var(--ink);
 }
 
 /* Every other row is mirrored, so it runs the other way on screen while
@@ -151,7 +164,7 @@
   font-size: 1em;
   line-height: 1;
   color: transparent;
-  -webkit-text-stroke: max(1px, 0.012em) var(--ink);
+  -webkit-text-stroke: max(1px, 0.016em) var(--paper);
   /* The standing wave: each letter rides it and is sheared to its slope,
      like type printed on a waving flag; letters on the slopes dim a little. */
   --th: calc(var(--i) * var(--step) - var(--ph));
@@ -165,7 +178,7 @@
 
 /* Filled rows: a hard cut from outline to solid, no fade. */
 .ll-filled .ll-ch {
-  color: var(--ink);
+  color: var(--paper);
   opacity: calc(0.78 + 0.22 * cos(var(--th)));
 }
 
