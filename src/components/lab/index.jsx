@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import LabHero from "./lab-hero";
+import LabLoader from "./lab-loader";
 import "./lab.css";
 
 // Unlisted test page (noindex, not in the sitemap). /lab shows every variant
@@ -121,6 +122,15 @@ const VARIANTS = [
   },
 ];
 
+// Loading screen ideas, shown on their own above the entrances.
+const LOADERS = [
+  {
+    id: "loader",
+    title: "Akan şeritler",
+    text: "Paylaştığın görselden: ismin geniş harfli satırları dalgalı bir bayrak gibi kıvrılarak sağa sola akıyor, her ikinci satır ayna. Satırlar önce kontur; resimler yüklendikçe yukarıdan aşağı tek karede doluyor, yani ekranın kendisi ilerleme çubuğu. %100’de perde yukarı çekilip ana sayfa açılıyor. Burada sahte yüklemeyle sürekli tekrar ediyor.",
+  },
+];
+
 const ROUND_3 = VARIANTS.filter((v) => v.round === 3);
 const ROUND_1 = VARIANTS.filter((v) => !v.round);
 const ROUND_2 = VARIANTS.filter((v) => v.round === 2);
@@ -165,13 +175,13 @@ function Frame({ id, width, height, label, play }) {
   );
 }
 
-function Card({ v, i }) {
+function Card({ v, i, label }) {
   const [play, setPlay] = useState(0);
   return (
     <li className="lab-card">
       <div className="lab-card-text">
         <span className="t-mono">
-          {String(i + 1).padStart(2, "0")} · {v.id}
+          {label ?? String(i + 1).padStart(2, "0")} · {v.id}
         </span>
         <h2>
           <a href={`/lab?v=${v.id}`} target="_blank" rel="noreferrer">
@@ -208,6 +218,17 @@ function Overview() {
           için başlığa tıkla.
         </p>
       </header>
+
+      <section className="lab-round">
+        <h2 className="lab-round-title t-mono">
+          Yükleme ekranı · Paylaştığın görselden
+        </h2>
+        <ol className="lab-list">
+          {LOADERS.map((v, i) => (
+            <Card key={v.id} v={v} i={i} label={`L${i + 1}`} />
+          ))}
+        </ol>
+      </section>
 
       <section className="lab-round">
         <h2 className="lab-round-title t-mono">
@@ -278,6 +299,7 @@ export default function Lab() {
     return () => meta.remove();
   }, []);
 
+  if (variant === "loader") return <LabLoader />;
   if (variant && VARIANTS.some((v) => v.id === variant)) {
     return <Single variant={variant} />;
   }

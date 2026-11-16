@@ -1,0 +1,140 @@
+/* Lab loader after the kinetic ribbon reference. */
+
+@property --ph {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0deg;
+}
+
+.ll-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  background: var(--paper);
+}
+
+.ll-under {
+  color: var(--ink-soft);
+}
+
+.ll {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  background: var(--ink);
+  user-select: none;
+  /* One wave cycle per phrase. Its phase turns once while the rows move
+     one phrase, so the bend stays in place and the letters run through it. */
+  --step: 24deg; /* 360deg / letters in a phrase */
+  --dur: 7s;
+  animation: ll-phase var(--dur) linear infinite;
+}
+
+@keyframes ll-phase {
+  to {
+    --ph: 360deg;
+  }
+}
+
+.ll-top {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: var(--header-h);
+  padding: 0 var(--gutter);
+  border-bottom: 1px solid var(--paper);
+  background: var(--ink);
+}
+
+.ll-top,
+.ll-top * {
+  color: var(--paper);
+}
+
+.ll-pct {
+  font-variant-numeric: tabular-nums;
+}
+
+.ll-rows {
+  position: absolute;
+  top: var(--header-h);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  /* The column must not grow to the long tracks, or the mirrored rows flip
+     around the wrong centre. */
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: repeat(var(--rows, 8), 1fr);
+  align-items: center;
+  /* The rows fill the sheet below the bar. */
+  font-size: calc((100dvh - var(--header-h)) / var(--rows, 8) * 0.86);
+}
+
+.ll-row {
+  white-space: nowrap;
+  line-height: 1;
+}
+
+/* Every other row is mirrored, so it runs the other way on screen while
+   its own letters still run left through the same wave. */
+.ll-mirror {
+  transform: scaleX(-1);
+}
+
+.ll-track {
+  display: flex;
+  width: max-content;
+  margin-left: -10vw;
+  animation: ll-run var(--dur) linear infinite;
+}
+
+@keyframes ll-run {
+  to {
+    transform: translateX(calc(-1 * var(--pw, 100vw)));
+  }
+}
+
+.ll-phrase {
+  display: flex;
+}
+
+.ll-ch {
+  display: inline-block;
+  font-family: var(--display);
+  font-weight: 900;
+  font-style: normal;
+  font-variation-settings: "wdth" 125;
+  letter-spacing: -0.02em;
+  font-size: 1em;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: max(1px, 0.012em) var(--paper);
+  /* The standing wave: each letter rides it and is sheared to its slope,
+     like type printed on a waving flag; letters on the slopes dim a little. */
+  --th: calc(var(--i) * var(--step) - var(--ph));
+  transform: translateY(calc(sin(var(--th)) * 0.2em))
+    skewY(calc(cos(var(--th)) * 9deg));
+}
+
+.ll-sp {
+  width: 0.32em;
+}
+
+/* Filled rows: a hard cut from outline to solid, no fade. */
+.ll-filled .ll-ch {
+  color: var(--paper);
+  opacity: calc(0.78 + 0.22 * cos(var(--th)));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ll,
+  .ll-track {
+    animation: none;
+  }
+}
