@@ -141,7 +141,8 @@
   display: flex;
   width: max-content;
   margin-left: -10vw;
-  animation: ll-run var(--dur) linear infinite;
+  /* The loop is two phrases long, so it takes two wave cycles. */
+  animation: ll-run calc(var(--dur) * 2) linear infinite;
 }
 
 @keyframes ll-run {
@@ -163,23 +164,23 @@
   letter-spacing: -0.02em;
   font-size: 1em;
   line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: max(1px, 0.016em) var(--paper);
+  color: var(--paper);
   /* The standing wave: each letter rides it and is sheared to its slope,
-     like type printed on a waving flag; letters on the slopes dim a little. */
+     like type printed on a waving flag. */
   --th: calc(var(--i) * var(--step) - var(--ph));
   transform: translateY(calc(sin(var(--th)) * 0.2em))
     skewY(calc(cos(var(--th)) * 9deg));
 }
 
-.ll-sp {
-  width: 0.32em;
+/* Every other word is outlined, as on the live loader's tape: black inside
+   a thin light border. */
+.ll-hollow .ll-ch {
+  color: transparent;
+  -webkit-text-stroke: max(1.5px, 0.016em) var(--paper);
 }
 
-/* Filled rows: a hard cut from outline to solid, no fade. */
-.ll-filled .ll-ch {
-  color: var(--paper);
-  opacity: calc(0.78 + 0.22 * cos(var(--th)));
+.ll-sp {
+  width: 0.32em;
 }
 
 @media (prefers-reduced-motion: reduce) {

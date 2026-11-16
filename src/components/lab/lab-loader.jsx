@@ -6,8 +6,8 @@ import "./lab-loader.css";
 // wide caps run left and right through one standing wave, every other row
 // mirrored, each row tilted the other way so the stack zigzags like a Z,
 // and the whole stack slowly sinks. Each row is a strip of black tape like
-// the live loader's. Rows start as outlines and fill in one hard cut each as the
-// images load, top to bottom, so the sheet itself is the progress bar.
+// the live loader's, and its words alternate solid and outlined like that
+// tape's; the panel rules and the percentage show the progress.
 
 // Eight rows on a wide screen; a tall phone gets more, smaller rows so the
 // letters are not cut to a few giant ones.
@@ -24,14 +24,12 @@ const COPIES = 8; // phrases per row: enough to cover the widest screen twice
 // come into view while the loader runs.
 const ABOVE = 6;
 
-function Row({ r, filled }) {
+function Row({ r }) {
   return (
-    <div
-      className={`ll-row${r % 2 ? " ll-mirror" : ""}${filled ? " ll-filled" : ""}`}
-    >
+    <div className={`ll-row${r % 2 ? " ll-mirror" : ""}`}>
       <div className="ll-track">
         {Array.from({ length: COPIES }, (_, c) => (
-          <span key={c} className="ll-phrase">
+          <span key={c} className={c % 2 ? "ll-phrase ll-hollow" : "ll-phrase"}>
             {[...PHRASE].map((ch, i) => (
               <i
                 key={i}
@@ -52,13 +50,15 @@ function KineticLoader({ progress }) {
   const root = useRef(null);
   const [rows, setRows] = useState(rowCount);
 
-  // One phrase's width drives the scroll loop, so the loop is seamless and
-  // the wave stays put while the letters run through it.
+  // Two phrases (one solid, one outlined) make one loop, so the loop is
+  // seamless and the wave stays put while the letters run through it.
   useLayoutEffect(() => {
     const el = root.current;
     const measure = () => {
-      const p = el.querySelector(".ll-phrase");
-      if (p) el.style.setProperty("--pw", `${p.offsetWidth}px`);
+      const p = el.querySelectorAll(".ll-phrase");
+      if (p[2]) {
+        el.style.setProperty("--pw", `${p[2].offsetLeft - p[0].offsetLeft}px`);
+      }
     };
     const onResize = () => {
       setRows(rowCount());
@@ -108,13 +108,7 @@ function KineticLoader({ progress }) {
       </div>
       <div className="ll-rows" aria-hidden="true">
         {Array.from({ length: rows + ABOVE }, (_, r) => (
-          <Row
-            key={r}
-            r={r}
-            // Fills from the top down, starting with the rows still above
-            // the screen, so solid rows sink into view like a pour.
-            filled={progress >= ((r + 1) / (rows + ABOVE)) * 100}
-          />
+          <Row key={r} r={r} />
         ))}
       </div>
     </motion.div>
