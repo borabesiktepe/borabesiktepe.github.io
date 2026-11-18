@@ -135,6 +135,67 @@
   }
 }
 
+/* Echo entrance: see NameLine in home.jsx. The real line cuts in when the
+   first copy lands; each copy falls from its place above the line in five
+   hard steps, the top one first. */
+.home-name .home-line {
+  position: relative;
+  animation: none;
+}
+
+.home-line-real,
+.home-echo {
+  font: inherit;
+  font-style: inherit;
+  color: inherit;
+}
+
+.home-line-real {
+  animation: name-cut-in 0.01s steps(1, end) both;
+  animation-delay: calc(0.9s + var(--line) * 0.15s);
+}
+
+.home-echo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  animation: name-echo 0.9s steps(5, end) forwards;
+  animation-delay: calc(0.9s + var(--line) * 0.15s + (3 - var(--k)) * 0.12s);
+}
+
+/* Outline copies: no fill, a stroke in the same light colour, so under the
+   inversion they read as ink outlines on the paper and light ones on the
+   dark drawing. */
+.home-echo-outline {
+  color: transparent;
+  -webkit-text-stroke: max(1.5px, 0.012em) #f7f6f1;
+}
+
+@keyframes name-cut-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes name-echo {
+  0% {
+    opacity: 1;
+    transform: translateY(calc(var(--k) * -92%));
+  }
+  99% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
 .home-strip {
   display: flex;
   border-top: var(--rule);
@@ -222,7 +283,12 @@
   }
 
   .home-name span,
+  .home-line-real,
   .home-strip {
     animation: none;
+  }
+
+  .home-echo {
+    display: none;
   }
 }

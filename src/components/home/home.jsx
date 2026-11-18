@@ -14,6 +14,33 @@ const CONTACTS = [
 
 const preventDrag = (event) => event.preventDefault();
 
+// Capitals in the source keep Ş and İ correct.
+const LINES = ["BORA", "BEŞİKTEPE"];
+const ECHOES = 3;
+
+// The name comes in like the repeated lines of a kinetic poster: copies of
+// each line (outline, fill, outline) stand stacked above it, then drop into
+// it one by one in hard steps and vanish as they land, leaving the name.
+function NameLine({ text, line }) {
+  return (
+    <span className="home-line" aria-label={text}>
+      <i className="home-line-real" aria-hidden="true" style={{ "--line": line }}>
+        {text}
+      </i>
+      {Array.from({ length: ECHOES }, (_, k) => (
+        <i
+          key={k}
+          aria-hidden="true"
+          className={`home-echo${k % 2 ? "" : " home-echo-outline"}`}
+          style={{ "--k": k + 1, "--line": line }}
+        >
+          {text}
+        </i>
+      ))}
+    </span>
+  );
+}
+
 function Home() {
   return (
     <motion.main
@@ -43,10 +70,10 @@ function Home() {
       </div>
 
       <div className="home-bottom">
-        {/* Capitals in the source keep Ş and İ correct. */}
         <h1 className="home-name t-display">
-          <span>BORA</span>
-          <span>BEŞİKTEPE</span>
+          {LINES.map((text, line) => (
+            <NameLine key={text} text={text} line={line} />
+          ))}
         </h1>
 
         <div className="home-strip t-mono">
