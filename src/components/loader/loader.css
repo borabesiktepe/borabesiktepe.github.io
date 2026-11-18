@@ -110,7 +110,8 @@
 /* Every other row is mirrored, so it runs the other way on screen while
    its own letters still run left through the same wave. */
 .loader-mirror {
-  transform: scaleX(-1);
+  /* The scale property, not transform, so the exit's squash composes. */
+  scale: -1 1;
 }
 
 /* Zigzag: rows tilt one way and the next the other, so the text runs down

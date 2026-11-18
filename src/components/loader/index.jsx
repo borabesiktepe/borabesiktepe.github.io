@@ -6,8 +6,10 @@ import "./loader.css";
 // right through one standing wave, every other row mirrored and tilted the
 // other way so the stack zigzags like a Z, and the whole stack slowly sinks.
 // Each row is a strip of black tape whose words alternate solid and
-// outlined. The home page's panel rules draw in as the images load, and at
-// 100% the sheet is wiped away upward to show the home page.
+// outlined. The home page's panel rules draw in as the images load. At
+// 100% the strips are cut away one by one, bottom up, each snapping shut
+// in three hard steps; then the sheet is gone in one frame and the home
+// page's panels drop in.
 
 // Eight rows on a wide screen; a tall phone gets more, smaller rows so the
 // letters are not cut to a few giant ones.
@@ -24,9 +26,31 @@ const COPIES = 8; // phrases per row: enough to cover the widest screen twice
 // come into view while the loader runs.
 const ABOVE = 6;
 
+// Three hard steps, like the name's echoes landing.
+const hard = (t) => Math.min(1, Math.ceil(t * 3) / 3);
+
+const SHEET = { gone: {} };
+// Strips go bottom up over 0.4s, timed by where each one sits on screen at
+// that moment (the stack has been sinking), so rows still above the screen
+// add no wait.
+const STRIP = {
+  gone: (el) => {
+    const r = el.current?.getBoundingClientRect();
+    const h = window.innerHeight;
+    const up = r ? Math.min(1, Math.max(0, (h - r.bottom) / h)) : 0;
+    return { scaleY: 0, transition: { duration: 0.24, ease: hard, delay: up * 0.4 } };
+  },
+};
+
 function Row({ r }) {
+  const el = useRef(null);
   return (
-    <div className={`loader-row${r % 2 ? " loader-mirror" : ""}`}>
+    <motion.div
+      ref={el}
+      custom={el}
+      className={`loader-row${r % 2 ? " loader-mirror" : ""}`}
+      variants={STRIP}
+    >
       <div className="loader-track">
         {Array.from({ length: COPIES }, (_, c) => (
           <span key={c} className={c % 2 ? "loader-phrase loader-hollow" : "loader-phrase"}>
@@ -42,7 +66,7 @@ function Row({ r }) {
           </span>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -77,11 +101,8 @@ export default function Loader({ progress }) {
       role="status"
       aria-live="polite"
       aria-label={`Loading, ${progress}%`}
-      exit={{
-        clipPath: "inset(0 0 100% 0)",
-        transition: { duration: 0.6, ease: [0.65, 0.05, 0.12, 0.99] },
-      }}
-      initial={{ clipPath: "inset(0 0 0% 0)" }}
+      variants={SHEET}
+      exit="gone"
       style={{
         "--rows": rows,
         "--above": ABOVE,
