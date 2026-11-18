@@ -35,7 +35,6 @@
   cursor: default;
   clip-path: inset(0 0 100% 0);
   animation: panel-drop 1.2s cubic-bezier(0.65, 0.05, 0.12, 0.99) forwards;
-  animation-delay: var(--d);
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -43,11 +42,11 @@
   border-right: 0;
 }
 
-.home-panel:nth-child(1) { --d: 0.15s; }
-.home-panel:nth-child(2) { --d: 0.3s; }
-.home-panel:nth-child(3) { --d: 0.45s; }
-.home-panel:nth-child(4) { --d: 0.6s; }
-.home-panel:nth-child(5) { --d: 0.75s; }
+.home-panel:nth-child(1) { animation-delay: 0.15s; }
+.home-panel:nth-child(2) { animation-delay: 0.3s; }
+.home-panel:nth-child(3) { animation-delay: 0.45s; }
+.home-panel:nth-child(4) { animation-delay: 0.6s; }
+.home-panel:nth-child(5) { animation-delay: 0.75s; }
 
 @keyframes panel-drop {
   to {
@@ -202,28 +201,8 @@
   border-top: var(--rule);
   background: var(--paper);
   pointer-events: auto;
-  /* Rises from below the screen in four hard steps, then its labels are
-     stamped on one by one, left to right. */
-  animation: strip-rise 0.4s steps(4, end) 1.5s both;
+  animation: fade-in 0.5s ease 1.3s both;
 }
-
-@keyframes strip-rise {
-  from {
-    transform: translateY(100%);
-  }
-  to {
-    transform: none;
-  }
-}
-
-.home-strip > * {
-  animation: name-cut-in 0.01s steps(1, end) both;
-}
-
-.home-strip > :nth-child(1) { animation-delay: 1.95s; }
-.home-strip > :nth-child(2) { animation-delay: 2.05s; }
-.home-strip > :nth-child(3) { animation-delay: 2.15s; }
-.home-strip > :nth-child(4) { animation-delay: 2.25s; }
 
 .home-strip > * {
   display: flex;
@@ -305,8 +284,7 @@
 
   .home-name span,
   .home-line-real,
-  .home-strip,
-  .home-strip > * {
+  .home-strip {
     animation: none;
   }
 

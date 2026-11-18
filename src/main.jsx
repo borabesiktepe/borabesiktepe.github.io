@@ -37,9 +37,6 @@ const IS_LAB = window.location.pathname.replace(/\/+$/, '') === '/lab'
 export default function App() {
   const [loading, setLoading] = useState(!IS_LAB)
   const [progress, setProgress] = useState(0)
-  // The site mounts only once the loader has fully gone, so the home page's
-  // entrance starts on a clear screen instead of under the loader.
-  const [ready, setReady] = useState(IS_LAB)
 
   useEffect(() => {
     if (IS_LAB) return
@@ -64,11 +61,11 @@ export default function App() {
 
   return (
     <>
-      <AnimatePresence onExitComplete={() => setReady(true)}>
+      <AnimatePresence mode='wait'>
         {loading && <Loader key="loader" progress={progress} />}
       </AnimatePresence>
 
-      {ready && (
+      {!loading && (
         <BrowserRouter>
           <SiteHeader />
           <Routes />
